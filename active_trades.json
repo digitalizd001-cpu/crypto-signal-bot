@@ -155,19 +155,6 @@
     "risk_free": false,
     "opened_at": "20:35:31 | 2026/09/24"
   },
-  "RUNE/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.6349,
-    "sl": 0.6420250000000001,
-    "tp1": 0.62065,
-    "tp2": 0.613525,
-    "tp3": 0.6064,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "20:35:42 | 2026/09/24"
-  },
   "DYDX/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.13667,
@@ -206,19 +193,6 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "20:54:01 | 2026/09/24"
-  },
-  "SEI/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.06144,
-    "sl": 0.062595,
-    "tp1": 0.05913,
-    "tp2": 0.057975,
-    "tp3": 0.056819999999999996,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "20:54:02 | 2026/09/24"
   },
   "TRX/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
@@ -427,5 +401,44 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "00:10:23 | 2026/09/25"
+  },
+  "PAXG/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 4267.4,
+    "sl": 4274.7928571428565,
+    "tp1": 4252.614285714286,
+    "tp2": 4245.221428571428,
+    "tp3": 4237.828571428571,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "00:35:35 | 2026/09/25"
+  },
+  "XAU/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 4267.4,
+    "sl": 4274.7928571428565,
+    "tp1": 4252.614285714286,
+    "tp2": 4245.221428571428,
+    "tp3": 4237.828571428571,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "00:35:36 | 2026/09/25"
+  },
+  "RUNE/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.6369,
+    "sl": 0.6422892857142858,
+    "tp1": 0.6261214285714286,
+    "tp2": 0.6207321428571428,
+    "tp3": 0.6153428571428571,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "00:35:55 | 2026/09/25"
   }
 }
