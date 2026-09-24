@@ -1,17 +1,4 @@
 {
-  "BTC/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 84875.5,
-    "sl": 84875.5,
-    "tp1": 84061.72857142858,
-    "tp2": 83654.84285714287,
-    "tp3": 83247.95714285717,
-    "leverage": 5,
-    "tp1_hit": true,
-    "tp2_hit": true,
-    "risk_free": true,
-    "opened_at": "18:11:00 | 2026/09/24"
-  },
   "DOT/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 1.1664,
@@ -38,19 +25,6 @@
     "risk_free": false,
     "opened_at": "19:09:55 | 2026/09/24"
   },
-  "METIS/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 3.495,
-    "sl": 3.543214285714286,
-    "tp1": 3.3985714285714286,
-    "tp2": 3.350357142857143,
-    "tp3": 3.302142857142857,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "19:22:39 | 2026/09/24"
-  },
   "CRV/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.3506,
@@ -63,19 +37,6 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "19:36:36 | 2026/09/24"
-  },
-  "ALGO/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.11132,
-    "sl": 0.11333857142857143,
-    "tp1": 0.10728285714285715,
-    "tp2": 0.10526428571428573,
-    "tp3": 0.1032457142857143,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "19:57:15 | 2026/09/24"
   },
   "BNB/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
@@ -115,5 +76,70 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "20:10:38 | 2026/09/24"
+  },
+  "BTC/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 84550.1,
+    "sl": 85258.45357142857,
+    "tp1": 83133.39285714287,
+    "tp2": 82425.03928571432,
+    "tp3": 81716.68571428575,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:22:22 | 2026/09/24"
+  },
+  "ETH/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 2689.77,
+    "sl": 2716.2771428571427,
+    "tp1": 2636.755714285714,
+    "tp2": 2610.2485714285713,
+    "tp3": 2583.741428571428,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:22:24 | 2026/09/24"
+  },
+  "XRP/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 1.5258,
+    "sl": 1.5469071428571428,
+    "tp1": 1.4835857142857145,
+    "tp2": 1.4624785714285715,
+    "tp3": 1.4413714285714287,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:22:26 | 2026/09/24"
+  },
+  "EGLD/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 4.585,
+    "sl": 4.671142857142857,
+    "tp1": 4.412714285714285,
+    "tp2": 4.3265714285714285,
+    "tp3": 4.240428571428571,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:22:35 | 2026/09/24"
+  },
+  "METIS/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 3.541,
+    "sl": 3.595642857142857,
+    "tp1": 3.4317142857142855,
+    "tp2": 3.3770714285714285,
+    "tp3": 3.3224285714285715,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:22:41 | 2026/09/24"
   }
 }
