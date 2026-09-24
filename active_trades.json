@@ -141,5 +141,57 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "20:22:41 | 2026/09/24"
+  },
+  "ATOM/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 1.786,
+    "sl": 1.8170714285714284,
+    "tp1": 1.723857142857143,
+    "tp2": 1.6927857142857143,
+    "tp3": 1.661714285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:35:31 | 2026/09/24"
+  },
+  "RUNE/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.6349,
+    "sl": 0.6420250000000001,
+    "tp1": 0.62065,
+    "tp2": 0.613525,
+    "tp3": 0.6064,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:35:42 | 2026/09/24"
+  },
+  "DYDX/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.13667,
+    "sl": 0.13923392857142858,
+    "tp1": 0.13154214285714289,
+    "tp2": 0.12897821428571432,
+    "tp3": 0.12641428571428578,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:35:45 | 2026/09/24"
+  },
+  "RENDER/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 1.878,
+    "sl": 1.9108928571428572,
+    "tp1": 1.8122142857142856,
+    "tp2": 1.7793214285714283,
+    "tp3": 1.746428571428571,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:35:47 | 2026/09/24"
   }
 }
