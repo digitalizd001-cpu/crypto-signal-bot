@@ -518,5 +518,44 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "02:06:27 | 2026/09/25"
+  },
+  "AVAX/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 10.217,
+    "sl": 10.065928571428572,
+    "tp1": 10.519142857142857,
+    "tp2": 10.670214285714286,
+    "tp3": 10.821285714285715,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "02:21:04 | 2026/09/25"
+  },
+  "ENA/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.2237,
+    "sl": 0.2274082142857143,
+    "tp1": 0.21628357142857144,
+    "tp2": 0.21257535714285714,
+    "tp3": 0.20886714285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "02:21:22 | 2026/09/25"
+  },
+  "FIL/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.9923,
+    "sl": 0.9839,
+    "tp1": 1.0090999999999999,
+    "tp2": 1.0174999999999998,
+    "tp3": 1.0259,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "02:21:36 | 2026/09/25"
   }
 }
