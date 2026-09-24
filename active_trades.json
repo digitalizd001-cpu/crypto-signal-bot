@@ -324,19 +324,6 @@
     "risk_free": false,
     "opened_at": "23:06:23 | 2026/09/24"
   },
-  "LDO/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.4337,
-    "sl": 0.4406642857142857,
-    "tp1": 0.4197714285714286,
-    "tp2": 0.4128071428571429,
-    "tp3": 0.40584285714285717,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "23:06:24 | 2026/09/24"
-  },
   "MANA/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.08921,
