@@ -9,7 +9,7 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-MAX_SIGNALS = 5  # ارسال گلچین برترین ستاپ‌های دارای همگرایی کامل
+MAX_SIGNALS = 5  # سقف سیگنال‌های ارسالی در هر نوبت
 
 WATCHLIST = [
     # Gold & Commodities
@@ -45,12 +45,12 @@ def send_telegram_alert(message: str):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
     try:
-        requests.post(url, json=payload, timeout=10)
+        requests.post(url, json=payload, timeout=8)
     except Exception as e:
         print(f"Error sending telegram: {e}")
 
 # ==========================================
-# 0. هوش مصنوعی دوگانه (Gemini + Groq) با اصلاح باگ Parsing
+# 0. موتور هوش مصنوعی دوگانه
 # ==========================================
 def query_gemini_ai(prompt: str) -> str:
     if not GEMINI_API_KEY:
@@ -59,7 +59,7 @@ def query_gemini_ai(prompt: str) -> str:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
         headers = {"Content-Type": "application/json"}
         payload = {"contents": [{"parts": [{"text": prompt}]}]}
-        res = requests.post(url, headers=headers, json=payload, timeout=10).json()
+        res = requests.post(url, headers=headers, json=payload, timeout=8).json()
         return res['candidates'][0]['content']['parts'][0]['text'].strip()
     except Exception as e:
         print(f"Gemini AI warning: {e}")
@@ -83,7 +83,7 @@ def query_groq_ai(prompt: str) -> str:
             "max_tokens": 150,
             "temperature": 0.2
         }
-        res = requests.post(url, headers=headers, json=payload, timeout=10).json()
+        res = requests.post(url, headers=headers, json=payload, timeout=8).json()
         return res['choices'][0]['message']['content'].strip()
     except Exception as e:
         print(f"Groq AI warning: {e}")
@@ -117,10 +117,8 @@ def get_ai_confluence_review(data: dict) -> dict:
             "thesis": "Verified by quantitative order-book confluence and whale volume telemetry."
         }
 
-    # رفع خطای منطقی: بررسی دقیق شروع پاسخ برای جلوگیری از تداخل کلمات
     clean_upper = analysis.strip().upper()
     approved = clean_upper.startswith("VERDICT: CONFIRMED") or "\nVERDICT: CONFIRMED" in clean_upper
-    
     thesis_clean = analysis.replace("VERDICT: CONFIRMED", "").replace("VERDICT: REJECTED", "").strip()
 
     return {
@@ -130,7 +128,7 @@ def get_ai_confluence_review(data: dict) -> dict:
     }
 
 # ==========================================
-# 1. رصد تخصصی نهنگ‌ها با پشتیبانی از خطای توکن‌های اسپات
+# 1. رصد تخصصی نهنگ‌ها
 # ==========================================
 def get_whale_metrics(symbol: str):
     clean = symbol.replace("/", "").replace(":USDT", "")
@@ -175,7 +173,7 @@ def get_whale_metrics(symbol: str):
     return metrics
 
 # ==========================================
-# 2. داده‌های اقتصاد کلان و بازارهای جهانی
+# 2. داده‌های اقتصاد کلان
 # ==========================================
 def get_institutional_macro_metrics():
     macro = {
@@ -244,7 +242,7 @@ def get_deribit_market_sentiment():
         return {"pcr": 0.75, "options_bias": "NEUTRAL"}
 
 # ==========================================
-# 3. صرافی‌ها و دریافت داده با پشتیبانی از نمادهای خاص
+# 3. صرافی‌ها
 # ==========================================
 def init_all_exchanges():
     exchanges = []
@@ -324,9 +322,9 @@ def format_signal_message(data: dict) -> str:
     tp3_pct = abs((tp3 - price) / price) * 100
 
     msg = (
-        f"🚨 *AI-CONFIRMED INSTITUTIONAL SIGNAL*\n"
+        f"⚡ *INSTANT REAL-TIME SIGNAL*\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"🌐 #{symbol_tag} | Pool: *{data['source']}*\n"
+        f"🌐 #{symbol_tag} | Primary Pool: *{data['source']}*\n"
         f"{action_emoji} *{data['action']}*\n\n"
         f"🏆 Grade: *{data['grade']}* | Score: *{data['score']}/100*\n"
         f"📈 Market Sentiment: *{data['regime']} (FnG: {data['fng']})*\n"
@@ -354,7 +352,7 @@ def format_signal_message(data: dict) -> str:
         f"⚡ *DEPTH & MOMENTUM*\n"
         f"📚 Order-book Imbalance: `{data['imbalance']:+.2f}`\n"
         f"📉 15m Confirmed RSI: `{data['rsi_15m']:.1f}`\n\n"
-        f"⚠️ _Execution verified on completed 15m candle across multi-exchange liquidity pools._"
+        f"⏱️ _Dispatched instantly upon 15m candle close confirmation._"
     )
     return msg
 
@@ -369,14 +367,17 @@ def scan_markets():
     regime = "GREED / BULL" if fng >= 50 else "FEAR / BEAR"
     options_data = get_deribit_market_sentiment()
 
-    candidates = []
+    dispatched_count = 0
 
     for symbol in WATCHLIST:
+        if dispatched_count >= MAX_SIGNALS:
+            print("Max signal limit reached for this scan cycle.")
+            break
+
         ohlcv = None
         active_exchange = None
         source_name = ""
 
-        # جستجوی هوشمند برای نمادهای طلا و نمادهای عادی
         search_symbols = [symbol]
         if symbol == "XAU/USDT":
             search_symbols = ["XAU/USDT", "PAXG/USDT", "XAUUSDT"]
@@ -414,7 +415,9 @@ def scan_markets():
             imbalance = get_orderbook_imbalance(active_exchange, symbol)
             whale = get_whale_metrics(symbol)
 
-            # سیگنال خرید
+            setup_data = None
+
+            # 🟢 تحلیل و شکار آنی لانگ
             if rsi < 46 and imbalance > 0.02 and vol_ratio >= 0.95 and whale['top_ratio'] >= 0.90:
                 score = int(min(99, (48 - rsi) * 2 + (imbalance * 20) + (whale['top_ratio'] * 15) + (10 if "BULLISH" in macro['risk_mode'] else 0)))
                 sl = price - (1.5 * atr)
@@ -459,13 +462,7 @@ def scan_markets():
                     'sp500': macro['sp500']
                 }
 
-                ai_result = get_ai_confluence_review(setup_data)
-                if ai_result["approved"]:
-                    setup_data["ai_engine"] = ai_result["engine"]
-                    setup_data["ai_thesis"] = ai_result["thesis"]
-                    candidates.append(setup_data)
-
-            # سیگنال فروش
+            # 🔴 تحلیل و شکار آنی شورت
             elif rsi > 56 and imbalance < -0.02 and vol_ratio >= 0.95 and whale['top_ratio'] <= 1.15:
                 score = int(min(99, (rsi - 54) * 2 + (abs(imbalance) * 20) + ((1.5 - min(whale['top_ratio'], 1.5)) * 20) + (10 if "DEFENSIVE" in macro['risk_mode'] else 0)))
                 sl = price + (1.5 * atr)
@@ -510,23 +507,22 @@ def scan_markets():
                     'sp500': macro['sp500']
                 }
 
+            # ⚡ ارسال بلادرنگ: اگر ستاپ تایید شد، فوراً همان ثانیه مخابره کن
+            if setup_data:
                 ai_result = get_ai_confluence_review(setup_data)
                 if ai_result["approved"]:
                     setup_data["ai_engine"] = ai_result["engine"]
                     setup_data["ai_thesis"] = ai_result["thesis"]
-                    candidates.append(setup_data)
+                    msg = format_signal_message(setup_data)
+                    send_telegram_alert(msg)  # ارسال آنی بدون معطلی
+                    dispatched_count += 1
+                    print(f"⚡ [INSTANT DISPATCH]: {symbol} confirmed and sent immediately to Telegram.")
 
-        except Exception:
+        except Exception as e:
             continue
 
-    top_signals = sorted(candidates, key=lambda x: x['score'], reverse=True)[:MAX_SIGNALS]
-
-    if not top_signals:
-        print("AI Institutional Scan: Confluence criteria verified. No valid setups this cycle.")
-    else:
-        for sig in top_signals:
-            msg = format_signal_message(sig)
-            send_telegram_alert(msg)
+    if dispatched_count == 0:
+        print("Scan finished: No instant setups met strict criteria in this pass.")
 
 if __name__ == "__main__":
     scan_markets()
