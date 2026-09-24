@@ -140,19 +140,6 @@
     "risk_free": false,
     "opened_at": "18:24:49 | 2026/09/24"
   },
-  "SOL/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 114.61,
-    "sl": 115.645,
-    "tp1": 112.54,
-    "tp2": 111.505,
-    "tp3": 110.47,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "18:37:06 | 2026/09/24"
-  },
   "SUI/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.9897,
@@ -191,5 +178,57 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "18:56:40 | 2026/09/24"
+  },
+  "SOL/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 115.66,
+    "sl": 116.80107142857142,
+    "tp1": 113.37785714285714,
+    "tp2": 112.2367857142857,
+    "tp3": 111.09571428571428,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "19:09:47 | 2026/09/24"
+  },
+  "BNB/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 780.0,
+    "sl": 784.6071428571429,
+    "tp1": 770.7857142857143,
+    "tp2": 766.1785714285714,
+    "tp3": 761.5714285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "19:09:48 | 2026/09/24"
+  },
+  "XRP/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 1.5068,
+    "sl": 1.5250357142857143,
+    "tp1": 1.4703285714285714,
+    "tp2": 1.452092857142857,
+    "tp3": 1.4338571428571427,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "19:09:49 | 2026/09/24"
+  },
+  "HBAR/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.092,
+    "sl": 0.09360071428571429,
+    "tp1": 0.08879857142857142,
+    "tp2": 0.08719785714285713,
+    "tp3": 0.08559714285714284,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "19:09:55 | 2026/09/24"
   }
 }
