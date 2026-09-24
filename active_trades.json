@@ -557,5 +557,44 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "02:21:36 | 2026/09/25"
+  },
+  "OP/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.13174,
+    "sl": 0.130375,
+    "tp1": 0.13446999999999998,
+    "tp2": 0.13583499999999998,
+    "tp3": 0.13719999999999996,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "02:35:50 | 2026/09/25"
+  },
+  "TAO/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 294.4,
+    "sl": 289.0,
+    "tp1": 305.2,
+    "tp2": 310.59999999999997,
+    "tp3": 315.99999999999994,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "02:36:01 | 2026/09/25"
+  },
+  "AXS/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 1.0773,
+    "sl": 1.0701107142857142,
+    "tp1": 1.0916785714285713,
+    "tp2": 1.098867857142857,
+    "tp3": 1.1060571428571428,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "02:36:11 | 2026/09/25"
   }
 }
