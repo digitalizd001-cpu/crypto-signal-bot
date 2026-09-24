@@ -107,5 +107,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "17:09:55 | 2026/09/24"
+  },
+  "ADA/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.24,
+    "sl": 0.24191785714285713,
+    "tp1": 0.2361642857142857,
+    "tp2": 0.23424642857142855,
+    "tp3": 0.23232857142857138,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "17:10:53 | 2026/09/24"
+  },
+  "AAVE/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 140.58,
+    "sl": 142.03285714285715,
+    "tp1": 137.67428571428573,
+    "tp2": 136.22142857142856,
+    "tp3": 134.76857142857142,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "17:11:04 | 2026/09/24"
   }
 }
