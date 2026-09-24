@@ -124,5 +124,57 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "17:23:56 | 2026/09/24"
+  },
+  "SOL/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 114.98,
+    "sl": 115.70857142857143,
+    "tp1": 113.52285714285715,
+    "tp2": 112.79428571428572,
+    "tp3": 112.0657142857143,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "17:36:15 | 2026/09/24"
+  },
+  "RENDER/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 1.825,
+    "sl": 1.8558571428571429,
+    "tp1": 1.7632857142857143,
+    "tp2": 1.7324285714285714,
+    "tp3": 1.7015714285714285,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "17:36:38 | 2026/09/24"
+  },
+  "DOGE/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.09419,
+    "sl": 0.09494964285714286,
+    "tp1": 0.09267071428571429,
+    "tp2": 0.09191107142857143,
+    "tp3": 0.09115142857142858,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "17:36:42 | 2026/09/24"
+  },
+  "PEPE/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 4.386e-06,
+    "sl": 4.425535714285714e-06,
+    "tp1": 4.306928571428571e-06,
+    "tp2": 4.267392857142856e-06,
+    "tp3": 4.227857142857142e-06,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "17:36:44 | 2026/09/24"
   }
 }
