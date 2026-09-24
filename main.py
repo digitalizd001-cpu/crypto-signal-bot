@@ -2,7 +2,7 @@ import os
 import requests
 import json
 import math
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import pandas as pd
 import yfinance as yf
 import ccxt
@@ -38,6 +38,11 @@ BASE_WATCHLIST = [
     "FIL/USDT", "AR/USDT", "TIA/USDT"
 ]
 
+def get_tehran_time_str() -> str:
+    tehran_tz = timezone(timedelta(hours=3, minutes=30))
+    now = datetime.now(tehran_tz)
+    return now.strftime("%H:%M:%S | %Y/%m/%d")
+
 def send_telegram(message: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("[TELEGRAM ERROR]: Token or Chat ID not configured.")
@@ -64,7 +69,6 @@ class TradeLifecycleAgent:
                 with open(TRADES_STATE_FILE, "r") as f:
                     return json.load(f)
             except Exception: pass
-        # ساخت فایل اولیه در صورت عدم وجود
         default_state = {}
         with open(TRADES_STATE_FILE, "w") as f:
             json.dump(default_state, f)
@@ -82,7 +86,6 @@ class TradeLifecycleAgent:
     def register_trade(cls, setup: dict):
         trades = cls.load_trades()
         symbol = setup['symbol']
-        # اگر معامله‌ای با این نام باز باشد، دوباره ثبت نشود
         if symbol in trades:
             return
 
@@ -97,7 +100,7 @@ class TradeLifecycleAgent:
             'tp1_hit': False,
             'tp2_hit': False,
             'risk_free': False,
-            'opened_at': datetime.utcnow().strftime("%Y-%m-%d %H:%M")
+            'opened_at': get_tehran_time_str()
         }
         cls.save_trades(trades)
 
@@ -108,35 +111,35 @@ class TradeLifecycleAgent:
             return
 
         remaining_trades = {}
+        tehran_now = get_tehran_time_str()
+
         for symbol, t in list(trades.items()):
             ohlcv, _, _ = tech_agent.fetch_candle_data(symbol)
             if not ohlcv or len(ohlcv) < 2:
                 remaining_trades[symbol] = t
                 continue
 
-            # استفاده از High و Low آخرین کندل جهت بررسی دقیق شدوها
-            last_candle = ohlcv[-2]  # آخرین کندل بسته شده قطعی
+            last_candle = ohlcv[-2]
             high_price = last_candle[2]
             low_price = last_candle[3]
-            close_price = last_candle[4]
 
             is_long = "LONG" in t['action']
             closed = False
 
-            # ۱. بررسی لمس TP1 و اعمال ریسک‌فری
+            # ۱. بررسی لمس TP1 و ریسک‌فری
             if not t['tp1_hit']:
                 tp1_reached = (high_price >= t['tp1']) if is_long else (low_price <= t['tp1'])
                 if tp1_reached:
                     t['tp1_hit'] = True
                     t['risk_free'] = True
-                    t['sl'] = t['entry']  # انتقال قطعی استاپ به نقطه ورود
+                    t['sl'] = t['entry']
                     msg = (
                         f"🎯 <b>تارگت اول (TP1) تاچ شد!</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
                         f"✅ تارگت اول در قیمت <code>{t['tp1']:,.4f}</code> محقق شد.\n"
-                        f"🛡️ <b>وضعیت:</b> معامله ریسک‌فری شد (حد ضرر به نقطه ورود <code>{t['entry']:,.4f}</code> منتقل شد).\n"
-                        f"💰 بخشی از سود را سیو کنید؛ ریسک این معامله اکنون <b>صفر</b> است."
+                        f"🛡️ <b>وضعیت:</b> معامله ریسک‌فری شد (حد ضرر به نقطه ورود منتقل شد).\n"
+                        f"⏱️ <i>زمان ثبت رویداد به وقت تهران: {tehran_now}</i>"
                     )
                     send_telegram(msg)
 
@@ -150,11 +153,11 @@ class TradeLifecycleAgent:
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
                         f"🎯 تارگت دوم در قیمت <code>{t['tp2']:,.4f}</code> لمس گردید.\n"
-                        f"🚀 پوزیشن در مسیر تارگت نهایی (TP3) قرار دارد."
+                        f"⏱️ <i>زمان ثبت رویداد به وقت تهران: {tehran_now}</i>"
                     )
                     send_telegram(msg)
 
-            # ۳. بررسی لمس TP3 (بستن کامل با سود حداکثری)
+            # ۳. بررسی لمس TP3
             tp3_reached = (high_price >= t['tp3']) if is_long else (low_price <= t['tp3'])
             if tp3_reached:
                 msg = (
@@ -162,7 +165,7 @@ class TradeLifecycleAgent:
                     f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                     f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
                     f"🎉 تمام اهداف معامله در قیمت <code>{t['tp3']:,.4f}</code> تکمیل شدند.\n"
-                    f"✅ معامله با سود کامل از سیستم خارج شد."
+                    f"⏱️ <i>زمان تکمیل به وقت تهران: {tehran_now}</i>"
                 )
                 send_telegram(msg)
                 closed = True
@@ -175,15 +178,16 @@ class TradeLifecycleAgent:
                         f"🛡️ <b>خروج در نقطه ورود (Risk-Free Exit)</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
-                        f"بازار برگشت و معامله در نقطه ورود <code>{t['entry']:,.4f}</code> بسته شد.\n"
-                        f"👌 نتیجه نهایی: سود TP1 حفظ شد و بدون هیچ ضرری بسته شد."
+                        f"معامله در نقطه ورود <code>{t['entry']:,.4f}</code> با سود ذخیره‌شده بسته شد.\n"
+                        f"⏱️ <i>زمان خروج به وقت تهران: {tehran_now}</i>"
                     )
                 else:
                     msg = (
                         f"🛑 <b>حد ضرر (Stop Loss) لمس شد</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
-                        f"معامله در قیمت <code>{t['sl']:,.4f}</code> با رعایت مدیریت ریسک بسته شد."
+                        f"معامله در قیمت <code>{t['sl']:,.4f}</code> با رعایت مدیریت ریسک بسته شد.\n"
+                        f"⏱️ <i>زمان خروج به وقت تهران: {tehran_now}</i>"
                     )
                 send_telegram(msg)
                 closed = True
@@ -299,7 +303,7 @@ class WhaleAgent:
         return metrics
 
 # =====================================================================
-# ماژول هوش مصنوعی و اقتصاد کلان
+# ماژول هوش مصنوعی و ارزیابی نهایی
 # =====================================================================
 class MacroAIOfficerAgent:
     def review_setup(self, payload: dict) -> dict:
@@ -334,7 +338,7 @@ class MacroAIOfficerAgent:
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
 # =====================================================================
-# ماژول ارسال پیام به تلگرام
+# ماژول ارسال پیام به تلگرام همراه با زمان تهران
 # =====================================================================
 class DispatchAgent:
     @staticmethod
@@ -347,6 +351,8 @@ class DispatchAgent:
         tp1_pct = abs((tp1 - price) / price) * 100
         tp2_pct = abs((tp2 - price) / price) * 100
         tp3_pct = abs((tp3 - price) / price) * 100
+
+        tehran_timestamp = get_tehran_time_str()
 
         msg = (
             f"⚡ <b>INSTITUTIONAL SIGNAL DETECTED</b>\n"
@@ -367,18 +373,18 @@ class DispatchAgent:
             f"🥇 TP1 ➔ <code>{tp1:,.4f}</code> (+{tp1_pct:.2f}%)\n"
             f"🥈 TP2 ➔ <code>{tp2:,.4f}</code> (+{tp2_pct:.2f}%)\n"
             f"🥉 TP3 ➔ <code>{tp3:,.4f}</code> (+{tp3_pct:.2f}%)\n\n"
-            f"⏱️ <i>سیستم به صورت خودکار لمس تارگت ۱ و ریسک‌فری شدن را رصد و اعلام خواهد کرد.</i>"
+            f"⏱️ <b>زمان صدور به وقت تهران:</b> <code>{tehran_timestamp}</code>"
         )
         send_telegram(msg)
 
 # =====================================================================
-# هسته هماهنگ‌کننده کل برنامه
+# هسته هماهنگ‌کننده برنامه
 # =====================================================================
 def run_system():
     tech_agent = TechnicalAgent()
     macro_agent = MacroAIOfficerAgent()
 
-    # گام اول: رصد تمام معاملات بازی که قبلاً صادر شده بودند (بررسی TP1, TP2, TP3, SL)
+    # رصد معاملات باز قبلی
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
 
     dispatched = 0
@@ -426,12 +432,10 @@ def run_system():
                 if review['approved']:
                     setup['ai_engine'] = review['engine']
                     setup['ai_thesis'] = review['thesis']
-                    # ۱. ارسال سیگنال به تلگرام
                     DispatchAgent.send(setup)
-                    # ۲. ثبت بلافاصله در چرخه پایش معاملات
                     TradeLifecycleAgent.register_trade(setup)
                     dispatched += 1
-                    print(f"⚡ [DISPATCH & TRACK]: {symbol} registered.")
+                    print(f"⚡ [DISPATCH]: {symbol} sent at Tehran time: {get_tehran_time_str()}")
 
         except Exception:
             continue
