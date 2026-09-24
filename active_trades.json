@@ -51,19 +51,6 @@
     "risk_free": false,
     "opened_at": "20:10:36 | 2026/09/24"
   },
-  "AVAX/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 10.45,
-    "sl": 10.614892857142857,
-    "tp1": 10.120214285714285,
-    "tp2": 9.955321428571427,
-    "tp3": 9.79042857142857,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "20:10:38 | 2026/09/24"
-  },
   "BTC/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 84550.1,
@@ -210,14 +197,14 @@
   "SNX/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 0.2478,
-    "sl": 0.24401785714285712,
+    "sl": 0.2478,
     "tp1": 0.2553642857142857,
     "tp2": 0.2591464285714286,
     "tp3": 0.26292857142857146,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "21:58:09 | 2026/09/24"
   },
   "ARKM/USDT": {
@@ -466,5 +453,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "01:06:49 | 2026/09/25"
+  },
+  "HBAR/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.09406,
+    "sl": 0.09494714285714285,
+    "tp1": 0.0922857142857143,
+    "tp2": 0.09139857142857144,
+    "tp3": 0.09051142857142859,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "01:19:01 | 2026/09/25"
+  },
+  "XLM/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.2143,
+    "sl": 0.21685857142857143,
+    "tp1": 0.20918285714285714,
+    "tp2": 0.2066242857142857,
+    "tp3": 0.2040657142857143,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "01:19:27 | 2026/09/25"
   }
 }
