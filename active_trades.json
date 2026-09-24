@@ -78,14 +78,14 @@
   "TRX/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.34054,
-    "sl": 0.34116250000000004,
+    "sl": 0.34054,
     "tp1": 0.33929499999999996,
     "tp2": 0.3386725,
     "tp3": 0.33804999999999996,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "18:11:08 | 2026/09/24"
   },
   "ADA/USDT": {
@@ -139,19 +139,6 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "18:24:49 | 2026/09/24"
-  },
-  "APT/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.813,
-    "sl": 0.8318785714285714,
-    "tp1": 0.775242857142857,
-    "tp2": 0.7563642857142856,
-    "tp3": 0.7374857142857141,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "18:56:38 | 2026/09/24"
   },
   "SEI/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
@@ -230,5 +217,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "19:22:39 | 2026/09/24"
+  },
+  "LINK/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 12.788,
+    "sl": 12.957607142857142,
+    "tp1": 12.448785714285714,
+    "tp2": 12.279178571428572,
+    "tp3": 12.10957142857143,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "19:36:32 | 2026/09/24"
+  },
+  "CRV/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.3506,
+    "sl": 0.3566642857142857,
+    "tp1": 0.3384714285714286,
+    "tp2": 0.3324071428571429,
+    "tp3": 0.32634285714285716,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "19:36:36 | 2026/09/24"
   }
 }
