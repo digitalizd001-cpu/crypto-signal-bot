@@ -648,5 +648,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "03:06:38 | 2026/09/25"
+  },
+  "FLOW/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.03184,
+    "sl": 0.03156357142857143,
+    "tp1": 0.03239285714285714,
+    "tp2": 0.032669285714285706,
+    "tp3": 0.03294571428571428,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "03:19:21 | 2026/09/25"
+  },
+  "AR/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 4.495,
+    "sl": 4.453535714285715,
+    "tp1": 4.577928571428571,
+    "tp2": 4.619392857142857,
+    "tp3": 4.660857142857142,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "03:19:42 | 2026/09/25"
   }
 }
