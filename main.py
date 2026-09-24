@@ -14,8 +14,47 @@ WATCHLIST = [
     "BTC/USDT", "ADA/USDT", "RENDER/USDT", "AAVE/USDT", "HBAR/USDT", "LTC/USDT", 
     "BCH/USDT", "JUP/USDT", "ETH/USDT", "BNB/USDT", "LINK/USDT", "DOT/USDT", 
     "FIL/USDT", "ATOM/USDT", "TIA/USDT", "TRX/USDT", "INJ/USDT", "UNI/USDT", 
-    "NEAR/USDT", "OP/USDT", "ENA/USDT", "POPCAT/USDT", "NEIRO/USDT"
+    "NEAR/USDT", "OP/USDT", "ENA/USDT", "NEIRO/USDT"
 ]
+
+def init_exchanges():
+    """تعریف چند صرافی با آدرس‌های اختصاصی و دامنه‌های جایگزین"""
+    exchanges = []
+    
+    # 1. بایننس روی دامنه جهانی و عمومی بدون مسدودی
+    try:
+        binance = ccxt.binance({
+            'enableRateLimit': True,
+            'urls': {'api': {'public': 'https://data-api.binance.vision/api/v3'}}
+        })
+        binance.load_markets()
+        exchanges.append(("Binance", binance))
+        print("Connected: Binance")
+    except Exception as e:
+        print(f"Skipping Binance: {e}")
+
+    # 2. بای‌بیت روی دامنه پشتیبان bytick
+    try:
+        bybit = ccxt.bybit({
+            'enableRateLimit': True,
+            'urls': {'api': {'public': 'https://api.bytick.com', 'private': 'https://api.bytick.com'}}
+        })
+        bybit.load_markets()
+        exchanges.append(("Bybit", bybit))
+        print("Connected: Bybit")
+    except Exception as e:
+        print(f"Skipping Bybit: {e}")
+
+    # 3. صرافی MEXC به عنوان پشتیبان بدون تحریم
+    try:
+        mexc = ccxt.mexc({'enableRateLimit': True})
+        mexc.load_markets()
+        exchanges.append(("MEXC", mexc))
+        print("Connected: MEXC")
+    except Exception as e:
+        print(f"Skipping MEXC: {e}")
+
+    return exchanges
 
 def send_telegram_alert(message: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -24,8 +63,7 @@ def send_telegram_alert(message: str):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
     try:
-        res = requests.post(url, json=payload, timeout=10)
-        print(f"Telegram response: {res.status_code}")
+        requests.post(url, json=payload, timeout=10)
     except Exception as e:
         print(f"Error sending telegram: {e}")
 
@@ -97,9 +135,9 @@ def format_signal_message(data: dict) -> str:
     roi_tp3 = tp3_pct * leverage
 
     msg = (
-        f"🚨 *FUTURES SIGNAL*\n"
+        f"🚨 *INSTITUTIONAL SIGNAL*\n"
         f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"🌐 #{symbol_tag}\n"
+        f"🌐 #{symbol_tag} *({data['source']})*\n"
         f"{action_emoji} *{data['action']}*\n\n"
         f"🏆 Grade: *{data['grade']}* | Score: *{data['score']}/100*\n"
         f"📈 Market regime: *{data['regime']}*\n"
@@ -127,14 +165,16 @@ def format_signal_message(data: dict) -> str:
         f"💵 DXY: `{data['dxy']}` | VIX: `{data['vix']}` | US10Y: `{data['us10y']}%`\n"
         f"🔎 Confirmations: *{data['confirmations']}*\n\n"
         f"⚠️ _Does not include fees, funding, or slippage._\n"
-        f"_Please re-check Entry and SL on the trading platform before entering._"
+        f"_Please re-check Entry and SL on {data['source']} before entering._"
     )
     return msg
 
 def scan_markets():
-    exchange = ccxt.mexc({'enableRateLimit': True})
-    markets = exchange.load_markets()
-    
+    exchanges = init_exchanges()
+    if not exchanges:
+        print("Error: No active exchange connected.")
+        return
+
     macro = get_global_macro_metrics()
     fng = get_fear_and_greed()
     regime = "BULL" if fng >= 50 else "BEAR"
@@ -142,14 +182,27 @@ def scan_markets():
     candidates = []
 
     for symbol in WATCHLIST:
-        if symbol not in markets:
+        ohlcv = None
+        current_exchange = None
+        source_name = ""
+
+        # جستجوی جفت‌ارز به ترتیب اولویت صرافی‌ها
+        for name, ex in exchanges:
+            if symbol in ex.markets:
+                try:
+                    data = ex.fetch_ohlcv(symbol, timeframe='15m', limit=50)
+                    if data and len(data) >= 30:
+                        ohlcv = data
+                        current_exchange = ex
+                        source_name = name
+                        break
+                except Exception:
+                    continue
+
+        if not ohlcv or not current_exchange:
             continue
 
         try:
-            ohlcv = exchange.fetch_ohlcv(symbol, timeframe='15m', limit=50)
-            if not ohlcv or len(ohlcv) < 30:
-                continue
-
             df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
             df = calculate_technical_indicators(df)
 
@@ -159,7 +212,7 @@ def scan_markets():
             vol_ratio = latest['volume'] / latest['vol_ma20'] if latest['vol_ma20'] > 0 else 1.0
             rsi = latest['rsi']
 
-            imbalance = get_orderbook_imbalance(exchange, symbol)
+            imbalance = get_orderbook_imbalance(current_exchange, symbol)
 
             if rsi < 38 and imbalance > 0.10 and vol_ratio >= 1.1:
                 score = int(min(99, (40 - rsi) * 2 + (imbalance * 30) + (vol_ratio * 10)))
@@ -169,6 +222,7 @@ def scan_markets():
                 tp3 = price + (6.0 * atr)
 
                 candidates.append({
+                    'source': source_name,
                     'symbol': symbol,
                     'action': 'LONG — BUY',
                     'grade': 'A+' if score >= 85 else 'A',
@@ -189,7 +243,7 @@ def scan_markets():
                     'dxy': macro['dxy'],
                     'vix': macro['vix'],
                     'us10y': macro['us10y'],
-                    'confirmations': '15m RSI oversold, Order-book buyer dominance'
+                    'confirmations': f'15m RSI oversold, {source_name} buyer dominance'
                 })
 
             elif rsi > 65 and imbalance < -0.10 and vol_ratio >= 1.1:
@@ -200,6 +254,7 @@ def scan_markets():
                 tp3 = price - (6.0 * atr)
 
                 candidates.append({
+                    'source': source_name,
                     'symbol': symbol,
                     'action': 'SHORT — SELL',
                     'grade': 'A+' if score >= 85 else 'A',
@@ -220,7 +275,7 @@ def scan_markets():
                     'dxy': macro['dxy'],
                     'vix': macro['vix'],
                     'us10y': macro['us10y'],
-                    'confirmations': '15m RSI overbought, Order-book seller dominance'
+                    'confirmations': f'15m RSI overbought, {source_name} seller dominance'
                 })
 
         except Exception:
@@ -229,7 +284,7 @@ def scan_markets():
     top_signals = sorted(candidates, key=lambda x: x['score'], reverse=True)[:MAX_SIGNALS]
 
     if not top_signals:
-        print("Market scanned successfully. No high-conviction setup found at this moment.")
+        print("Scanned all available exchanges. No high-conviction setup found at this moment.")
     else:
         for sig in top_signals:
             msg = format_signal_message(sig)
