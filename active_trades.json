@@ -258,5 +258,44 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "21:20:44 | 2026/09/24"
+  },
+  "STRK/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.03946,
+    "sl": 0.038621071428571435,
+    "tp1": 0.04113785714285714,
+    "tp2": 0.041976785714285716,
+    "tp3": 0.04281571428571428,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "21:58:04 | 2026/09/24"
+  },
+  "SNX/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.2478,
+    "sl": 0.24401785714285712,
+    "tp1": 0.2553642857142857,
+    "tp2": 0.2591464285714286,
+    "tp3": 0.26292857142857146,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "21:58:09 | 2026/09/24"
+  },
+  "ARKM/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.1287,
+    "sl": 0.12664928571428571,
+    "tp1": 0.13280142857142857,
+    "tp2": 0.13485214285714286,
+    "tp3": 0.13690285714285716,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "21:58:19 | 2026/09/24"
   }
 }
