@@ -258,18 +258,5 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "21:20:44 | 2026/09/24"
-  },
-  "BEAM/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.012218,
-    "sl": 0.012266107142857143,
-    "tp1": 0.012121785714285715,
-    "tp2": 0.012073678571428572,
-    "tp3": 0.01202557142857143,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "21:20:45 | 2026/09/24"
   }
 }
