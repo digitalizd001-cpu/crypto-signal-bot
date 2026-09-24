@@ -415,19 +415,6 @@
     "risk_free": false,
     "opened_at": "01:06:30 | 2026/09/25"
   },
-  "UNI/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 9.198,
-    "sl": 9.101571428571429,
-    "tp1": 9.390857142857143,
-    "tp2": 9.487285714285715,
-    "tp3": 9.583714285714287,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "01:06:37 | 2026/09/25"
-  },
   "BONK/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 3.755e-06,
@@ -505,5 +492,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "01:54:53 | 2026/09/25"
+  },
+  "XRP/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 1.5314,
+    "sl": 1.5202142857142857,
+    "tp1": 1.5537714285714286,
+    "tp2": 1.564957142857143,
+    "tp3": 1.5761428571428573,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "02:06:17 | 2026/09/25"
+  },
+  "ICP/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 3.1,
+    "sl": 3.070107142857143,
+    "tp1": 3.1597857142857144,
+    "tp2": 3.1896785714285714,
+    "tp3": 3.2195714285714283,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "02:06:27 | 2026/09/25"
   }
 }
