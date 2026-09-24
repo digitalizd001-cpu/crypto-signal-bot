@@ -20,21 +20,31 @@ PERFORMANCE_FILE = "performance.json"
 CUSTOM_WATCHLIST_FILE = "custom_watchlist.json"
 OFFSET_FILE = "telegram_offset.json"
 
+# پایشگر دائمی و ثابت طلا در صدر جدول واچ‌لیست
 BASE_WATCHLIST = [
-    "PAXG/USDT", "XAU/USDT",
+    # Gold & Commodities (VIP Pinned)
+    "PAXG/USDT", "XAU/USDT", "XAUT/USDT",
+    # Layer 1
     "BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT", "XRP/USDT", "ADA/USDT",
     "AVAX/USDT", "DOT/USDT", "TRX/USDT", "NEAR/USDT", "SUI/USDT", "APT/USDT",
     "TON/USDT", "KAS/USDT", "SEI/USDT", "HBAR/USDT", "ATOM/USDT", "ALGO/USDT",
     "FTM/USDT", "EGLD/USDT", "FLOW/USDT", "MINA/USDT", "ICP/USDT",
+    # Layer 2
     "MATIC/USDT", "ARB/USDT", "OP/USDT", "STRK/USDT", "IMX/USDT", "MANTA/USDT", "METIS/USDT",
+    # DeFi
     "LINK/USDT", "UNI/USDT", "AAVE/USDT", "MKR/USDT", "SNX/USDT", "LDO/USDT",
     "CRV/USDT", "RUNE/USDT", "INJ/USDT", "PENDLE/USDT", "ENA/USDT", "DYDX/USDT", "CAKE/USDT",
+    # AI & Data
     "FET/USDT", "RENDER/USDT", "TAO/USDT", "AGIX/USDT", "OCEAN/USDT", "GRT/USDT",
     "WLD/USDT", "ARKM/USDT", "THETA/USDT",
+    # Memes
     "DOGE/USDT", "SHIB/USDT", "PEPE/USDT", "WIF/USDT", "FLOKI/USDT", "BONK/USDT",
     "BOME/USDT", "MEME/USDT",
+    # Legacy
     "LTC/USDT", "BCH/USDT", "ETC/USDT", "XLM/USDT",
+    # Gaming
     "GALA/USDT", "SAND/USDT", "MANA/USDT", "AXS/USDT", "BEAM/USDT", "RON/USDT",
+    # Storage & Infra
     "FIL/USDT", "AR/USDT", "TIA/USDT"
 ]
 
@@ -59,7 +69,7 @@ def send_telegram(message: str):
         print(f"[TELEGRAM EXCEPTION]: {e}")
 
 # =====================================================================
-# ماژول رهگیری لحظه‌ای معاملات (TP / SL / Risk-Free Tracker)
+# ماژول رهگیری معاملات باز (TP/SL Tracker)
 # =====================================================================
 class TradeLifecycleAgent:
     @staticmethod
@@ -126,7 +136,6 @@ class TradeLifecycleAgent:
             is_long = "LONG" in t['action']
             closed = False
 
-            # ۱. بررسی لمس TP1 و ریسک‌فری
             if not t['tp1_hit']:
                 tp1_reached = (high_price >= t['tp1']) if is_long else (low_price <= t['tp1'])
                 if tp1_reached:
@@ -139,11 +148,10 @@ class TradeLifecycleAgent:
                         f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
                         f"✅ تارگت اول در قیمت <code>{t['tp1']:,.4f}</code> محقق شد.\n"
                         f"🛡️ <b>وضعیت:</b> معامله ریسک‌فری شد (حد ضرر به نقطه ورود منتقل شد).\n"
-                        f"⏱️ <i>زمان ثبت رویداد به وقت تهران: {tehran_now}</i>"
+                        f"⏱️ <i>زمان ثبت به وقت تهران: {tehran_now}</i>"
                     )
                     send_telegram(msg)
 
-            # ۲. بررسی لمس TP2
             if t['tp1_hit'] and not t.get('tp2_hit', False):
                 tp2_reached = (high_price >= t['tp2']) if is_long else (low_price <= t['tp2'])
                 if tp2_reached:
@@ -153,11 +161,10 @@ class TradeLifecycleAgent:
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
                         f"🎯 تارگت دوم در قیمت <code>{t['tp2']:,.4f}</code> لمس گردید.\n"
-                        f"⏱️ <i>زمان ثبت رویداد به وقت تهران: {tehran_now}</i>"
+                        f"⏱️ <i>زمان ثبت به وقت تهران: {tehran_now}</i>"
                     )
                     send_telegram(msg)
 
-            # ۳. بررسی لمس TP3
             tp3_reached = (high_price >= t['tp3']) if is_long else (low_price <= t['tp3'])
             if tp3_reached:
                 msg = (
@@ -170,7 +177,6 @@ class TradeLifecycleAgent:
                 send_telegram(msg)
                 closed = True
 
-            # ۴. بررسی حد ضرر (Stop Loss)
             sl_reached = (low_price <= t['sl']) if is_long else (high_price >= t['sl'])
             if sl_reached and not closed:
                 if t['risk_free']:
@@ -178,7 +184,7 @@ class TradeLifecycleAgent:
                         f"🛡️ <b>خروج در نقطه ورود (Risk-Free Exit)</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
-                        f"معامله در نقطه ورود <code>{t['entry']:,.4f}</code> با سود ذخیره‌شده بسته شد.\n"
+                        f"معامله در نقطه ورود <code>{t['entry']:,.4f}</code> بدون ضرر بسته شد.\n"
                         f"⏱️ <i>زمان خروج به وقت تهران: {tehran_now}</i>"
                     )
                 else:
@@ -198,7 +204,7 @@ class TradeLifecycleAgent:
         cls.save_trades(remaining_trades)
 
 # =====================================================================
-# ماژول تحلیل تکنیکال و صرافی‌ها
+# ماژول تحلیل تکنیکال و صرافی‌ها (بهینه‌سازی شده ویژه طلا)
 # =====================================================================
 class TechnicalAgent:
     def __init__(self):
@@ -221,12 +227,22 @@ class TechnicalAgent:
             ok.load_markets()
             pools.append(("OKX", ok))
         except Exception: pass
+        try:
+            m = ccxt.mexc({'enableRateLimit': True})
+            m.load_markets()
+            pools.append(("MEXC", m))
+        except Exception: pass
         return pools
 
     def fetch_candle_data(self, symbol: str):
+        # نگاشت هوشمند طلا به کلیه نمادهای معتبر بین صرافی‌ها
         search_symbols = [symbol]
-        if symbol in ["XAU/USDT", "PAXG/USDT"]:
-            search_symbols = ["PAXG/USDT", "XAU/USDT", "XAUUSDT"]
+        if symbol in ["XAU/USDT", "PAXG/USDT", "XAUT/USDT"]:
+            search_symbols = [
+                "PAXG/USDT", "PAXGUSDT",
+                "XAUT/USDT", "XAUTUSDT",
+                "XAU/USDT", "XAUUSDT", "XAU/USDT:USDT"
+            ]
 
         for s in search_symbols:
             for name, ex in self.exchanges:
@@ -234,14 +250,20 @@ class TechnicalAgent:
                     try:
                         ohlcv = ex.fetch_ohlcv(s, timeframe='15m', limit=60)
                         if ohlcv and len(ohlcv) >= 35:
-                            return ohlcv, ex, name
+                            return ohlcv, ex, f"{name} ({s})"
                     except Exception:
                         continue
         return None, None, ""
 
     def analyze_orderbook_imbalance(self, exchange, symbol: str) -> float:
         try:
-            ob = exchange.fetch_order_book(symbol, limit=20)
+            target = symbol
+            if target not in exchange.markets:
+                for k in exchange.markets.keys():
+                    if symbol.split("/")[0] in k:
+                        target = k
+                        break
+            ob = exchange.fetch_order_book(target, limit=20)
             bids = sum(b[1] for b in ob['bids'])
             asks = sum(a[1] for a in ob['asks'])
             if (bids + asks) == 0: return 0.0
@@ -277,6 +299,8 @@ class WhaleAgent:
     @staticmethod
     def inspect(symbol: str) -> dict:
         clean = symbol.replace("/", "").replace(":USDT", "")
+        if "XAU" in clean:
+            clean = "PAXGUSDT"
         metrics = {"funding": 0.01, "oi_val": 0.0, "top_ratio": 1.0, "whale_bias": "NEUTRAL"}
         try:
             rf = requests.get(f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={clean}", timeout=3).json()
@@ -303,7 +327,7 @@ class WhaleAgent:
         return metrics
 
 # =====================================================================
-# ماژول هوش مصنوعی و ارزیابی نهایی
+# ماژول هوش مصنوعی
 # =====================================================================
 class MacroAIOfficerAgent:
     def review_setup(self, payload: dict) -> dict:
@@ -338,7 +362,86 @@ class MacroAIOfficerAgent:
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
 # =====================================================================
-# ماژول ارسال پیام به تلگرام همراه با زمان تهران
+# ماژول دستورات تلگرام (شامل دستور سریع /gold)
+# =====================================================================
+class TelegramCommandHandler:
+    @staticmethod
+    def load_offset():
+        if os.path.exists(OFFSET_FILE):
+            try:
+                with open(OFFSET_FILE, "r") as f:
+                    return json.load(f).get("offset", 0)
+            except Exception: pass
+        return 0
+
+    @staticmethod
+    def save_offset(offset):
+        try:
+            with open(OFFSET_FILE, "w") as f:
+                json.dump({"offset": offset}, f)
+        except Exception: pass
+
+    @classmethod
+    def process_pending_commands(cls, tech_agent, macro_agent):
+        if not TELEGRAM_BOT_TOKEN:
+            return
+        offset = cls.load_offset()
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates?offset={offset + 1}&timeout=2"
+        try:
+            res = requests.get(url, timeout=4).json()
+            if not res.get("ok"):
+                return
+            for update in res.get("result", []):
+                update_id = update["update_id"]
+                cls.save_offset(update_id)
+                msg = update.get("message", {})
+                text = msg.get("text", "").strip()
+                if not text:
+                    continue
+
+                if text in ["/gold", "/xau", "/paxg"]:
+                    cls._report_gold_status(tech_agent, macro_agent)
+                elif text == "/trades":
+                    trades = TradeLifecycleAgent.load_trades()
+                    if not trades:
+                        send_telegram("📭 در حال حاضر هیچ معامله بازی در سیستم وجود ندارد.")
+                    else:
+                        resp = "📋 <b>ACTIVE MANAGED TRADES</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        for s, t in trades.items():
+                            resp += f"• <b>{s}</b> ({t['action']}) | ورود: <code>{t['entry']}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
+                        send_telegram(resp)
+        except Exception: pass
+
+    @classmethod
+    def _report_gold_status(cls, tech_agent, macro_agent):
+        send_telegram("🥇 <i>در حال بررسی جامع وضعیت طلای جهانی (XAU/PAXG)...</i>")
+        ohlcv, active_ex, source_name = tech_agent.fetch_candle_data("PAXG/USDT")
+        if not ohlcv:
+            ohlcv, active_ex, source_name = tech_agent.fetch_candle_data("XAU/USDT")
+
+        if ohlcv:
+            price, rsi, atr, vol_ratio = tech_agent.compute_indicators(ohlcv)
+            imbalance = tech_agent.analyze_orderbook_imbalance(active_ex, "PAXG/USDT")
+            whale = WhaleAgent.inspect("PAXG/USDT")
+
+            msg = (
+                f"🥇 <b>GOLD & COMMODITIES STATUS REPORT</b>\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"🌐 استخر فعال: <b>{source_name}</b>\n"
+                f"💵 قیمت هر اونس طلا: <code>${price:,.2f}</code>\n"
+                f"📉 15m RSI: <code>{rsi:.1f}</code> | نسبت حجم: <code>{vol_ratio:.1f}x</code>\n"
+                f"📚 عدم تعادل اوردربوک: <code>{imbalance:+.2f}</code>\n\n"
+                f"🐋 <b>داده‌های مشتقه و نهنگ‌های طلا</b>\n"
+                f"• نسبت خریدار/فروشنده: <b>{whale['top_ratio']}</b> ({whale['whale_bias']})\n"
+                f"• فاندینگ ریت: <code>{whale['funding']:+.4f}%</code>\n\n"
+                f"⏱️ <i>زمان گزارش به وقت تهران: {get_tehran_time_str()}</i>"
+            )
+            send_telegram(msg)
+        else:
+            send_telegram("❌ خطا در اتصال به فید دیتای طلا.")
+
+# =====================================================================
+# ماژول ارسال کارت سیگنال همراه با زمان تهران
 # =====================================================================
 class DispatchAgent:
     @staticmethod
@@ -384,7 +487,10 @@ def run_system():
     tech_agent = TechnicalAgent()
     macro_agent = MacroAIOfficerAgent()
 
-    # رصد معاملات باز قبلی
+    # پردازش دستورات تلگرام کاربر
+    TelegramCommandHandler.process_pending_commands(tech_agent, macro_agent)
+
+    # مانیتور لحظه‌ای معاملات باز (بررسی TP1, TP2, TP3, SL)
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
 
     dispatched = 0
@@ -435,7 +541,7 @@ def run_system():
                     DispatchAgent.send(setup)
                     TradeLifecycleAgent.register_trade(setup)
                     dispatched += 1
-                    print(f"⚡ [DISPATCH]: {symbol} sent at Tehran time: {get_tehran_time_str()}")
+                    print(f"⚡ [DISPATCH & TRACK]: {symbol} confirmed & tracked.")
 
         except Exception:
             continue
