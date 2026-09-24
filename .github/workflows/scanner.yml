@@ -14,9 +14,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Set up Python
-        uses: setup-python@v5
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -34,9 +37,10 @@ jobs:
         run: python main.py
 
       - name: Commit and push trade states & analytics
+        if: always()
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull origin main --rebase || true
           git add active_trades.json performance.json custom_watchlist.json telegram_offset.json || true
-          git commit -m "chore(bot): update trade lifecycle and analytics [skip ci]" || echo "No changes to commit"
-          git push || echo "No changes to push"
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(bot): update trade states [skip ci]" && git push origin main) || echo "Nothing to push"
