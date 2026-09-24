@@ -14,7 +14,7 @@ WATCHLIST = [
     "BTC/USDT", "ADA/USDT", "RENDER/USDT", "AAVE/USDT", "HBAR/USDT", "LTC/USDT", 
     "BCH/USDT", "JUP/USDT", "ETH/USDT", "BNB/USDT", "LINK/USDT", "DOT/USDT", 
     "FIL/USDT", "ATOM/USDT", "TIA/USDT", "TRX/USDT", "INJ/USDT", "UNI/USDT", 
-    "NEAR/USDT", "OP/USDT", "ENA/USDT", "FTM/USDT", "POPCAT/USDT", "NEIRO/USDT"
+    "NEAR/USDT", "OP/USDT", "ENA/USDT", "POPCAT/USDT", "NEIRO/USDT"
 ]
 
 def send_telegram_alert(message: str):
@@ -24,7 +24,8 @@ def send_telegram_alert(message: str):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
     try:
-        requests.post(url, json=payload, timeout=10)
+        res = requests.post(url, json=payload, timeout=10)
+        print(f"Telegram response: {res.status_code}")
     except Exception as e:
         print(f"Error sending telegram: {e}")
 
@@ -131,7 +132,7 @@ def format_signal_message(data: dict) -> str:
     return msg
 
 def scan_markets():
-    exchange = ccxt.bybit({'enableRateLimit': True})
+    exchange = ccxt.mexc({'enableRateLimit': True})
     markets = exchange.load_markets()
     
     macro = get_global_macro_metrics()
@@ -227,9 +228,12 @@ def scan_markets():
 
     top_signals = sorted(candidates, key=lambda x: x['score'], reverse=True)[:MAX_SIGNALS]
 
-    for sig in top_signals:
-        msg = format_signal_message(sig)
-        send_telegram_alert(msg)
+    if not top_signals:
+        print("Market scanned successfully. No high-conviction setup found at this moment.")
+    else:
+        for sig in top_signals:
+            msg = format_signal_message(sig)
+            send_telegram_alert(msg)
 
 if __name__ == "__main__":
     scan_markets()
