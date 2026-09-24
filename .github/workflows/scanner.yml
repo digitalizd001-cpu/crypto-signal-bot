@@ -1,29 +1,42 @@
-name: 24/7 Institutional Crypto Scanner
+name: Multi-Agent Crypto Scanner
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   run-scanner:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install --upgrade ccxt pandas yfinance requests
 
-      - name: Run Engine
+      - name: Run Institutional Scanner
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python main.py
+
+      - name: Commit and push trade states & analytics
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add active_trades.json performance.json custom_watchlist.json telegram_offset.json || true
+          git commit -m "chore(bot): update trade lifecycle and analytics [skip ci]" || echo "No changes to commit"
+          git push || echo "No changes to push"
