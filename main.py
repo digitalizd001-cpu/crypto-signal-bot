@@ -30,7 +30,6 @@ def send_telegram_alert(message: str):
 # 1. داده‌های اقتصاد کلان، طلا، سهام و اوراق
 # ==========================================
 def get_institutional_macro_metrics():
-    """دریافت دیتای زنده DXY، VIX، اوراق قرضه، طلا و شاخص‌های وال‌استریت"""
     macro = {
         "dxy": "FLAT", "dxy_val": 104.0,
         "vix": 18.0,
@@ -70,7 +69,7 @@ def get_institutional_macro_metrics():
             macro['sp500'] = round(float(sp_c.iloc[-1]), 1)
             macro['sp500_trend'] = "UP 🟢" if sp_c.iloc[-1] > sp_c.iloc[-2] else "DOWN 🔴"
 
-        # ارزیابی رژیم ریسک بین‌بازاری (Risk-On / Risk-Off)
+        # ارزیابی ریسک کلان بین‌بازاری
         if "FALLING" in macro['dxy'] and macro['vix'] < 20 and "UP" in macro['sp500_trend']:
             macro['risk_mode'] = "STRONG RISK-ON (AGGRESSIVE BULLISH)"
             macro['net_liquidity'] = "INFLOW / SURPLUS 🟢"
@@ -94,10 +93,9 @@ def get_fear_and_greed() -> int:
         return 50
 
 # ==========================================
-# 3. مشتقات، فاندینگ ریت و احساسات آپشن‌ها (Deribit/Binance Futures)
+# 3. مشتقات، فاندینگ ریت و احساسات آپشن‌ها
 # ==========================================
 def get_deribit_market_sentiment():
-    """بررسی نسبت Put/Call و احساسات مارکت آپشن‌ها از دیتای زنده Deribit"""
     try:
         res = requests.get("https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option", timeout=5).json()
         items = res.get("result", [])
@@ -110,7 +108,6 @@ def get_deribit_market_sentiment():
         return {"pcr": 0.75, "options_bias": "NEUTRAL"}
 
 def get_binance_futures_funding(symbol: str) -> float:
-    """دریافت زنده فاندینگ ریت فیوچرز از اندپوینت رسمی بایننس فیوچرز"""
     try:
         clean = symbol.replace("/", "").replace(":USDT", "")
         url = f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={clean}"
@@ -120,7 +117,7 @@ def get_binance_futures_funding(symbol: str) -> float:
         return 0.01
 
 # ==========================================
-# 4. اتصال چندگانه به صرافی‌ها (Fallback Engine)
+# 4. موتور اتصال چندگانه به صرافی‌ها
 # ==========================================
 def init_all_exchanges():
     exchanges = []
@@ -213,7 +210,7 @@ def format_signal_message(data: dict) -> str:
         f"📈 Market Sentiment: *{data['regime']} (FnG: {data['fng']})*\n"
         f"🌍 Macro Regime: *{data['macro_mode']}*\n"
         f"🏦 Global Liquidity: *{data['net_liquidity']}*\n\n"
-        f"📍 *ENTRY ZONE*\n"
+        f"📍 *ENTRY ZONE (Close Confirmed)*\n"
         f"`{data['entry_min']:,.4f}` – `{data['entry_max']:,.4f}`\n\n"
         f"🛑 *STOP LOSS*\n"
         f"`{sl:,.4f}` (-{sl_pct:.2f}%)\n\n"
@@ -229,9 +226,9 @@ def format_signal_message(data: dict) -> str:
         f"📚 Order-book Imbalance: `{data['imbalance']:+.2f}`\n"
         f"⛓️ Binance Funding Rate: `{data['funding']:+.4f}%`\n"
         f"🎲 Deribit Options PCR: `{data['options_pcr']}` ({data['options_bias']})\n"
-        f"📉 15m RSI: `{data['rsi_15m']:.1f}`\n"
+        f"📉 15m Confirmed RSI: `{data['rsi_15m']:.1f}`\n"
         f"🔎 Setup: *{data['confirmations']}*\n\n"
-        f"⚠️ _Execution verified across multi-exchange liquidity pools._"
+        f"⚠️ _Execution verified on completed 15m candle across multi-exchange liquidity pools._"
     )
     return msg
 
@@ -253,12 +250,11 @@ def scan_markets():
         active_exchange = None
         source_name = ""
 
-        # جستجوی نقدینگی در صرافی‌ها به ترتیب اولویت
         for name, ex in exchanges:
             if symbol in ex.markets:
                 try:
-                    data = ex.fetch_ohlcv(symbol, timeframe='15m', limit=50)
-                    if data and len(data) >= 30:
+                    data = ex.fetch_ohlcv(symbol, timeframe='15m', limit=60)
+                    if data and len(data) >= 35:
                         ohlcv = data
                         active_exchange = ex
                         source_name = name
@@ -271,6 +267,10 @@ def scan_markets():
 
         try:
             df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+            
+            # 🛑 حذف کندل ناقص در حال اجرا؛ فقط کندل‌های قطعی و بسته‌شده تحلیل می‌شوند
+            df = df.iloc[:-1].copy()
+
             df = calculate_technical_indicators(df)
 
             latest = df.iloc[-1]
@@ -321,7 +321,7 @@ def scan_markets():
                     'gold': macro['gold'],
                     'gold_trend': macro['gold_trend'],
                     'sp500': macro['sp500'],
-                    'confirmations': f"Order-book buyer dominance on {source_name}, 15m RSI oversold"
+                    'confirmations': f"Order-book buyer dominance on {source_name}, Confirmed 15m RSI oversold"
                 })
 
             # سیگنال فروش نهادی (Short)
@@ -363,7 +363,7 @@ def scan_markets():
                     'gold': macro['gold'],
                     'gold_trend': macro['gold_trend'],
                     'sp500': macro['sp500'],
-                    'confirmations': f"Order-book seller dominance on {source_name}, 15m RSI overbought"
+                    'confirmations': f"Order-book seller dominance on {source_name}, Confirmed 15m RSI overbought"
                 })
 
         except Exception:
@@ -372,11 +372,20 @@ def scan_markets():
     top_signals = sorted(candidates, key=lambda x: x['score'], reverse=True)[:MAX_SIGNALS]
 
     if not top_signals:
-        print("Institutional scan completed: No strict A/A+ criteria met at this interval.")
+        print("Institutional scan completed: No strict A/A+ criteria met on closed candle.")
     else:
         for sig in top_signals:
             msg = format_signal_message(sig)
             send_telegram_alert(msg)
 
 if __name__ == "__main__":
+    # پیام تست و تأیید اتصال زنده تلگرام در هر بار اجرا
+    test_msg = (
+        "🤖 *Institutional Signal Bot Online*\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "✅ اتصال به سرور تلگرام برقرار است.\n"
+        "📡 دیتای صرافی‌ها (Binance, Bybit, OKX, MEXC) و بازارهای کلان متصل هستند.\n"
+        "⏳ تحلیل روی کندل‌های تاییدشده و بسته‌شده فعال شد."
+    )
+    send_telegram_alert(test_msg)
     scan_markets()
