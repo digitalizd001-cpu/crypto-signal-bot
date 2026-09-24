@@ -479,5 +479,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "01:36:33 | 2026/09/25"
+  },
+  "SOL/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 116.55,
+    "sl": 115.97678571428571,
+    "tp1": 117.69642857142856,
+    "tp2": 118.26964285714284,
+    "tp3": 118.84285714285713,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "01:54:35 | 2026/09/25"
+  },
+  "WLD/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.438,
+    "sl": 0.4336285714285714,
+    "tp1": 0.4467428571428571,
+    "tp2": 0.4511142857142857,
+    "tp3": 0.45548571428571427,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "01:54:53 | 2026/09/25"
   }
 }
