@@ -1,0 +1,57 @@
+{
+  "SUI/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.968,
+    "sl": 0.9770321428571428,
+    "tp1": 0.9499357142857142,
+    "tp2": 0.9409035714285714,
+    "tp3": 0.9318714285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false
+  },
+  "FLOW/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.03114,
+    "sl": 0.031434642857142855,
+    "tp1": 0.030550714285714285,
+    "tp2": 0.030256071428571427,
+    "tp3": 0.029961428571428573,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false
+  },
+  "MINA/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.15054,
+    "sl": 0.15323892857142857,
+    "tp1": 0.1451421428571429,
+    "tp2": 0.14244321428571433,
+    "tp3": 0.13974428571428574,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false
+  },
+  "INJ/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 8.147,
+    "sl": 8.288214285714286,
+    "tp1": 7.864571428571429,
+    "tp2": 7.723357142857143,
+    "tp3": 7.582142857142858,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false
+  },
+  "DYDX/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.13021,
+    "sl": 0.13176571428571426,
+    "tp1": 0.12709857142857142,
+    "tp2": 0.12554285714285715,
+    "tp3": 0.12398714285714288,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false
+  }
+}
