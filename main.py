@@ -52,16 +52,14 @@ def send_telegram(message: str):
         print("[TELEGRAM ERROR]: Token or Chat ID is not set in Secrets!")
         return
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    
-    # ارسال استاندارد با HTML (جلوگیری ۱۰۰٪ از خطای پارس مارک‌داون)
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "HTML"}
     try:
         res = requests.post(url, json=payload, timeout=10)
         data = res.json()
         if not data.get("ok"):
             print(f"[TELEGRAM API REJECTED]: {data.get('description')}")
-            # ارسال پشتیبان به صورت متن ساده در صورت بروز هرگونه مشکل با فرمت
-            requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": message.replace("<b>", "").replace("</b>", "").replace("<i>", "").replace("</i>", "").replace("<code>", "").replace("</code>", "")}, timeout=10)
+            plain = message.replace("<b>", "").replace("</b>", "").replace("<i>", "").replace("</i>", "").replace("<code>", "").replace("</code>", "")
+            requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": plain}, timeout=10)
         else:
             print("[TELEGRAM SUCCESS]: Message delivered successfully.")
     except Exception as e:
@@ -111,143 +109,6 @@ class PerformanceManager:
             f"🛑 برخورد به استاپ اولیه: <b>{stats['sl_hits']}</b>\n"
             f"📈 نرخ موفقیت ارزیابی هوش مصنوعی: <b>~{win_rate}%</b>"
         )
-
-# =====================================================================
-# ماژول دستورات تلگرام (ایمن‌شده)
-# =====================================================================
-class TelegramCommandHandler:
-    @staticmethod
-    def load_offset():
-        if os.path.exists(OFFSET_FILE):
-            try:
-                with open(OFFSET_FILE, "r") as f:
-                    return json.load(f).get("offset", 0)
-            except Exception: pass
-        return 0
-
-    @staticmethod
-    def save_offset(offset):
-        try:
-            with open(OFFSET_FILE, "w") as f:
-                json.dump({"offset": offset}, f)
-        except Exception: pass
-
-    @classmethod
-    def process_pending_commands(cls):
-        if not TELEGRAM_BOT_TOKEN:
-            return
-        offset = cls.load_offset()
-        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates?offset={offset + 1}&timeout=2"
-        try:
-            res = requests.get(url, timeout=4).json()
-            if not res.get("ok"):
-                return
-            
-            for update in res.get("result", []):
-                update_id = update["update_id"]
-                cls.save_offset(update_id)
-                msg = update.get("message", {})
-                text = msg.get("text", "").strip()
-
-                if not text:
-                    continue
-
-                if text == "/status":
-                    status_text = (
-                        "🟢 <b>SYSTEM HEALTH DIAGNOSTICS</b>\n"
-                        "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🤖 Gemini API: <b>{'Online' if GEMINI_API_KEY else 'Missing'}</b>\n"
-                        f"⚡ Groq Fallback: <b>{'Online' if GROQ_API_KEY else 'Missing'}</b>\n"
-                        f"🐋 Whale Telemetry: <b>Active</b>\n"
-                        f"🔒 Candle Engine: <b>Enforced (15m close)</b>"
-                    )
-                    send_telegram(status_text)
-
-                elif text == "/report":
-                    send_telegram(PerformanceManager.get_summary_text())
-
-                elif text == "/trades":
-                    trades = TradeLifecycleAgent.load_trades()
-                    if not trades:
-                        send_telegram("📭 در حال حاضر هیچ معامله بازی در سیستم وجود ندارد.")
-                    else:
-                        resp = "📋 <b>ACTIVE MANAGED TRADES</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        for s, t in trades.items():
-                            resp += f"• <b>{s}</b> ({t['action']}) | ورود: <code>{t['entry']}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
-                        send_telegram(resp)
-
-                elif text.startswith("/add "):
-                    new_sym = text.split(" ")[1].upper()
-                    if not new_sym.endswith("/USDT"):
-                        new_sym += "/USDT"
-                    cls._append_custom_symbol(new_sym)
-                    send_telegram(f"✅ جفت‌ارز <b>{new_sym}</b> به واچ‌لیست اضافه شد.")
-        except Exception:
-            pass
-
-    @staticmethod
-    def _append_custom_symbol(symbol: str):
-        current = []
-        if os.path.exists(CUSTOM_WATCHLIST_FILE):
-            try:
-                with open(CUSTOM_WATCHLIST_FILE, "r") as f:
-                    current = json.load(f)
-            except Exception: pass
-        if symbol not in current:
-            current.append(symbol)
-            try:
-                with open(CUSTOM_WATCHLIST_FILE, "w") as f:
-                    json.dump(current, f, indent=2)
-            except Exception: pass
-
-    @staticmethod
-    def get_custom_symbols():
-        if os.path.exists(CUSTOM_WATCHLIST_FILE):
-            try:
-                with open(CUSTOM_WATCHLIST_FILE, "r") as f:
-                    return json.load(f)
-            except Exception: pass
-        return []
-
-# =====================================================================
-# ماژول خود-ترمیم و گسترش واچ‌لیست
-# =====================================================================
-class SystemMaintenanceAgent:
-    @staticmethod
-    def audit_system_and_notify():
-        missing_resources = []
-        if not GEMINI_API_KEY:
-            missing_resources.append("🔑 کلید Google Gemini تنظیم نشده است.")
-        if not GROQ_API_KEY:
-            missing_resources.append("🔑 کلید Groq Llama تنظیم نشده است.")
-
-        if missing_resources:
-            warning_msg = "🚨 <b>RESOURCE ALERT</b>\n" + "\n".join(f"• {i}" for i in missing_resources)
-            send_telegram(warning_msg)
-
-    @staticmethod
-    def build_full_watchlist(binance_exchange) -> list:
-        final_list = list(BASE_WATCHLIST)
-        for custom_sym in TelegramCommandHandler.get_custom_symbols():
-            if custom_sym not in final_list:
-                final_list.append(custom_sym)
-
-        if binance_exchange:
-            try:
-                tickers = binance_exchange.fetch_tickers()
-                high_vol = []
-                for sym, d in tickers.items():
-                    if sym.endswith("/USDT") and not any(x in sym for x in ["UP/", "DOWN/", "BEAR/", "BULL/"]):
-                        q_vol = d.get('quoteVolume', 0) or 0
-                        if q_vol > 25_000_000:
-                            high_vol.append((sym, q_vol))
-                high_vol.sort(key=lambda x: x[1], reverse=True)
-                for pair, _ in high_vol[:20]:
-                    if pair not in final_list:
-                        final_list.append(pair)
-            except Exception: pass
-
-        return final_list
 
 # =====================================================================
 # ماژول سپر اقتصادی
@@ -310,8 +171,8 @@ class TechnicalAgent:
 
     def fetch_candle_data(self, symbol: str):
         search_symbols = [symbol]
-        if symbol == "XAU/USDT":
-            search_symbols = ["XAU/USDT", "PAXG/USDT", "XAUUSDT"]
+        if symbol in ["XAU/USDT", "PAXG/USDT"]:
+            search_symbols = ["PAXG/USDT", "XAU/USDT", "XAUUSDT"]
 
         for s in search_symbols:
             for name, ex in self.exchanges:
@@ -490,6 +351,193 @@ class MacroAIOfficerAgent:
         thesis = analysis.replace("VERDICT: CONFIRMED", "").replace("VERDICT: REJECTED", "").strip()
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
+    def on_demand_analysis(self, payload: dict) -> dict:
+        """تحلیل اختصاصی و آزاد هوش مصنوعی برای هر ارز درخواستی"""
+        prompt = (
+            f"Provide an on-demand trade analysis:\nSymbol: {payload['symbol']}\n"
+            f"Price: {payload['price']} | RSI(15m): {payload['rsi']:.1f} | ATR: {payload['atr']}\n"
+            f"Order-book Imbalance: {payload['imbalance']} | Whale L/S Ratio: {payload['whale']['top_ratio']}\n"
+            f"Funding: {payload['whale']['funding']}% | CVD State: {payload['absorption']}\n\n"
+            f"Output format:\n"
+            f"DIRECTION: [BUY / SELL / WAIT]\n"
+            f"CONFIDENCE: [0-100%]\n"
+            f"THESIS: [2 sentences explain why]"
+        )
+        analysis = ""
+        engine = "Gemini Flash"
+        if GEMINI_API_KEY:
+            try:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+                res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=8).json()
+                analysis = res['candidates'][0]['content']['parts'][0]['text'].strip()
+            except Exception: pass
+
+        if not analysis and GROQ_API_KEY:
+            engine = "Groq Llama-3"
+            try:
+                url = "https://api.groq.com/openai/v1/chat/completions"
+                headers = {"Authorization": f"Bearer {GROQ_API_KEY}"}
+                res = requests.post(url, headers=headers, json={"model": "llama-3.1-8b-instant", "messages": [{"role": "user", "content": prompt}], "max_tokens": 140}, timeout=8).json()
+                analysis = res['choices'][0]['message']['content'].strip()
+            except Exception: pass
+
+        if not analysis:
+            analysis = "DIRECTION: WAIT\nCONFIDENCE: 50%\nTHESIS: Market consolidations observed. Insufficient confluence."
+
+        return {"engine": engine, "raw": analysis}
+
+# =====================================================================
+# ماژول دستورات تلگرام + اسکن درخواستی
+# =====================================================================
+class TelegramCommandHandler:
+    @staticmethod
+    def load_offset():
+        if os.path.exists(OFFSET_FILE):
+            try:
+                with open(OFFSET_FILE, "r") as f:
+                    return json.load(f).get("offset", 0)
+            except Exception: pass
+        return 0
+
+    @staticmethod
+    def save_offset(offset):
+        try:
+            with open(OFFSET_FILE, "w") as f:
+                json.dump({"offset": offset}, f)
+        except Exception: pass
+
+    @classmethod
+    def process_pending_commands(cls, tech_agent: TechnicalAgent, macro_agent: MacroAIOfficerAgent):
+        if not TELEGRAM_BOT_TOKEN:
+            return
+        offset = cls.load_offset()
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates?offset={offset + 1}&timeout=2"
+        try:
+            res = requests.get(url, timeout=4).json()
+            if not res.get("ok"):
+                return
+            
+            for update in res.get("result", []):
+                update_id = update["update_id"]
+                cls.save_offset(update_id)
+                msg = update.get("message", {})
+                text = msg.get("text", "").strip()
+
+                if not text:
+                    continue
+
+                if text == "/status":
+                    status_text = (
+                        "🟢 <b>SYSTEM HEALTH DIAGNOSTICS</b>\n"
+                        "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        f"🤖 Gemini API: <b>{'Online' if GEMINI_API_KEY else 'Missing'}</b>\n"
+                        f"⚡ Groq Fallback: <b>{'Online' if GROQ_API_KEY else 'Missing'}</b>\n"
+                        f"🐋 Whale Telemetry: <b>Active</b>\n"
+                        f"🔒 Candle Engine: <b>Enforced (15m close)</b>"
+                    )
+                    send_telegram(status_text)
+
+                elif text == "/report":
+                    send_telegram(PerformanceManager.get_summary_text())
+
+                elif text == "/trades":
+                    trades = TradeLifecycleAgent.load_trades()
+                    if not trades:
+                        send_telegram("📭 در حال حاضر هیچ معامله بازی در سیستم وجود ندارد.")
+                    else:
+                        resp = "📋 <b>ACTIVE MANAGED TRADES</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        for s, t in trades.items():
+                            resp += f"• <b>{s}</b> ({t['action']}) | ورود: <code>{t['entry']}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
+                        send_telegram(resp)
+
+                elif text.startswith("/add "):
+                    new_sym = text.split(" ")[1].upper()
+                    if not new_sym.endswith("/USDT"):
+                        new_sym += "/USDT"
+                    cls._append_custom_symbol(new_sym)
+                    send_telegram(f"✅ جفت‌ارز <b>{new_sym}</b> به واچ‌لیست اضافه شد.")
+
+                # دستور جدید: اسکن و تحلیل فوری یک ارز خاص
+                elif text.startswith("/scan "):
+                    target_sym = text.split(" ")[1].upper()
+                    if not target_sym.endswith("/USDT"):
+                        target_sym += "/USDT"
+                    cls._perform_on_demand_scan(target_sym, tech_agent, macro_agent)
+
+        except Exception as e:
+            print(f"Telegram command error: {e}")
+
+    @classmethod
+    def _perform_on_demand_scan(cls, symbol: str, tech: TechnicalAgent, macro: MacroAIOfficerAgent):
+        send_telegram(f"🔎 <i>در حال بررسی و تحلیل عمیق جفت‌ارز {symbol}...</i>")
+        ohlcv, active_ex, source_name = tech.fetch_candle_data(symbol)
+        if not ohlcv:
+            send_telegram(f"❌ نماد <b>{symbol}</b> در صرافی‌های متصل یافت نشد یا داده کافی ندارد.")
+            return
+
+        try:
+            price, rsi, atr, vol_ratio, absorption, btc_corr = tech.compute_indicators(ohlcv)
+            imbalance = tech.analyze_orderbook_imbalance(active_ex, symbol)
+            whale = WhaleAgent.inspect(symbol)
+
+            payload = {
+                'symbol': symbol, 'price': price, 'rsi': rsi, 'atr': atr,
+                'vol_ratio': vol_ratio, 'absorption': absorption, 'btc_corr': btc_corr,
+                'imbalance': imbalance, 'whale': whale
+            }
+
+            ai_res = macro.on_demand_analysis(payload)
+            raw_ai = ai_res['raw']
+
+            sl_long = price - (1.5 * atr)
+            tp1_long = price + (3.0 * atr)
+            sl_short = price + (1.5 * atr)
+            tp1_short = price - (3.0 * atr)
+
+            report = (
+                f"🎯 <b>ON-DEMAND ASSET SCAN: #{symbol.replace('/', '_')}</b>\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"💵 قیمت لحظه‌ای: <code>{price:,.4f}</code>\n"
+                f"📚 عدم تعادل بوک: <code>{imbalance:+.2f}</code>\n"
+                f"📉 15m RSI: <code>{rsi:.1f}</code> | حجم: <code>{vol_ratio:.1f}x</code>\n\n"
+                f"🐋 <b>دیتای نهنگ‌ها</b>\n"
+                f"• نسبت Long/Short برترین‌ها: <b>{whale['top_ratio']}</b> ({whale['whale_bias']})\n"
+                f"• سود باز (OI): <code>{whale['oi_val']:,.1f}</code>\n"
+                f"• فاندینگ ریت: <code>{whale['funding']:+.4f}%</code>\n\n"
+                f"🧠 <b>تحلیل هوش مصنوعی ({ai_res['engine']})</b>\n"
+                f"<i>{raw_ai}</i>\n\n"
+                f"📐 <b>سطوح محاسباتی بر مبنای ATR</b>\n"
+                f"🟢 در صورت لانگ ➔ SL: <code>{sl_long:,.4f}</code> | TP1: <code>{tp1_long:,.4f}</code>\n"
+                f"🔴 در صورت شورت ➔ SL: <code>{sl_short:,.4f}</code> | TP1: <code>{tp1_short:,.4f}</code>"
+            )
+            send_telegram(report)
+        except Exception as e:
+            send_telegram(f"❌ خطا در پردازش تحلیل نماد: {e}")
+
+    @staticmethod
+    def _append_custom_symbol(symbol: str):
+        current = []
+        if os.path.exists(CUSTOM_WATCHLIST_FILE):
+            try:
+                with open(CUSTOM_WATCHLIST_FILE, "r") as f:
+                    current = json.load(f)
+            except Exception: pass
+        if symbol not in current:
+            current.append(symbol)
+            try:
+                with open(CUSTOM_WATCHLIST_FILE, "w") as f:
+                    json.dump(current, f, indent=2)
+            except Exception: pass
+
+    @staticmethod
+    def get_custom_symbols():
+        if os.path.exists(CUSTOM_WATCHLIST_FILE):
+            try:
+                with open(CUSTOM_WATCHLIST_FILE, "r") as f:
+                    return json.load(f)
+            except Exception: pass
+        return []
+
 # =====================================================================
 # ماژول چرخه عمر معامله
 # =====================================================================
@@ -590,7 +638,7 @@ class TradeLifecycleAgent:
         cls.save_trades(updated_trades)
 
 # =====================================================================
-# ماژول ارسال کارت هشدار
+# ماژول ارسال کارت سیگنال
 # =====================================================================
 class DispatchAgent:
     @staticmethod
@@ -635,25 +683,29 @@ class DispatchAgent:
         send_telegram(msg)
 
 # =====================================================================
-# هسته هماهنگ‌کننده کل اکوسیستم
+# هسته هماهنگ‌کننده
 # =====================================================================
 def run_system():
-    TelegramCommandHandler.process_pending_commands()
-    SystemMaintenanceAgent.audit_system_and_notify()
+    tech_agent = TechnicalAgent()
+    tech_agent.load_btc_benchmark()
+    macro_agent = MacroAIOfficerAgent()
+
+    # اول پردازش دستورات تلگرامی کاربر (شامل /scan, /trades, /status)
+    TelegramCommandHandler.process_pending_commands(tech_agent, macro_agent)
 
     is_safe, shield_reason = EconomicShieldAgent.is_market_safe()
     if not is_safe:
-        print(f"Economic Shield Triggered: {shield_reason}. Skipping scan.")
+        print(f"Economic Shield Triggered: {shield_reason}. Skipping regular scan.")
         return
-
-    tech_agent = TechnicalAgent()
-    tech_agent.load_btc_benchmark()
 
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
 
-    active_watchlist = SystemMaintenanceAgent.build_full_watchlist(tech_agent.primary_binance)
+    # ساخت واچ‌لیست کامل
+    active_watchlist = list(BASE_WATCHLIST)
+    for custom_sym in TelegramCommandHandler.get_custom_symbols():
+        if custom_sym not in active_watchlist:
+            active_watchlist.append(custom_sym)
 
-    macro_agent = MacroAIOfficerAgent()
     dispatched = 0
 
     for symbol in active_watchlist:
@@ -715,12 +767,4 @@ def run_system():
             continue
 
 if __name__ == "__main__":
-    # ارسال پیام پینگ تاییدیه اولیه با ساختار HTML ضدخطا
-    test_ping = (
-        "🚀 <b>SYSTEM ONLINE & VERIFIED</b>\n"
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "✅ اتصال تلگرام و اسکنر چندایجنت کاملاً تایید شد.\n"
-        "📊 رصد ۹۱ دارایی + طلا + رمزارزهای جدید بازار فعال است."
-    )
-    send_telegram(test_ping)
     run_system()
