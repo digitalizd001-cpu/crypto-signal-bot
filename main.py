@@ -27,7 +27,54 @@ def send_telegram_alert(message: str):
         print(f"Error sending telegram: {e}")
 
 # ==========================================
-# 1. داده‌های اقتصاد کلان، طلا، سهام و اوراق
+# 1. رصد تخصصی نهنگ‌ها (Smart Money & Whales)
+# ==========================================
+def get_whale_metrics(symbol: str):
+    """استخراج سود باز (OI)، پوزیشن حساب‌های بزرگ (Top Traders) و فاندینگ ریت بایننس"""
+    clean = symbol.replace("/", "").replace(":USDT", "")
+    metrics = {
+        "funding": 0.01,
+        "oi_val": 0.0,
+        "top_ratio": 1.0,
+        "whale_bias": "NEUTRAL"
+    }
+    
+    # 1. فاندینگ ریت زنده فیوچرز بایننس
+    try:
+        url_fund = f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={clean}"
+        rf = requests.get(url_fund, timeout=4).json()
+        metrics["funding"] = round(float(rf.get("lastFundingRate", 0)) * 100, 4)
+    except Exception:
+        pass
+
+    # 2. سود باز زنده (Open Interest)
+    try:
+        url_oi = f"https://fapi.binance.com/fapi/v1/openInterest?symbol={clean}"
+        roi = requests.get(url_oi, timeout=4).json()
+        metrics["oi_val"] = round(float(roi.get("openInterest", 0)), 1)
+    except Exception:
+        pass
+
+    # 3. نسبت لانگ به شورت تریدرهای نهادی و برتر بایننس (Top Trader Long/Short Ratio)
+    try:
+        url_ratio = f"https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol={clean}&period=15m&limit=1"
+        rr = requests.get(url_ratio, timeout=4).json()
+        if rr and len(rr) > 0:
+            ratio = float(rr[0].get("longShortRatio", 1.0))
+            metrics["top_ratio"] = round(ratio, 2)
+            if ratio > 1.3:
+                metrics["whale_bias"] = "WHALES NET LONG 🐋🟢"
+            elif ratio < 0.75:
+                metrics["whale_bias"] = "WHALES NET SHORT 🐋🔴"
+            else:
+                metrics["whale_bias"] = "BALANCED 🐋⚖️"
+    except Exception:
+        pass
+
+    return metrics
+
+# ==========================================
+# 2. داده‌های اقتصاد کلان، طلا و وال‌استریت
 # ==========================================
 def get_institutional_macro_metrics():
     macro = {
@@ -43,33 +90,27 @@ def get_institutional_macro_metrics():
         symbols = ["DX-Y.NYB", "^VIX", "^TNX", "GC=F", "^GSPC"]
         data = yf.download(symbols, period="3d", interval="1d", progress=False)['Close']
         
-        # DXY
         if "DX-Y.NYB" in data:
             dxy_c = data["DX-Y.NYB"].dropna()
             macro['dxy_val'] = round(float(dxy_c.iloc[-1]), 2)
             macro['dxy'] = "FALLING 🟢" if dxy_c.iloc[-1] < dxy_c.iloc[-2] else "RISING 🔴"
         
-        # VIX
         if "^VIX" in data:
             macro['vix'] = round(float(data["^VIX"].dropna().iloc[-1]), 1)
 
-        # US 10-Year Yield
         if "^TNX" in data:
             macro['us10y'] = round(float(data["^TNX"].dropna().iloc[-1]), 2)
 
-        # Gold
         if "GC=F" in data:
             gold_c = data["GC=F"].dropna()
             macro['gold'] = round(float(gold_c.iloc[-1]), 1)
             macro['gold_trend'] = "BULLISH 🟢" if gold_c.iloc[-1] > gold_c.iloc[-2] else "BEARISH 🔴"
 
-        # S&P 500
         if "^GSPC" in data:
             sp_c = data["^GSPC"].dropna()
             macro['sp500'] = round(float(sp_c.iloc[-1]), 1)
             macro['sp500_trend'] = "UP 🟢" if sp_c.iloc[-1] > sp_c.iloc[-2] else "DOWN 🔴"
 
-        # ارزیابی ریسک کلان بین‌بازاری
         if "FALLING" in macro['dxy'] and macro['vix'] < 20 and "UP" in macro['sp500_trend']:
             macro['risk_mode'] = "STRONG RISK-ON (AGGRESSIVE BULLISH)"
             macro['net_liquidity'] = "INFLOW / SURPLUS 🟢"
@@ -82,9 +123,6 @@ def get_institutional_macro_metrics():
         print(f"Macro fetch warning: {e}")
     return macro
 
-# ==========================================
-# 2. شاخص احساسات و سنتیمنت بازار کریپتو
-# ==========================================
 def get_fear_and_greed() -> int:
     try:
         res = requests.get("https://api.alternative.me/fng/?limit=1", timeout=5).json()
@@ -92,9 +130,6 @@ def get_fear_and_greed() -> int:
     except Exception:
         return 50
 
-# ==========================================
-# 3. مشتقات، فاندینگ ریت و احساسات آپشن‌ها
-# ==========================================
 def get_deribit_market_sentiment():
     try:
         res = requests.get("https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option", timeout=5).json()
@@ -107,33 +142,24 @@ def get_deribit_market_sentiment():
     except Exception:
         return {"pcr": 0.75, "options_bias": "NEUTRAL"}
 
-def get_binance_futures_funding(symbol: str) -> float:
-    try:
-        clean = symbol.replace("/", "").replace(":USDT", "")
-        url = f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={clean}"
-        r = requests.get(url, timeout=5).json()
-        return round(float(r.get("lastFundingRate", 0)) * 100, 4)
-    except Exception:
-        return 0.01
-
 # ==========================================
-# 4. موتور اتصال چندگانه به صرافی‌ها
+# 3. اتصال چندگانه به صرافی‌ها
 # ==========================================
 def init_all_exchanges():
     exchanges = []
     
-    # Binance (دامنه دیتای سراسری بدون قفل منطقه‌ای)
+    # Binance Global
     try:
         b = ccxt.binance({
             'enableRateLimit': True,
             'urls': {'api': {'public': 'https://data-api.binance.vision/api/v3'}}
         })
         b.load_markets()
-        exchanges.append(("Binance (Global Data)", b))
+        exchanges.append(("Binance (Global)", b))
     except Exception:
         pass
 
-    # Bybit (دامنه پایدار Bytick)
+    # Bybit
     try:
         by = ccxt.bybit({
             'enableRateLimit': True,
@@ -202,30 +228,32 @@ def format_signal_message(data: dict) -> str:
     tp3_pct = abs((tp3 - price) / price) * 100
 
     msg = (
-        f"🚨 *INSTITUTIONAL GRADE SIGNAL*\n"
+        f"🚨 *SMART MONEY & INSTITUTIONAL SIGNAL*\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"🌐 #{symbol_tag} | Primary Source: *{data['source']}*\n"
+        f"🌐 #{symbol_tag} | Primary Pool: *{data['source']}*\n"
         f"{action_emoji} *{data['action']}*\n\n"
         f"🏆 Grade: *{data['grade']}* | Institutional Score: *{data['score']}/100*\n"
         f"📈 Market Sentiment: *{data['regime']} (FnG: {data['fng']})*\n"
         f"🌍 Macro Regime: *{data['macro_mode']}*\n"
         f"🏦 Global Liquidity: *{data['net_liquidity']}*\n\n"
+        f"🐋 *WHALE TELEMETRY (Smart Money Flow)*\n"
+        f"📊 Top Traders L/S Ratio: *{data['top_ratio']}* ({data['whale_bias']})\n"
+        f"📦 Open Interest (Futures): `{data['oi_val']:,.1f}`\n"
+        f"⛓️ Funding Rate: `{data['funding']:+.4f}%`\n"
+        f"🎲 Deribit Options PCR: `{data['options_pcr']}` ({data['options_bias']})\n\n"
         f"📍 *ENTRY ZONE (Close Confirmed)*\n"
         f"`{data['entry_min']:,.4f}` – `{data['entry_max']:,.4f}`\n\n"
         f"🛑 *STOP LOSS*\n"
         f"`{sl:,.4f}` (-{sl_pct:.2f}%)\n\n"
-        f"⚠️ RISK: *{data['risk_level']}* | Recommended Leverage: *{leverage}x*\n\n"
+        f"⚠️ RISK: *{data['risk_level']}* | Suggested Leverage: *{leverage}x*\n\n"
         f"🎯 *TAKE PROFIT TARGETS*\n"
         f"🥇 TP1 ➔ `{tp1:,.4f}` (+{tp1_pct:.2f}%) [ROI: +{tp1_pct * leverage:.1f}%]\n"
         f"🥈 TP2 ➔ `{tp2:,.4f}` (+{tp2_pct:.2f}%) [ROI: +{tp2_pct * leverage:.1f}%]\n"
         f"🥉 TP3 ➔ `{tp3:,.4f}` (+{tp3_pct:.2f}%) [ROI: +{tp3_pct * leverage:.1f}%]\n\n"
-        f"📊 *MACRO & CROSS-ASSET TELEMETRY*\n"
+        f"📊 *MACRO & DEPTH CONFIRMATIONS*\n"
         f"💵 DXY: `{data['dxy']} ({data['dxy_val']})` | VIX: `{data['vix']}` | US10Y: `{data['us10y']}%`\n"
-        f"🥇 Gold (XAU): `${data['gold']} ({data['gold_trend']})` | S&P500: `{data['sp500']}`\n\n"
-        f"⚡ *DERIVATIVES & DEPTH CONFIRMATIONS*\n"
+        f"🥇 Gold: `${data['gold']}` | S&P500: `{data['sp500']}`\n"
         f"📚 Order-book Imbalance: `{data['imbalance']:+.2f}`\n"
-        f"⛓️ Binance Funding Rate: `{data['funding']:+.4f}%`\n"
-        f"🎲 Deribit Options PCR: `{data['options_pcr']}` ({data['options_bias']})\n"
         f"📉 15m Confirmed RSI: `{data['rsi_15m']:.1f}`\n"
         f"🔎 Setup: *{data['confirmations']}*\n\n"
         f"⚠️ _Execution verified on completed 15m candle across multi-exchange liquidity pools._"
@@ -267,8 +295,6 @@ def scan_markets():
 
         try:
             df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-            
-            # 🛑 حذف کندل ناقص در حال اجرا؛ فقط کندل‌های قطعی و بسته‌شده تحلیل می‌شوند
             df = df.iloc[:-1].copy()
 
             df = calculate_technical_indicators(df)
@@ -280,11 +306,11 @@ def scan_markets():
             rsi = latest['rsi']
 
             imbalance = get_orderbook_imbalance(active_exchange, symbol)
-            funding = get_binance_futures_funding(symbol)
+            whale = get_whale_metrics(symbol)
 
-            # سیگنال خرید نهادی (Long)
-            if rsi < 40 and imbalance > 0.08 and vol_ratio >= 1.05:
-                score = int(min(99, (42 - rsi) * 2 + (imbalance * 25) + (vol_ratio * 8) + (10 if "BULLISH" in macro['risk_mode'] else 0)))
+            # سیگنال لانگ نهادی همراه با تایید پوزیشن نهنگ‌ها
+            if rsi < 42 and imbalance > 0.05 and vol_ratio >= 1.05 and whale['top_ratio'] >= 1.0:
+                score = int(min(99, (45 - rsi) * 2 + (imbalance * 20) + (whale['top_ratio'] * 15) + (10 if "BULLISH" in macro['risk_mode'] else 0)))
                 sl = price - (1.5 * atr)
                 tp1 = price + (3.0 * atr)
                 tp2 = price + (4.5 * atr)
@@ -311,7 +337,10 @@ def scan_markets():
                     'leverage': 5,
                     'rsi_15m': rsi,
                     'imbalance': imbalance,
-                    'funding': funding,
+                    'funding': whale['funding'],
+                    'oi_val': whale['oi_val'],
+                    'top_ratio': whale['top_ratio'],
+                    'whale_bias': whale['whale_bias'],
                     'options_pcr': options_data['pcr'],
                     'options_bias': options_data['options_bias'],
                     'dxy': macro['dxy'],
@@ -319,14 +348,13 @@ def scan_markets():
                     'vix': macro['vix'],
                     'us10y': macro['us10y'],
                     'gold': macro['gold'],
-                    'gold_trend': macro['gold_trend'],
                     'sp500': macro['sp500'],
-                    'confirmations': f"Order-book buyer dominance on {source_name}, Confirmed 15m RSI oversold"
+                    'confirmations': f"Whale long dominance ({whale['top_ratio']}), Confirmed 15m oversold"
                 })
 
-            # سیگنال فروش نهادی (Short)
-            elif rsi > 62 and imbalance < -0.08 and vol_ratio >= 1.05:
-                score = int(min(99, (rsi - 58) * 2 + (abs(imbalance) * 25) + (vol_ratio * 8) + (10 if "DEFENSIVE" in macro['risk_mode'] else 0)))
+            # سیگنال شورت نهادی همراه با تایید شورت نهنگ‌ها
+            elif rsi > 60 and imbalance < -0.05 and vol_ratio >= 1.05 and whale['top_ratio'] <= 1.05:
+                score = int(min(99, (rsi - 55) * 2 + (abs(imbalance) * 20) + ((1.5 - min(whale['top_ratio'], 1.5)) * 20) + (10 if "DEFENSIVE" in macro['risk_mode'] else 0)))
                 sl = price + (1.5 * atr)
                 tp1 = price - (3.0 * atr)
                 tp2 = price - (4.5 * atr)
@@ -353,7 +381,10 @@ def scan_markets():
                     'leverage': 5,
                     'rsi_15m': rsi,
                     'imbalance': imbalance,
-                    'funding': funding,
+                    'funding': whale['funding'],
+                    'oi_val': whale['oi_val'],
+                    'top_ratio': whale['top_ratio'],
+                    'whale_bias': whale['whale_bias'],
                     'options_pcr': options_data['pcr'],
                     'options_bias': options_data['options_bias'],
                     'dxy': macro['dxy'],
@@ -361,9 +392,8 @@ def scan_markets():
                     'vix': macro['vix'],
                     'us10y': macro['us10y'],
                     'gold': macro['gold'],
-                    'gold_trend': macro['gold_trend'],
                     'sp500': macro['sp500'],
-                    'confirmations': f"Order-book seller dominance on {source_name}, Confirmed 15m RSI overbought"
+                    'confirmations': f"Whale short pressure ({whale['top_ratio']}), Confirmed 15m overbought"
                 })
 
         except Exception:
@@ -372,20 +402,21 @@ def scan_markets():
     top_signals = sorted(candidates, key=lambda x: x['score'], reverse=True)[:MAX_SIGNALS]
 
     if not top_signals:
-        print("Institutional scan completed: No strict A/A+ criteria met on closed candle.")
+        print("Smart Money scan completed: No confluence setup matching whales entry found.")
     else:
         for sig in top_signals:
             msg = format_signal_message(sig)
             send_telegram_alert(msg)
 
 if __name__ == "__main__":
-    # پیام تست و تأیید اتصال زنده تلگرام در هر بار اجرا
-    test_msg = (
-        "🤖 *Institutional Signal Bot Online*\n"
+    # پیام اعلام وضعیت با تایید افزوده شدن سنسور نهنگ‌ها
+    status_msg = (
+        "🐋 *Institutional & Whale Scanner Online*\n"
         "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "✅ اتصال به سرور تلگرام برقرار است.\n"
-        "📡 دیتای صرافی‌ها (Binance, Bybit, OKX, MEXC) و بازارهای کلان متصل هستند.\n"
-        "⏳ تحلیل روی کندل‌های تاییدشده و بسته‌شده فعال شد."
+        "📡 سنسورهای نهنگ‌ها (OI, Top Trader L/S Ratio, Binance Funding) متصل شدند.\n"
+        "🌍 دیتای اقتصاد کلان (DXY, VIX, Gold, US10Y, S&P500) فعال است.\n"
+        "🎲 احساسات آپشن‌ها (Deribit PCR) در حال رصد می‌باشد.\n"
+        "✅ تحلیل روی کندل‌های قطعی بسته‌شده فعال شد."
     )
-    send_telegram_alert(test_msg)
+    send_telegram_alert(status_msg)
     scan_markets()
