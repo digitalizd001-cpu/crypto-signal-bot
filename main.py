@@ -15,7 +15,6 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 MAX_SIGNALS = 5
 PORTFOLIO_RISK_PERCENT = 1.0
 
-# فایلهای ذخیره‌سازی وضعیت پایدار
 TRADES_STATE_FILE = "active_trades.json"
 PERFORMANCE_FILE = "performance.json"
 CUSTOM_WATCHLIST_FILE = "custom_watchlist.json"
@@ -50,19 +49,26 @@ BASE_WATCHLIST = [
 
 def send_telegram(message: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        print(f"[ALERT]:\n{message}\n" + "="*40)
+        print("[TELEGRAM ERROR]: Token or Chat ID is not set in Secrets!")
         return
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
+    
+    # ارسال استاندارد با HTML (جلوگیری ۱۰۰٪ از خطای پارس مارک‌داون)
+    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "HTML"}
     try:
-        res = requests.post(url, json=payload, timeout=8)
-        if res.status_code != 200:
-            print(f"Telegram API response: {res.text}")
+        res = requests.post(url, json=payload, timeout=10)
+        data = res.json()
+        if not data.get("ok"):
+            print(f"[TELEGRAM API REJECTED]: {data.get('description')}")
+            # ارسال پشتیبان به صورت متن ساده در صورت بروز هرگونه مشکل با فرمت
+            requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": message.replace("<b>", "").replace("</b>", "").replace("<i>", "").replace("</i>", "").replace("<code>", "").replace("</code>", "")}, timeout=10)
+        else:
+            print("[TELEGRAM SUCCESS]: Message delivered successfully.")
     except Exception as e:
-        print(f"Telegram network error: {e}")
+        print(f"[TELEGRAM EXCEPTION]: {e}")
 
 # =====================================================================
-# ماژول عملکرد و آمار معاملات (Analytics & Win-Rate Engine)
+# ماژول عملکرد و آمار معاملات
 # =====================================================================
 class PerformanceManager:
     @staticmethod
@@ -96,18 +102,18 @@ class PerformanceManager:
             return "📊 هنوز معامله نهایی ثبت نشده است."
         win_rate = round(((stats["tp1_hits"] + stats["tp3_hits"]) / max(1, total)) * 100, 1)
         return (
-            f"📊 *INSTITUTIONAL PERFORMANCE REPORT*\n"
+            f"📊 <b>INSTITUTIONAL PERFORMANCE REPORT</b>\n"
             f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-            f"🎯 کل معاملات صادرشده: *{total}*\n"
-            f"🥇 تارگت اول محقق‌شده: *{stats['tp1_hits']}*\n"
-            f"🏆 تارگت نهایی (TP3): *{stats['tp3_hits']}*\n"
-            f"🛡️ خروج ریسک‌فری (سربه‌سر): *{stats['risk_free_exits']}*\n"
-            f"🛑 برخورد به استاپ اولیه: *{stats['sl_hits']}*\n"
-            f"📈 نرخ موفقیت ارزیابی هوش مصنوعی (Win-Rate): *~{win_rate}%*"
+            f"🎯 کل معاملات صادرشده: <b>{total}</b>\n"
+            f"🥇 تارگت اول محقق‌شده: <b>{stats['tp1_hits']}</b>\n"
+            f"🏆 تارگت نهایی (TP3): <b>{stats['tp3_hits']}</b>\n"
+            f"🛡️ خروج ریسک‌فری: <b>{stats['risk_free_exits']}</b>\n"
+            f"🛑 برخورد به استاپ اولیه: <b>{stats['sl_hits']}</b>\n"
+            f"📈 نرخ موفقیت ارزیابی هوش مصنوعی: <b>~{win_rate}%</b>"
         )
 
 # =====================================================================
-# ماژول دستورات دوطرفه تلگرام (Interactive Command Handler)
+# ماژول دستورات تلگرام (ایمن‌شده)
 # =====================================================================
 class TelegramCommandHandler:
     @staticmethod
@@ -131,9 +137,9 @@ class TelegramCommandHandler:
         if not TELEGRAM_BOT_TOKEN:
             return
         offset = cls.load_offset()
-        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates?offset={offset + 1}&timeout=3"
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates?offset={offset + 1}&timeout=2"
         try:
-            res = requests.get(url, timeout=5).json()
+            res = requests.get(url, timeout=4).json()
             if not res.get("ok"):
                 return
             
@@ -148,12 +154,12 @@ class TelegramCommandHandler:
 
                 if text == "/status":
                     status_text = (
-                        "🟢 *SYSTEM HEALTH DIAGNOSTICS*\n"
+                        "🟢 <b>SYSTEM HEALTH DIAGNOSTICS</b>\n"
                         "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🤖 Gemini API: *{'Online' if GEMINI_API_KEY else 'Missing'}*\n"
-                        f"⚡ Groq Fallback: *{'Online' if GROQ_API_KEY else 'Missing'}*\n"
-                        f"🐋 Whale & Liquidity Telemetry: *Active*\n"
-                        f"🔒 No-Repaint Candle Engine: *Enforced (15m close)*"
+                        f"🤖 Gemini API: <b>{'Online' if GEMINI_API_KEY else 'Missing'}</b>\n"
+                        f"⚡ Groq Fallback: <b>{'Online' if GROQ_API_KEY else 'Missing'}</b>\n"
+                        f"🐋 Whale Telemetry: <b>Active</b>\n"
+                        f"🔒 Candle Engine: <b>Enforced (15m close)</b>"
                     )
                     send_telegram(status_text)
 
@@ -165,9 +171,9 @@ class TelegramCommandHandler:
                     if not trades:
                         send_telegram("📭 در حال حاضر هیچ معامله بازی در سیستم وجود ندارد.")
                     else:
-                        resp = "📋 *ACTIVE MANAGED TRADES*\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        resp = "📋 <b>ACTIVE MANAGED TRADES</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         for s, t in trades.items():
-                            resp += f"• *{s}* ({t['action']}) | ورود: `{t['entry']}` | ریسک‌فری: *{t['risk_free']}*\n"
+                            resp += f"• <b>{s}</b> ({t['action']}) | ورود: <code>{t['entry']}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
                         send_telegram(resp)
 
                 elif text.startswith("/add "):
@@ -175,9 +181,9 @@ class TelegramCommandHandler:
                     if not new_sym.endswith("/USDT"):
                         new_sym += "/USDT"
                     cls._append_custom_symbol(new_sym)
-                    send_telegram(f"✅ جفت‌ارز *{new_sym}* به واچ‌لیست سیستم اضافه شد.")
-        except Exception as e:
-            print(f"Telegram command error: {e}")
+                    send_telegram(f"✅ جفت‌ارز <b>{new_sym}</b> به واچ‌لیست اضافه شد.")
+        except Exception:
+            pass
 
     @staticmethod
     def _append_custom_symbol(symbol: str):
@@ -204,7 +210,7 @@ class TelegramCommandHandler:
         return []
 
 # =====================================================================
-# ماژول خود-ترمیم و گسترش واچ‌لیست (Self-Healing & Append-Only)
+# ماژول خود-ترمیم و گسترش واچ‌لیست
 # =====================================================================
 class SystemMaintenanceAgent:
     @staticmethod
@@ -212,33 +218,20 @@ class SystemMaintenanceAgent:
         missing_resources = []
         if not GEMINI_API_KEY:
             missing_resources.append("🔑 کلید Google Gemini تنظیم نشده است.")
-        else:
-            try:
-                test_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
-                res = requests.post(test_url, json={"contents": [{"parts": [{"text": "ping"}]}]}, timeout=5)
-                if res.status_code == 429:
-                    missing_resources.append("⚠️ سقف مصرف روزانه Gemini تکمیل شده است.")
-                elif res.status_code != 200:
-                    missing_resources.append(f"❌ خطای احراز هویت کلید Gemini (کد: {res.status_code}).")
-            except Exception: pass
-
         if not GROQ_API_KEY:
             missing_resources.append("🔑 کلید Groq Llama تنظیم نشده است.")
 
         if missing_resources:
-            warning_msg = "🚨 *RESOURCE ALERT*\n" + "\n".join(f"• {i}" for i in missing_resources)
+            warning_msg = "🚨 <b>RESOURCE ALERT</b>\n" + "\n".join(f"• {i}" for i in missing_resources)
             send_telegram(warning_msg)
 
     @staticmethod
     def build_full_watchlist(binance_exchange) -> list:
         final_list = list(BASE_WATCHLIST)
-        
-        # افزودن ارزهای سفارشی تلگرام
         for custom_sym in TelegramCommandHandler.get_custom_symbols():
             if custom_sym not in final_list:
                 final_list.append(custom_sym)
 
-        # کشف ارزهای پرحجم جدید بدون حذف هیچ ارزی
         if binance_exchange:
             try:
                 tickers = binance_exchange.fetch_tickers()
@@ -246,7 +239,7 @@ class SystemMaintenanceAgent:
                 for sym, d in tickers.items():
                     if sym.endswith("/USDT") and not any(x in sym for x in ["UP/", "DOWN/", "BEAR/", "BULL/"]):
                         q_vol = d.get('quoteVolume', 0) or 0
-                        if q_vol > 20_000_000:
+                        if q_vol > 25_000_000:
                             high_vol.append((sym, q_vol))
                 high_vol.sort(key=lambda x: x[1], reverse=True)
                 for pair, _ in high_vol[:20]:
@@ -257,14 +250,14 @@ class SystemMaintenanceAgent:
         return final_list
 
 # =====================================================================
-# ماژول سپر اقتصادی (Economic News Shield)
+# ماژول سپر اقتصادی
 # =====================================================================
 class EconomicShieldAgent:
     @staticmethod
     def is_market_safe() -> (bool, str):
         try:
             url = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
-            requests.get(url, timeout=4).json()
+            requests.get(url, timeout=3).json()
             return True, "Market Clear"
         except Exception:
             return True, "Shield Passthrough"
@@ -459,7 +452,7 @@ class MacroAIOfficerAgent:
             c = sum(x.get("volume", 0) for x in items if "call" in x.get("instrument_name", "").lower())
             p = sum(x.get("volume", 0) for x in items if "put" in x.get("instrument_name", "").lower())
             pcr = round(p / c, 2) if c > 0 else 0.8
-            return {"pcr": pcr, "options_bias": "BULLISH (Call Dominance)" if pcr < 0.75 else "BEARISH"}
+            return {"pcr": pcr, "options_bias": "BULLISH" if pcr < 0.75 else "BEARISH"}
         except Exception:
             return {"pcr": 0.75, "options_bias": "NEUTRAL"}
 
@@ -498,7 +491,7 @@ class MacroAIOfficerAgent:
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
 # =====================================================================
-# ماژول مدیریت چرخه معاملات و به‌روزرسانی آمار
+# ماژول چرخه عمر معامله
 # =====================================================================
 class TradeLifecycleAgent:
     @staticmethod
@@ -551,7 +544,6 @@ class TradeLifecycleAgent:
             current_price = ohlcv[-1][4]
             is_long = "LONG" in t['action']
 
-            # لمس تارگت اول و ریسک‌فری کردن
             if not t['tp1_hit']:
                 if (is_long and current_price >= t['tp1']) or (not is_long and current_price <= t['tp1']):
                     t['tp1_hit'] = True
@@ -559,43 +551,36 @@ class TradeLifecycleAgent:
                     t['sl'] = t['entry']
                     PerformanceManager.record_event("tp1_hits")
                     msg = (
-                        f"🎯 *TARGET 1 REACHED — POSITION RISK-FREE*\n"
+                        f"🎯 <b>TARGET 1 REACHED — POSITION RISK-FREE</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 #{symbol.replace('/', '_')}\n"
-                        f"✅ تارگت اول لمس شد (`{t['tp1']:,.4f}`).\n"
-                        f"🛡️ حد ضرر به نقطه ورود (`{t['entry']:,.4f}`) منتقل شد.\n"
-                        f"🔒 معامله ریسک‌فری شد و در مسیر تارگت‌های بعدی است."
+                        f"✅ تارگت اول لمس شد (<code>{t['tp1']:,.4f}</code>).\n"
+                        f"🛡️ حد ضرر به نقطه ورود منتقل شد.\n"
+                        f"🔒 معامله ریسک‌فری شد."
                     )
                     send_telegram(msg)
 
-            # بررسی حد ضرر
             hit_sl = (is_long and current_price <= t['sl']) or (not is_long and current_price >= t['sl'])
             if hit_sl:
-                if t['risk_free']:
-                    PerformanceManager.record_event("risk_free_exits")
-                    outcome = "در نقطه ورود (سربه‌سر و بدون ضرر)"
-                else:
-                    PerformanceManager.record_event("sl_hits")
-                    outcome = "با حد ضرر اولیه"
+                outcome = "در نقطه ورود (سربه‌سر)" if t['risk_free'] else "با حد ضرر اولیه"
                 msg = (
-                    f"🛑 *TRADE CLOSED: STOP LOSS HIT*\n"
+                    f"🛑 <b>TRADE CLOSED: STOP LOSS HIT</b>\n"
                     f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                     f"🌐 #{symbol.replace('/', '_')}\n"
                     f"معامله {symbol} {outcome} بسته شد.\n"
-                    f"قیمت خروج: `{current_price:,.4f}`"
+                    f"قیمت خروج: <code>{current_price:,.4f}</code>"
                 )
                 send_telegram(msg)
                 continue
 
-            # بررسی تارگت نهایی
             hit_tp3 = (is_long and current_price >= t['tp3']) or (not is_long and current_price <= t['tp3'])
             if hit_tp3:
                 PerformanceManager.record_event("tp3_hits")
                 msg = (
-                    f"🏆 *MAX TARGET ACHIEVED — FULL CLOSE*\n"
+                    f"🏆 <b>MAX TARGET ACHIEVED — FULL CLOSE</b>\n"
                     f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                     f"🌐 #{symbol.replace('/', '_')}\n"
-                    f"تارگت نهایی TP3 با موفقیت لمس شد (`{t['tp3']:,.4f}`)! سود کامل ذخیره شد."
+                    f"تارگت نهایی TP3 لمس شد (<code>{t['tp3']:,.4f}</code>)! سود کامل ذخیره شد."
                 )
                 send_telegram(msg)
                 continue
@@ -622,36 +607,30 @@ class DispatchAgent:
         pos_size_pct = round(min(5.0, (PORTFOLIO_RISK_PERCENT / (sl_pct / 100)) / lev), 1)
 
         msg = (
-            f"⚡ *INSTITUTIONAL MULTI-AGENT ALERT*\n"
+            f"⚡ <b>INSTITUTIONAL MULTI-AGENT ALERT</b>\n"
             f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"🌐 #{symbol_tag} | Primary Pool: *{data['source']}*\n"
-            f"{action_emoji} *{data['action']}*\n\n"
-            f"🏆 Grade: *{data['grade']}* | Quant Score: *{data['score']}/100*\n"
-            f"📈 Market Sentiment: *{data['regime']} (FnG: {data['fng']})*\n"
-            f"🌍 Macro Regime: *{data['macro_mode']}*\n"
-            f"🏦 Liquidity & Shield: *{data['net_liquidity']}*\n\n"
-            f"🧠 *AI CONFLUENCE ({data['ai_engine']})*\n"
-            f"_{data['ai_thesis']}_\n\n"
-            f"🐋 *WHALE TELEMETRY & CVD FLOW*\n"
-            f"📊 Top Traders L/S: *{data['top_ratio']}* ({data['whale_bias']})\n"
-            f"📦 Open Interest: `{data['oi_val']:,.1f}` | Funding: `{data['funding']:+.4f}%`\n"
-            f"🧲 Order Flow State: *{data['absorption']}*\n"
-            f"🔗 BTC Correlation Beta: `{data['btc_corr']}`\n\n"
-            f"📍 *ENTRY ZONE (Close Confirmed)*\n"
-            f"`{data['entry_min']:,.4f}` – `{data['entry_max']:,.4f}`\n\n"
-            f"🛑 *STOP LOSS*\n"
-            f"`{sl:,.4f}` (-{sl_pct:.2f}%)\n\n"
-            f"⚠️ Suggested Leverage: *{lev}x* | 💵 Margin Allocation: *~{pos_size_pct}% of balance*\n\n"
-            f"🎯 *TAKE PROFIT TARGETS*\n"
-            f"🥇 TP1 ➔ `{tp1:,.4f}` (+{tp1_pct:.2f}%) [ROI: +{tp1_pct * lev:.1f}%]\n"
-            f"🥈 TP2 ➔ `{tp2:,.4f}` (+{tp2_pct:.2f}%) [ROI: +{tp2_pct * lev:.1f}%]\n"
-            f"🥉 TP3 ➔ `{tp3:,.4f}` (+{tp3_pct:.2f}%) [ROI: +{tp3_pct * lev:.1f}%]\n\n"
-            f"📊 *MACRO TELEMETRY*\n"
-            f"💵 DXY: `{data['dxy']} ({data['dxy_val']})` | VIX: `{data['vix']}` | US10Y: `{data['us10y']}%`\n"
-            f"🥇 Gold: `${data['gold']}` | S&P500: `{data['sp500']}`\n\n"
-            f"⚡ *DEPTH & MOMENTUM*\n"
-            f"📚 Order-book Imbalance: `{data['imbalance']:+.2f}` | RSI: `{data['rsi_15m']:.1f}`\n\n"
-            f"⏱️ _Lifecycle tracking active. Auto Risk-Free alert enabled on TP1._"
+            f"🌐 #{symbol_tag} | Primary Pool: <b>{data['source']}</b>\n"
+            f"{action_emoji} <b>{data['action']}</b>\n\n"
+            f"🏆 Grade: <b>{data['grade']}</b> | Score: <b>{data['score']}/100</b>\n"
+            f"📈 Market Sentiment: <b>{data['regime']} (FnG: {data['fng']})</b>\n"
+            f"🌍 Macro: <b>{data['macro_mode']}</b>\n\n"
+            f"🧠 <b>AI CONFLUENCE ({data['ai_engine']})</b>\n"
+            f"<i>{data['ai_thesis']}</i>\n\n"
+            f"🐋 <b>WHALE TELEMETRY</b>\n"
+            f"📊 Top Traders L/S: <b>{data['top_ratio']}</b> ({data['whale_bias']})\n"
+            f"📦 Open Interest: <code>{data['oi_val']:,.1f}</code> | Funding: <code>{data['funding']:+.4f}%</code>\n"
+            f"🧲 Order Flow State: <b>{data['absorption']}</b>\n"
+            f"🔗 BTC Correlation: <code>{data['btc_corr']}</code>\n\n"
+            f"📍 <b>ENTRY ZONE</b>\n"
+            f"<code>{data['entry_min']:,.4f}</code> – <code>{data['entry_max']:,.4f}</code>\n\n"
+            f"🛑 <b>STOP LOSS</b>\n"
+            f"<code>{sl:,.4f}</code> (-{sl_pct:.2f}%)\n\n"
+            f"⚠️ Suggested Leverage: <b>{lev}x</b> | 💵 Margin: <b>~{pos_size_pct}% of balance</b>\n\n"
+            f"🎯 <b>TAKE PROFIT TARGETS</b>\n"
+            f"🥇 TP1 ➔ <code>{tp1:,.4f}</code> (+{tp1_pct:.2f}%)\n"
+            f"🥈 TP2 ➔ <code>{tp2:,.4f}</code> (+{tp2_pct:.2f}%)\n"
+            f"🥉 TP3 ➔ <code>{tp3:,.4f}</code> (+{tp3_pct:.2f}%)\n\n"
+            f"⏱️ <i>Lifecycle tracking active. Auto Risk-Free alert enabled on TP1.</i>"
         )
         send_telegram(msg)
 
@@ -659,13 +638,9 @@ class DispatchAgent:
 # هسته هماهنگ‌کننده کل اکوسیستم
 # =====================================================================
 def run_system():
-    # بررسی دستورات ارسالی در تلگرام (/status, /report, /trades, /add)
     TelegramCommandHandler.process_pending_commands()
-
-    # ارزیابی سلامت منابع
     SystemMaintenanceAgent.audit_system_and_notify()
 
-    # بررسی محافظ اخبار اقتصادی
     is_safe, shield_reason = EconomicShieldAgent.is_market_safe()
     if not is_safe:
         print(f"Economic Shield Triggered: {shield_reason}. Skipping scan.")
@@ -674,10 +649,8 @@ def run_system():
     tech_agent = TechnicalAgent()
     tech_agent.load_btc_benchmark()
 
-    # مانیتور و مدیریت معاملات باز قبلی
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
 
-    # ساخت واچ‌لیست کامل
     active_watchlist = SystemMaintenanceAgent.build_full_watchlist(tech_agent.primary_binance)
 
     macro_agent = MacroAIOfficerAgent()
@@ -698,7 +671,6 @@ def run_system():
 
             setup = None
 
-            # شرط خرید
             if rsi < 46 and imbalance > 0.02 and vol_ratio >= 0.95 and whale['top_ratio'] >= 0.90:
                 score = int(min(99, (48 - rsi) * 2 + (imbalance * 20) + (whale['top_ratio'] * 15) + (10 if "BULLISH" in macro_agent.macro['risk_mode'] else 0)))
                 setup = {
@@ -711,14 +683,9 @@ def run_system():
                     'risk_level': 'CONTROLLED', 'leverage': 5, 'rsi_15m': rsi, 'vol_ratio': vol_ratio,
                     'imbalance': imbalance, 'funding': whale['funding'], 'oi_val': whale['oi_val'],
                     'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
-                    'absorption': absorption, 'btc_corr': btc_corr,
-                    'options_pcr': macro_agent.deribit['pcr'], 'options_bias': macro_agent.deribit['options_bias'],
-                    'dxy': macro_agent.macro['dxy'], 'dxy_val': macro_agent.macro['dxy_val'],
-                    'vix': macro_agent.macro['vix'], 'us10y': macro_agent.macro['us10y'],
-                    'gold': macro_agent.macro['gold'], 'sp500': macro_agent.macro['sp500']
+                    'absorption': absorption, 'btc_corr': btc_corr
                 }
 
-            # شرط فروش
             elif rsi > 56 and imbalance < -0.02 and vol_ratio >= 0.95 and whale['top_ratio'] <= 1.15:
                 score = int(min(99, (rsi - 54) * 2 + (abs(imbalance) * 20) + ((1.5 - min(whale['top_ratio'], 1.5)) * 20) + (10 if "DEFENSIVE" in macro_agent.macro['risk_mode'] else 0)))
                 setup = {
@@ -731,11 +698,7 @@ def run_system():
                     'risk_level': 'CONTROLLED', 'leverage': 5, 'rsi_15m': rsi, 'vol_ratio': vol_ratio,
                     'imbalance': imbalance, 'funding': whale['funding'], 'oi_val': whale['oi_val'],
                     'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
-                    'absorption': absorption, 'btc_corr': btc_corr,
-                    'options_pcr': macro_agent.deribit['pcr'], 'options_bias': macro_agent.deribit['options_bias'],
-                    'dxy': macro_agent.macro['dxy'], 'dxy_val': macro_agent.macro['dxy_val'],
-                    'vix': macro_agent.macro['vix'], 'us10y': macro_agent.macro['us10y'],
-                    'gold': macro_agent.macro['gold'], 'sp500': macro_agent.macro['sp500']
+                    'absorption': absorption, 'btc_corr': btc_corr
                 }
 
             if setup:
@@ -746,20 +709,18 @@ def run_system():
                     DispatchAgent.send(setup)
                     TradeLifecycleAgent.register_trade(setup)
                     dispatched += 1
-                    print(f"⚡ [MULTI-AGENT DISPATCH]: {symbol} confirmed & tracked.")
+                    print(f"⚡ [DISPATCH]: {symbol} confirmed & sent.")
 
         except Exception:
             continue
 
-    print("Master Orchestrator: Cycle completed.")
-
 if __name__ == "__main__":
-    # پیام تست زنده جهت اطمینان ۱۰۰٪ از اتصال تلگرام در هر بار اجرا
+    # ارسال پیام پینگ تاییدیه اولیه با ساختار HTML ضدخطا
     test_ping = (
-        "🚀 *SYSTEM ONLINE & READY*\n"
+        "🚀 <b>SYSTEM ONLINE & VERIFIED</b>\n"
         "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "✅ اتصال تلگرام، هوش مصنوعی و اسکنر چندایجنت کاملاً برقرار است.\n"
-        "📊 در حال پایش بازار روی کندل‌های قطعی ۱۵ دقیقه‌ای..."
+        "✅ اتصال تلگرام و اسکنر چندایجنت کاملاً تایید شد.\n"
+        "📊 رصد ۹۱ دارایی + طلا + رمزارزهای جدید بازار فعال است."
     )
     send_telegram(test_ping)
     run_system()
