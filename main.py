@@ -9,18 +9,12 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 MAX_SIGNALS = 10
 
 WATCHLIST = [
-    "PEPE/USDT", "WIF/USDT", "SEI/USDT", "ACE/USDT", "DOGE/USDT", "SUI/USDT", "FET/USDT",
-    "BOME/USDT", "FLOKI/USDT", "HOME/USDT", "BONK/USDT", "KAS/USDT", "ALLO/USDT", "SHIB/USDT",
-    "ORDI/USDT", "TAO/USDT", "SOL/USDT", "XRP/USDT", "ARB/USDT", "XLM/USDT", "BTC/USDT",
-    "ADA/USDT", "RENDER/USDT", "IMX/USDT", "GIGGLE/USDT", "AAVE/USDT", "ZRO/USDT", "HBAR/USDT",
-    "LTC/USDT", "BCH/USDT", "JASMY/USDT", "JUP/USDT", "LAB/USDT", "TUT/USDT", "ETH/USDT",
-    "HEI/USDT", "HMSTR/USDT", "ONDO/USDT", "KAITO/USDT", "BNB/USDT", "STX/USDT", "GRAM/USDT",
-    "PYTH/USDT", "LDO/USDT", "LINK/USDT", "CAKE/USDT", "POL/USDT", "NOT/USDT", "ZEC/USDT",
-    "DOT/USDT", "FIL/USDT", "BMT/USDT", "PUMP/USDT", "ATOM/USDT", "TIA/USDT", "TRX/USDT",
-    "INJ/USDT", "UNI/USDT", "LUNC/USDT", "HEMI/USDT", "ICP/USDT", "PAXG/USDT", "XAUT/USDT",
-    "HYPE/USDT", "APT/USDT", "ETHFI/USDT", "PROM/USDT", "ALGO/USDT", "AVAX/USDT", "WLD/USDT",
-    "NEAR/USDT", "OP/USDT", "ENA/USDT", "ARKM/USDT", "THETA/USDT", "FTM/USDT", "PENDLE/USDT",
-    "CRV/USDT", "RUNE/USDT", "POPCAT/USDT", "NEIRO/USDT"
+    "PEPE/USDT", "WIF/USDT", "SEI/USDT", "DOGE/USDT", "SUI/USDT", "FET/USDT",
+    "BONK/USDT", "SHIB/USDT", "SOL/USDT", "XRP/USDT", "ARB/USDT", "XLM/USDT", 
+    "BTC/USDT", "ADA/USDT", "RENDER/USDT", "AAVE/USDT", "HBAR/USDT", "LTC/USDT", 
+    "BCH/USDT", "JUP/USDT", "ETH/USDT", "BNB/USDT", "LINK/USDT", "DOT/USDT", 
+    "FIL/USDT", "ATOM/USDT", "TIA/USDT", "TRX/USDT", "INJ/USDT", "UNI/USDT", 
+    "NEAR/USDT", "OP/USDT", "ENA/USDT", "FTM/USDT", "POPCAT/USDT", "NEIRO/USDT"
 ]
 
 def send_telegram_alert(message: str):
@@ -37,7 +31,7 @@ def send_telegram_alert(message: str):
 def get_global_macro_metrics():
     macro = {"dxy": "FLAT", "vix": 18.0, "risk_mode": "NEUTRAL", "us10y": 4.0}
     try:
-        tickers = yf.download(["DX-Y.NYB", "^VIX", "^TNX", "GC=F"], period="2d", interval="1d", progress=False)
+        tickers = yf.download(["DX-Y.NYB", "^VIX", "^TNX"], period="2d", interval="1d", progress=False)
         close = tickers['Close']
         dxy_prev, dxy_curr = close['DX-Y.NYB'].iloc[0], close['DX-Y.NYB'].iloc[-1]
         macro['dxy'] = "FALLING 🟢" if dxy_curr < dxy_prev else "RISING 🔴"
@@ -137,7 +131,7 @@ def format_signal_message(data: dict) -> str:
     return msg
 
 def scan_markets():
-    exchange = ccxt.binance({'enableRateLimit': True})
+    exchange = ccxt.bybit({'enableRateLimit': True})
     markets = exchange.load_markets()
     
     macro = get_global_macro_metrics()
@@ -166,11 +160,8 @@ def scan_markets():
 
             imbalance = get_orderbook_imbalance(exchange, symbol)
 
-            if rsi < 38 and imbalance > 0.12 and vol_ratio >= 1.2:
+            if rsi < 38 and imbalance > 0.10 and vol_ratio >= 1.1:
                 score = int(min(99, (40 - rsi) * 2 + (imbalance * 30) + (vol_ratio * 10)))
-                if "FALLING" in macro['dxy']:
-                    score = min(99, score + 5)
-
                 sl = price - (1.5 * atr)
                 tp1 = price + (3.0 * atr)
                 tp2 = price + (4.5 * atr)
@@ -197,14 +188,11 @@ def scan_markets():
                     'dxy': macro['dxy'],
                     'vix': macro['vix'],
                     'us10y': macro['us10y'],
-                    'confirmations': 'DXY falling, 15m RSI oversold, Order-book buyer dominance'
+                    'confirmations': '15m RSI oversold, Order-book buyer dominance'
                 })
 
-            elif rsi > 65 and imbalance < -0.12 and vol_ratio >= 1.2:
+            elif rsi > 65 and imbalance < -0.10 and vol_ratio >= 1.1:
                 score = int(min(99, (rsi - 60) * 2 + (abs(imbalance) * 30) + (vol_ratio * 10)))
-                if "RISING" in macro['dxy']:
-                    score = min(99, score + 5)
-
                 sl = price + (1.5 * atr)
                 tp1 = price - (3.0 * atr)
                 tp2 = price - (4.5 * atr)
@@ -231,7 +219,7 @@ def scan_markets():
                     'dxy': macro['dxy'],
                     'vix': macro['vix'],
                     'us10y': macro['us10y'],
-                    'confirmations': 'DXY rising, 15m RSI overbought, Order-book seller dominance'
+                    'confirmations': '15m RSI overbought, Order-book seller dominance'
                 })
 
         except Exception:
