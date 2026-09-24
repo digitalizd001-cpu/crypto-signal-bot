@@ -193,5 +193,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "20:35:47 | 2026/09/24"
+  },
+  "KAS/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.04017,
+    "sl": 0.040694464285714285,
+    "tp1": 0.03912107142857142,
+    "tp2": 0.038596607142857134,
+    "tp3": 0.03807214285714285,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:54:01 | 2026/09/24"
+  },
+  "SEI/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.06144,
+    "sl": 0.062595,
+    "tp1": 0.05913,
+    "tp2": 0.057975,
+    "tp3": 0.056819999999999996,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "20:54:02 | 2026/09/24"
   }
 }
