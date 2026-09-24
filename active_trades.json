@@ -12,19 +12,6 @@
     "risk_free": false,
     "opened_at": "18:24:42 | 2026/09/24"
   },
-  "HBAR/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.092,
-    "sl": 0.09360071428571429,
-    "tp1": 0.08879857142857142,
-    "tp2": 0.08719785714285713,
-    "tp3": 0.08559714285714284,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "19:09:55 | 2026/09/24"
-  },
   "CRV/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.3506,
@@ -206,19 +193,6 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "21:20:09 | 2026/09/24"
-  },
-  "AXS/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 1.0783,
-    "sl": 1.0922500000000002,
-    "tp1": 1.0504,
-    "tp2": 1.0364499999999999,
-    "tp3": 1.0225,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "21:20:44 | 2026/09/24"
   },
   "STRK/USDT": {
     "action": "LONG \u2014 BUY SETUP",
@@ -440,5 +414,57 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "00:35:55 | 2026/09/25"
+  },
+  "SEI/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.06302,
+    "sl": 0.06385785714285715,
+    "tp1": 0.06134428571428572,
+    "tp2": 0.06050642857142858,
+    "tp3": 0.05966857142857144,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "01:06:28 | 2026/09/25"
+  },
+  "ALGO/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.11258,
+    "sl": 0.11369749999999999,
+    "tp1": 0.110345,
+    "tp2": 0.1092275,
+    "tp3": 0.10811000000000001,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "01:06:30 | 2026/09/25"
+  },
+  "UNI/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 9.198,
+    "sl": 9.101571428571429,
+    "tp1": 9.390857142857143,
+    "tp2": 9.487285714285715,
+    "tp3": 9.583714285714287,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "01:06:37 | 2026/09/25"
+  },
+  "BONK/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 3.755e-06,
+    "sl": 3.80525e-06,
+    "tp1": 3.6545000000000003e-06,
+    "tp2": 3.6042500000000003e-06,
+    "tp3": 3.554e-06,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "01:06:49 | 2026/09/25"
   }
 }
