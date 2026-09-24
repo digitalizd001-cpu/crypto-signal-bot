@@ -622,5 +622,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "02:53:32 | 2026/09/25"
+  },
+  "UNI/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 9.181,
+    "sl": 9.099892857142857,
+    "tp1": 9.343214285714286,
+    "tp2": 9.424321428571428,
+    "tp3": 9.50542857142857,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "03:06:23 | 2026/09/25"
+  },
+  "ETC/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 9.44,
+    "sl": 9.276714285714286,
+    "tp1": 9.766571428571428,
+    "tp2": 9.929857142857141,
+    "tp3": 10.093142857142855,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "03:06:38 | 2026/09/25"
   }
 }
