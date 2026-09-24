@@ -401,5 +401,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "23:37:01 | 2026/09/24"
+  },
+  "XAUT/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 4265.5,
+    "sl": 4256.832142857143,
+    "tp1": 4282.835714285714,
+    "tp2": 4291.503571428571,
+    "tp3": 4300.171428571428,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "23:56:34 | 2026/09/24"
+  },
+  "IMX/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.152,
+    "sl": 0.15067142857142857,
+    "tp1": 0.15465714285714285,
+    "tp2": 0.15598571428571428,
+    "tp3": 0.1573142857142857,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "23:56:51 | 2026/09/24"
   }
 }
