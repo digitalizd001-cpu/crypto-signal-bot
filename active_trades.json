@@ -140,19 +140,6 @@
     "risk_free": false,
     "opened_at": "18:24:49 | 2026/09/24"
   },
-  "SUI/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.9897,
-    "sl": 1.0079357142857144,
-    "tp1": 0.9532285714285714,
-    "tp2": 0.9349928571428571,
-    "tp3": 0.9167571428571427,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "18:37:14 | 2026/09/24"
-  },
   "APT/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.813,
@@ -230,5 +217,18 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "19:09:55 | 2026/09/24"
+  },
+  "METIS/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 3.495,
+    "sl": 3.543214285714286,
+    "tp1": 3.3985714285714286,
+    "tp2": 3.350357142857143,
+    "tp3": 3.302142857142857,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "19:22:39 | 2026/09/24"
   }
 }
