@@ -596,5 +596,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "02:36:11 | 2026/09/25"
+  },
+  "ARB/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.21713,
+    "sl": 0.21436892857142856,
+    "tp1": 0.22265214285714285,
+    "tp2": 0.2254132142857143,
+    "tp3": 0.22817428571428572,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "02:53:22 | 2026/09/25"
+  },
+  "PENDLE/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 2.569,
+    "sl": 2.5392142857142854,
+    "tp1": 2.6285714285714286,
+    "tp2": 2.658357142857143,
+    "tp3": 2.6881428571428576,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "02:53:32 | 2026/09/25"
   }
 }
