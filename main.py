@@ -9,43 +9,32 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-MAX_SIGNALS = 10
+MAX_SIGNALS = 5  # ارسال گلچین برترین ستاپ‌های دارای همگرایی کامل
 
-# ==========================================
-# واچ‌لیست جامع (۷۴ ارز درخواستی + مکمل‌های نقدینگی + طلا)
-# ==========================================
 WATCHLIST = [
-    # --- طلای کریپتو و کامودیتی‌های تتر ---
+    # Gold & Commodities
     "PAXG/USDT", "XAU/USDT",
-
-    # --- لایه یک و غول‌های بازار ---
+    # Layer 1
     "BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT", "XRP/USDT", "ADA/USDT",
     "AVAX/USDT", "DOT/USDT", "TRX/USDT", "NEAR/USDT", "SUI/USDT", "APT/USDT",
     "TON/USDT", "KAS/USDT", "SEI/USDT", "HBAR/USDT", "ATOM/USDT", "ALGO/USDT",
     "FTM/USDT", "EGLD/USDT", "FLOW/USDT", "MINA/USDT", "ICP/USDT",
-    
-    # --- راه‌کارهای لایه دو و مقیاس‌پذیری ---
+    # Layer 2
     "MATIC/USDT", "ARB/USDT", "OP/USDT", "STRK/USDT", "IMX/USDT", "MANTA/USDT", "METIS/USDT",
-    
-    # --- امور مالی غیرمتمرکز (DeFi) ---
+    # DeFi
     "LINK/USDT", "UNI/USDT", "AAVE/USDT", "MKR/USDT", "SNX/USDT", "LDO/USDT",
     "CRV/USDT", "RUNE/USDT", "INJ/USDT", "PENDLE/USDT", "ENA/USDT", "DYDX/USDT", "CAKE/USDT",
-    
-    # --- هوش مصنوعی، داده و پردازش ابری ---
+    # AI & Data
     "FET/USDT", "RENDER/USDT", "TAO/USDT", "AGIX/USDT", "OCEAN/USDT", "GRT/USDT",
     "WLD/USDT", "ARKM/USDT", "THETA/USDT",
-    
-    # --- میم‌کوین‌ها و کامیونیتی ---
+    # Memes
     "DOGE/USDT", "SHIB/USDT", "PEPE/USDT", "WIF/USDT", "FLOKI/USDT", "BONK/USDT",
     "BOME/USDT", "MEME/USDT",
-    
-    # --- اثبات کار سنتی و دارایی‌های تثبیت‌شده ---
+    # Legacy
     "LTC/USDT", "BCH/USDT", "ETC/USDT", "XLM/USDT",
-    
-    # --- گیمینگ، متاورس و ان‌اف‌تی ---
+    # Gaming
     "GALA/USDT", "SAND/USDT", "MANA/USDT", "AXS/USDT", "BEAM/USDT", "RON/USDT",
-    
-    # --- ماژولار، ذخیره‌سازی و زیرساخت ---
+    # Storage & Infra
     "FIL/USDT", "AR/USDT", "TIA/USDT"
 ]
 
@@ -61,7 +50,7 @@ def send_telegram_alert(message: str):
         print(f"Error sending telegram: {e}")
 
 # ==========================================
-# 0. موتور هوش مصنوعی دوگانه (Gemini + Groq)
+# 0. هوش مصنوعی دوگانه (Gemini + Groq) با اصلاح باگ Parsing
 # ==========================================
 def query_gemini_ai(prompt: str) -> str:
     if not GEMINI_API_KEY:
@@ -128,7 +117,10 @@ def get_ai_confluence_review(data: dict) -> dict:
             "thesis": "Verified by quantitative order-book confluence and whale volume telemetry."
         }
 
-    approved = "CONFIRMED" in analysis.upper()
+    # رفع خطای منطقی: بررسی دقیق شروع پاسخ برای جلوگیری از تداخل کلمات
+    clean_upper = analysis.strip().upper()
+    approved = clean_upper.startswith("VERDICT: CONFIRMED") or "\nVERDICT: CONFIRMED" in clean_upper
+    
     thesis_clean = analysis.replace("VERDICT: CONFIRMED", "").replace("VERDICT: REJECTED", "").strip()
 
     return {
@@ -138,7 +130,7 @@ def get_ai_confluence_review(data: dict) -> dict:
     }
 
 # ==========================================
-# 1. رصد تخصصی نهنگ‌ها (Smart Money)
+# 1. رصد تخصصی نهنگ‌ها با پشتیبانی از خطای توکن‌های اسپات
 # ==========================================
 def get_whale_metrics(symbol: str):
     clean = symbol.replace("/", "").replace(":USDT", "")
@@ -148,24 +140,27 @@ def get_whale_metrics(symbol: str):
         "top_ratio": 1.0,
         "whale_bias": "NEUTRAL"
     }
+    
     try:
         url_fund = f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={clean}"
-        rf = requests.get(url_fund, timeout=4).json()
-        metrics["funding"] = round(float(rf.get("lastFundingRate", 0)) * 100, 4)
+        rf = requests.get(url_fund, timeout=3).json()
+        if isinstance(rf, dict) and "lastFundingRate" in rf:
+            metrics["funding"] = round(float(rf.get("lastFundingRate", 0)) * 100, 4)
     except Exception:
         pass
 
     try:
         url_oi = f"https://fapi.binance.com/fapi/v1/openInterest?symbol={clean}"
-        roi = requests.get(url_oi, timeout=4).json()
-        metrics["oi_val"] = round(float(roi.get("openInterest", 0)), 1)
+        roi = requests.get(url_oi, timeout=3).json()
+        if isinstance(roi, dict) and "openInterest" in roi:
+            metrics["oi_val"] = round(float(roi.get("openInterest", 0)), 1)
     except Exception:
         pass
 
     try:
         url_ratio = f"https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol={clean}&period=15m&limit=1"
-        rr = requests.get(url_ratio, timeout=4).json()
-        if rr and len(rr) > 0:
+        rr = requests.get(url_ratio, timeout=3).json()
+        if isinstance(rr, list) and len(rr) > 0:
             ratio = float(rr[0].get("longShortRatio", 1.0))
             metrics["top_ratio"] = round(ratio, 2)
             if ratio > 1.20:
@@ -231,14 +226,14 @@ def get_institutional_macro_metrics():
 
 def get_fear_and_greed() -> int:
     try:
-        res = requests.get("https://api.alternative.me/fng/?limit=1", timeout=5).json()
+        res = requests.get("https://api.alternative.me/fng/?limit=1", timeout=4).json()
         return int(res['data'][0]['value'])
     except Exception:
         return 50
 
 def get_deribit_market_sentiment():
     try:
-        res = requests.get("https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option", timeout=5).json()
+        res = requests.get("https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option", timeout=4).json()
         items = res.get("result", [])
         calls_vol = sum(x.get("volume", 0) for x in items if "call" in x.get("instrument_name", "").lower())
         puts_vol = sum(x.get("volume", 0) for x in items if "put" in x.get("instrument_name", "").lower())
@@ -249,7 +244,7 @@ def get_deribit_market_sentiment():
         return {"pcr": 0.75, "options_bias": "NEUTRAL"}
 
 # ==========================================
-# 3. صرافی‌ها و نقدینگی چندمنبعی
+# 3. صرافی‌ها و دریافت داده با پشتیبانی از نمادهای خاص
 # ==========================================
 def init_all_exchanges():
     exchanges = []
@@ -331,9 +326,9 @@ def format_signal_message(data: dict) -> str:
     msg = (
         f"🚨 *AI-CONFIRMED INSTITUTIONAL SIGNAL*\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"🌐 #{symbol_tag} | Primary Pool: *{data['source']}*\n"
+        f"🌐 #{symbol_tag} | Pool: *{data['source']}*\n"
         f"{action_emoji} *{data['action']}*\n\n"
-        f"🏆 Grade: *{data['grade']}* | Quant Score: *{data['score']}/100*\n"
+        f"🏆 Grade: *{data['grade']}* | Score: *{data['score']}/100*\n"
         f"📈 Market Sentiment: *{data['regime']} (FnG: {data['fng']})*\n"
         f"🌍 Macro Regime: *{data['macro_mode']}*\n"
         f"🏦 Global Liquidity: *{data['net_liquidity']}*\n\n"
@@ -348,7 +343,7 @@ def format_signal_message(data: dict) -> str:
         f"`{data['entry_min']:,.4f}` – `{data['entry_max']:,.4f}`\n\n"
         f"🛑 *STOP LOSS*\n"
         f"`{sl:,.4f}` (-{sl_pct:.2f}%)\n\n"
-        f"⚠️ RISK: *{data['risk_level']}* | Leverage: *{leverage}x*\n\n"
+        f"⚠️ RISK: *{data['risk_level']}* | Suggested Leverage: *{leverage}x*\n\n"
         f"🎯 *TAKE PROFIT TARGETS*\n"
         f"🥇 TP1 ➔ `{tp1:,.4f}` (+{tp1_pct:.2f}%) [ROI: +{tp1_pct * leverage:.1f}%]\n"
         f"🥈 TP2 ➔ `{tp2:,.4f}` (+{tp2_pct:.2f}%) [ROI: +{tp2_pct * leverage:.1f}%]\n"
@@ -381,18 +376,25 @@ def scan_markets():
         active_exchange = None
         source_name = ""
 
-        # جستجو در میان ۴ صرافی معتبر
-        for name, ex in exchanges:
-            if symbol in ex.markets:
-                try:
-                    data = ex.fetch_ohlcv(symbol, timeframe='15m', limit=60)
-                    if data and len(data) >= 35:
-                        ohlcv = data
-                        active_exchange = ex
-                        source_name = name
-                        break
-                except Exception:
-                    continue
+        # جستجوی هوشمند برای نمادهای طلا و نمادهای عادی
+        search_symbols = [symbol]
+        if symbol == "XAU/USDT":
+            search_symbols = ["XAU/USDT", "PAXG/USDT", "XAUUSDT"]
+
+        for s in search_symbols:
+            for name, ex in exchanges:
+                if s in ex.markets:
+                    try:
+                        data = ex.fetch_ohlcv(s, timeframe='15m', limit=60)
+                        if data and len(data) >= 35:
+                            ohlcv = data
+                            active_exchange = ex
+                            source_name = name
+                            break
+                    except Exception:
+                        continue
+            if ohlcv:
+                break
 
         if not ohlcv or not active_exchange:
             continue
@@ -412,7 +414,7 @@ def scan_markets():
             imbalance = get_orderbook_imbalance(active_exchange, symbol)
             whale = get_whale_metrics(symbol)
 
-            # سیگنال خرید بهینه (پوشش ۹۱ دارایی با دقت بالا)
+            # سیگنال خرید
             if rsi < 46 and imbalance > 0.02 and vol_ratio >= 0.95 and whale['top_ratio'] >= 0.90:
                 score = int(min(99, (48 - rsi) * 2 + (imbalance * 20) + (whale['top_ratio'] * 15) + (10 if "BULLISH" in macro['risk_mode'] else 0)))
                 sl = price - (1.5 * atr)
@@ -463,7 +465,7 @@ def scan_markets():
                     setup_data["ai_thesis"] = ai_result["thesis"]
                     candidates.append(setup_data)
 
-            # سیگنال فروش بهینه
+            # سیگنال فروش
             elif rsi > 56 and imbalance < -0.02 and vol_ratio >= 0.95 and whale['top_ratio'] <= 1.15:
                 score = int(min(99, (rsi - 54) * 2 + (abs(imbalance) * 20) + ((1.5 - min(whale['top_ratio'], 1.5)) * 20) + (10 if "DEFENSIVE" in macro['risk_mode'] else 0)))
                 sl = price + (1.5 * atr)
@@ -520,19 +522,11 @@ def scan_markets():
     top_signals = sorted(candidates, key=lambda x: x['score'], reverse=True)[:MAX_SIGNALS]
 
     if not top_signals:
-        print("AI Institutional Scan: No trade setup approved across 91 assets at this interval.")
+        print("AI Institutional Scan: Confluence criteria verified. No valid setups this cycle.")
     else:
         for sig in top_signals:
             msg = format_signal_message(sig)
             send_telegram_alert(msg)
 
 if __name__ == "__main__":
-    status_msg = (
-        "🥇 *Full Multi-Asset & Gold Scanner Online*\n"
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "📊 مجموع ۹۱ نماد معاملاتی (شامل PAXG/USDT و XAU/USDT) فعال شدند.\n"
-        "🧠 موتور هوش مصنوعی دوگانه (Gemini + Groq) آماده تایید ستاپ‌ها است.\n"
-        "🐋 داده‌های سود باز و پوزیشن نهنگ‌ها زنده بررسی می‌شوند."
-    )
-    send_telegram_alert(status_msg)
     scan_markets()
