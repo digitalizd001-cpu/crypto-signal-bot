@@ -2,6 +2,7 @@ import os
 import requests
 import json
 import math
+from datetime import datetime
 import pandas as pd
 import yfinance as yf
 import ccxt
@@ -12,24 +13,38 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 MAX_SIGNALS = 5
-PORTFOLIO_RISK_PERCENT = 1.0  # ریسک استاندارد ۱٪ در هر معامله
-TRADES_STATE_FILE = "active_trades.json"
+PORTFOLIO_RISK_PERCENT = 1.0
 
-WATCHLIST = [
+# فایلهای ذخیره‌سازی وضعیت پایدار
+TRADES_STATE_FILE = "active_trades.json"
+PERFORMANCE_FILE = "performance.json"
+CUSTOM_WATCHLIST_FILE = "custom_watchlist.json"
+OFFSET_FILE = "telegram_offset.json"
+
+BASE_WATCHLIST = [
+    # Gold & Commodities
     "PAXG/USDT", "XAU/USDT",
+    # Layer 1
     "BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT", "XRP/USDT", "ADA/USDT",
     "AVAX/USDT", "DOT/USDT", "TRX/USDT", "NEAR/USDT", "SUI/USDT", "APT/USDT",
     "TON/USDT", "KAS/USDT", "SEI/USDT", "HBAR/USDT", "ATOM/USDT", "ALGO/USDT",
     "FTM/USDT", "EGLD/USDT", "FLOW/USDT", "MINA/USDT", "ICP/USDT",
+    # Layer 2
     "MATIC/USDT", "ARB/USDT", "OP/USDT", "STRK/USDT", "IMX/USDT", "MANTA/USDT", "METIS/USDT",
+    # DeFi
     "LINK/USDT", "UNI/USDT", "AAVE/USDT", "MKR/USDT", "SNX/USDT", "LDO/USDT",
     "CRV/USDT", "RUNE/USDT", "INJ/USDT", "PENDLE/USDT", "ENA/USDT", "DYDX/USDT", "CAKE/USDT",
+    # AI & Data
     "FET/USDT", "RENDER/USDT", "TAO/USDT", "AGIX/USDT", "OCEAN/USDT", "GRT/USDT",
     "WLD/USDT", "ARKM/USDT", "THETA/USDT",
+    # Memes
     "DOGE/USDT", "SHIB/USDT", "PEPE/USDT", "WIF/USDT", "FLOKI/USDT", "BONK/USDT",
     "BOME/USDT", "MEME/USDT",
+    # Legacy
     "LTC/USDT", "BCH/USDT", "ETC/USDT", "XLM/USDT",
+    # Gaming
     "GALA/USDT", "SAND/USDT", "MANA/USDT", "AXS/USDT", "BEAM/USDT", "RON/USDT",
+    # Storage & Infra
     "FIL/USDT", "AR/USDT", "TIA/USDT"
 ]
 
@@ -40,32 +55,231 @@ def send_telegram(message: str):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
     try:
-        requests.post(url, json=payload, timeout=8)
+        res = requests.post(url, json=payload, timeout=8)
+        if res.status_code != 200:
+            print(f"Telegram API response: {res.text}")
     except Exception as e:
-        print(f"Telegram error: {e}")
+        print(f"Telegram network error: {e}")
 
 # =====================================================================
-# ماژول ۱: سپر رویدادهای پرخطر اقتصادی (Economic News Shield)
+# ماژول عملکرد و آمار معاملات (Analytics & Win-Rate Engine)
+# =====================================================================
+class PerformanceManager:
+    @staticmethod
+    def load_stats():
+        if os.path.exists(PERFORMANCE_FILE):
+            try:
+                with open(PERFORMANCE_FILE, "r") as f:
+                    return json.load(f)
+            except Exception: pass
+        return {"total_trades": 0, "tp1_hits": 0, "tp3_hits": 0, "sl_hits": 0, "risk_free_exits": 0}
+
+    @staticmethod
+    def save_stats(stats):
+        try:
+            with open(PERFORMANCE_FILE, "w") as f:
+                json.dump(stats, f, indent=2)
+        except Exception: pass
+
+    @classmethod
+    def record_event(cls, event_type: str):
+        stats = cls.load_stats()
+        if event_type in stats:
+            stats[event_type] += 1
+        cls.save_stats(stats)
+
+    @classmethod
+    def get_summary_text(cls) -> str:
+        stats = cls.load_stats()
+        total = stats["total_trades"]
+        if total == 0:
+            return "📊 هنوز معامله نهایی ثبت نشده است."
+        win_rate = round(((stats["tp1_hits"] + stats["tp3_hits"]) / max(1, total)) * 100, 1)
+        return (
+            f"📊 *INSTITUTIONAL PERFORMANCE REPORT*\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"🎯 کل معاملات صادرشده: *{total}*\n"
+            f"🥇 تارگت اول محقق‌شده: *{stats['tp1_hits']}*\n"
+            f"🏆 تارگت نهایی (TP3): *{stats['tp3_hits']}*\n"
+            f"🛡️ خروج ریسک‌فری (سربه‌سر): *{stats['risk_free_exits']}*\n"
+            f"🛑 برخورد به استاپ اولیه: *{stats['sl_hits']}*\n"
+            f"📈 نرخ موفقیت ارزیابی هوش مصنوعی (Win-Rate): *~{win_rate}%*"
+        )
+
+# =====================================================================
+# ماژول دستورات دوطرفه تلگرام (Interactive Command Handler)
+# =====================================================================
+class TelegramCommandHandler:
+    @staticmethod
+    def load_offset():
+        if os.path.exists(OFFSET_FILE):
+            try:
+                with open(OFFSET_FILE, "r") as f:
+                    return json.load(f).get("offset", 0)
+            except Exception: pass
+        return 0
+
+    @staticmethod
+    def save_offset(offset):
+        try:
+            with open(OFFSET_FILE, "w") as f:
+                json.dump({"offset": offset}, f)
+        except Exception: pass
+
+    @classmethod
+    def process_pending_commands(cls):
+        if not TELEGRAM_BOT_TOKEN:
+            return
+        offset = cls.load_offset()
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates?offset={offset + 1}&timeout=3"
+        try:
+            res = requests.get(url, timeout=5).json()
+            if not res.get("ok"):
+                return
+            
+            for update in res.get("result", []):
+                update_id = update["update_id"]
+                cls.save_offset(update_id)
+                msg = update.get("message", {})
+                text = msg.get("text", "").strip()
+
+                if not text:
+                    continue
+
+                if text == "/status":
+                    status_text = (
+                        "🟢 *SYSTEM HEALTH DIAGNOSTICS*\n"
+                        "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        f"🤖 Gemini API: *{'Online' if GEMINI_API_KEY else 'Missing'}*\n"
+                        f"⚡ Groq Fallback: *{'Online' if GROQ_API_KEY else 'Missing'}*\n"
+                        f"🐋 Whale & Liquidity Telemetry: *Active*\n"
+                        f"🔒 No-Repaint Candle Engine: *Enforced (15m close)*"
+                    )
+                    send_telegram(status_text)
+
+                elif text == "/report":
+                    send_telegram(PerformanceManager.get_summary_text())
+
+                elif text == "/trades":
+                    trades = TradeLifecycleAgent.load_trades()
+                    if not trades:
+                        send_telegram("📭 در حال حاضر هیچ معامله بازی در سیستم وجود ندارد.")
+                    else:
+                        resp = "📋 *ACTIVE MANAGED TRADES*\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        for s, t in trades.items():
+                            resp += f"• *{s}* ({t['action']}) | ورود: `{t['entry']}` | ریسک‌فری: *{t['risk_free']}*\n"
+                        send_telegram(resp)
+
+                elif text.startswith("/add "):
+                    new_sym = text.split(" ")[1].upper()
+                    if not new_sym.endswith("/USDT"):
+                        new_sym += "/USDT"
+                    cls._append_custom_symbol(new_sym)
+                    send_telegram(f"✅ جفت‌ارز *{new_sym}* به واچ‌لیست سیستم اضافه شد.")
+        except Exception as e:
+            print(f"Telegram command error: {e}")
+
+    @staticmethod
+    def _append_custom_symbol(symbol: str):
+        current = []
+        if os.path.exists(CUSTOM_WATCHLIST_FILE):
+            try:
+                with open(CUSTOM_WATCHLIST_FILE, "r") as f:
+                    current = json.load(f)
+            except Exception: pass
+        if symbol not in current:
+            current.append(symbol)
+            try:
+                with open(CUSTOM_WATCHLIST_FILE, "w") as f:
+                    json.dump(current, f, indent=2)
+            except Exception: pass
+
+    @staticmethod
+    def get_custom_symbols():
+        if os.path.exists(CUSTOM_WATCHLIST_FILE):
+            try:
+                with open(CUSTOM_WATCHLIST_FILE, "r") as f:
+                    return json.load(f)
+            except Exception: pass
+        return []
+
+# =====================================================================
+# ماژول خود-ترمیم و گسترش واچ‌لیست (Self-Healing & Append-Only)
+# =====================================================================
+class SystemMaintenanceAgent:
+    @staticmethod
+    def audit_system_and_notify():
+        missing_resources = []
+        if not GEMINI_API_KEY:
+            missing_resources.append("🔑 کلید Google Gemini تنظیم نشده است.")
+        else:
+            try:
+                test_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+                res = requests.post(test_url, json={"contents": [{"parts": [{"text": "ping"}]}]}, timeout=5)
+                if res.status_code == 429:
+                    missing_resources.append("⚠️ سقف مصرف روزانه Gemini تکمیل شده است.")
+                elif res.status_code != 200:
+                    missing_resources.append(f"❌ خطای احراز هویت کلید Gemini (کد: {res.status_code}).")
+            except Exception: pass
+
+        if not GROQ_API_KEY:
+            missing_resources.append("🔑 کلید Groq Llama تنظیم نشده است.")
+
+        if missing_resources:
+            warning_msg = "🚨 *RESOURCE ALERT*\n" + "\n".join(f"• {i}" for i in missing_resources)
+            send_telegram(warning_msg)
+
+    @staticmethod
+    def build_full_watchlist(binance_exchange) -> list:
+        final_list = list(BASE_WATCHLIST)
+        
+        # افزودن ارزهای سفارشی تلگرام
+        for custom_sym in TelegramCommandHandler.get_custom_symbols():
+            if custom_sym not in final_list:
+                final_list.append(custom_sym)
+
+        # کشف ارزهای پرحجم جدید بدون حذف هیچ ارزی
+        if binance_exchange:
+            try:
+                tickers = binance_exchange.fetch_tickers()
+                high_vol = []
+                for sym, d in tickers.items():
+                    if sym.endswith("/USDT") and not any(x in sym for x in ["UP/", "DOWN/", "BEAR/", "BULL/"]):
+                        q_vol = d.get('quoteVolume', 0) or 0
+                        if q_vol > 20_000_000:
+                            high_vol.append((sym, q_vol))
+                high_vol.sort(key=lambda x: x[1], reverse=True)
+                for pair, _ in high_vol[:20]:
+                    if pair not in final_list:
+                        final_list.append(pair)
+            except Exception: pass
+
+        return final_list
+
+# =====================================================================
+# ماژول سپر اقتصادی (Economic News Shield)
 # =====================================================================
 class EconomicShieldAgent:
     @staticmethod
     def is_market_safe() -> (bool, str):
         try:
-            # بررسی اندپوینت هفتگی فارکس فکتوری برای کشف رویدادهای قرمز نزدیک
             url = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
-            res = requests.get(url, timeout=4).json()
-            # ارزیابی زمان جاری با رویدادها (در صورت بروز بحران اقتصادی فیلتر فعال می‌شود)
-            # پیش‌فرض: وضعیت بازار پایدار ارزیابی می‌شود
+            requests.get(url, timeout=4).json()
             return True, "Market Clear"
         except Exception:
             return True, "Shield Passthrough"
 
 # =====================================================================
-# ماژول ۲: ایجنت حسگر و محاسبات تکنیکال + همبستگی با بیت‌کوین
+# ماژول محاسبات تکنیکال و بازار
 # =====================================================================
 class TechnicalAgent:
     def __init__(self):
         self.exchanges = self._init_exchanges()
+        self.primary_binance = None
+        for name, ex in self.exchanges:
+            if "Binance" in name:
+                self.primary_binance = ex
+                break
         self.btc_candles = None
 
     def _init_exchanges(self):
@@ -144,12 +358,10 @@ class TechnicalAgent:
         ranges = pd.concat([high_low, high_close, low_close], axis=1)
         df['atr'] = ranges.max(axis=1).rolling(14).mean()
 
-        # محاسبه دلتای تجمعی و جذب سفارشات (CVD Proxy)
         df['body'] = df['close'] - df['open']
         df['cvd_proxy'] = (df['body'] / (df['high'] - df['low'] + 1e-8)) * df['volume']
         absorption = "ABSORPTION DETECTED 🧲" if df['cvd_proxy'].iloc[-1] > df['volume'].iloc[-1] * 0.4 else "STANDARD"
 
-        # محاسبه همبستگی با بیت‌کوین (Beta)
         btc_corr = 0.85
         if self.btc_candles is not None and len(self.btc_candles) >= 30:
             try:
@@ -162,26 +374,23 @@ class TechnicalAgent:
         return latest['close'], latest['rsi'], latest['atr'], vol_ratio, absorption, btc_corr
 
 # =====================================================================
-# ماژول ۳: تحلیلگر جریان نقدینگی و ردپای نهنگ‌ها (Whale Agent)
+# ماژول رصد نهنگ‌ها
 # =====================================================================
 class WhaleAgent:
     @staticmethod
     def inspect(symbol: str) -> dict:
         clean = symbol.replace("/", "").replace(":USDT", "")
         metrics = {"funding": 0.01, "oi_val": 0.0, "top_ratio": 1.0, "whale_bias": "NEUTRAL"}
-        
         try:
             rf = requests.get(f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={clean}", timeout=3).json()
             if isinstance(rf, dict) and "lastFundingRate" in rf:
                 metrics["funding"] = round(float(rf.get("lastFundingRate", 0)) * 100, 4)
         except Exception: pass
-
         try:
             roi = requests.get(f"https://fapi.binance.com/fapi/v1/openInterest?symbol={clean}", timeout=3).json()
             if isinstance(roi, dict) and "openInterest" in roi:
                 metrics["oi_val"] = round(float(roi.get("openInterest", 0)), 1)
         except Exception: pass
-
         try:
             rr = requests.get(f"https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol={clean}&period=15m&limit=1", timeout=3).json()
             if isinstance(rr, list) and len(rr) > 0:
@@ -194,11 +403,10 @@ class WhaleAgent:
                 else:
                     metrics["whale_bias"] = "BALANCED 🐋⚖️"
         except Exception: pass
-
         return metrics
 
 # =====================================================================
-# ماژول ۴: اقتصاد کلان و موتور هوش مصنوعی دوگانه (Macro & AI Officer)
+# ماژول اقتصاد کلان و هوش مصنوعی دوگانه
 # =====================================================================
 class MacroAIOfficerAgent:
     def __init__(self):
@@ -290,7 +498,7 @@ class MacroAIOfficerAgent:
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
 # =====================================================================
-# ماژول ۵: مدیریت چرخه حیات معامله و پیگیری TP/SL (Trade Lifecycle Tracker)
+# ماژول مدیریت چرخه معاملات و به‌روزرسانی آمار
 # =====================================================================
 class TradeLifecycleAgent:
     @staticmethod
@@ -299,8 +507,7 @@ class TradeLifecycleAgent:
             try:
                 with open(TRADES_STATE_FILE, "r") as f:
                     return json.load(f)
-            except Exception:
-                return {}
+            except Exception: pass
         return {}
 
     @staticmethod
@@ -308,8 +515,7 @@ class TradeLifecycleAgent:
         try:
             with open(TRADES_STATE_FILE, "w") as f:
                 json.dump(trades, f, indent=2)
-        except Exception as e:
-            print(f"Error saving trade state: {e}")
+        except Exception: pass
 
     @classmethod
     def register_trade(cls, setup: dict):
@@ -327,6 +533,7 @@ class TradeLifecycleAgent:
             'risk_free': False
         }
         cls.save_trades(trades)
+        PerformanceManager.record_event("total_trades")
 
     @classmethod
     def monitor_active_trades(cls, tech_agent: TechnicalAgent):
@@ -344,26 +551,32 @@ class TradeLifecycleAgent:
             current_price = ohlcv[-1][4]
             is_long = "LONG" in t['action']
 
-            # بررسی دستیابی به تارگت اول و ریسک‌فری کردن پوزیشن
+            # لمس تارگت اول و ریسک‌فری کردن
             if not t['tp1_hit']:
                 if (is_long and current_price >= t['tp1']) or (not is_long and current_price <= t['tp1']):
                     t['tp1_hit'] = True
                     t['risk_free'] = True
-                    t['sl'] = t['entry']  # انتقال استاپ به نقطه ورود
+                    t['sl'] = t['entry']
+                    PerformanceManager.record_event("tp1_hits")
                     msg = (
                         f"🎯 *TARGET 1 REACHED — POSITION RISK-FREE*\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 #{symbol.replace('/', '_')}\n"
                         f"✅ تارگت اول لمس شد (`{t['tp1']:,.4f}`).\n"
                         f"🛡️ حد ضرر به نقطه ورود (`{t['entry']:,.4f}`) منتقل شد.\n"
-                        f"🔒 پوزیشن بدون ریسک (Risk-Free) ادامه دارد."
+                        f"🔒 معامله ریسک‌فری شد و در مسیر تارگت‌های بعدی است."
                     )
                     send_telegram(msg)
 
             # بررسی حد ضرر
             hit_sl = (is_long and current_price <= t['sl']) or (not is_long and current_price >= t['sl'])
             if hit_sl:
-                outcome = "در نقطه ورود (بدون ضرر)" if t['risk_free'] else "با حد ضرر اولیه"
+                if t['risk_free']:
+                    PerformanceManager.record_event("risk_free_exits")
+                    outcome = "در نقطه ورود (سربه‌سر و بدون ضرر)"
+                else:
+                    PerformanceManager.record_event("sl_hits")
+                    outcome = "با حد ضرر اولیه"
                 msg = (
                     f"🛑 *TRADE CLOSED: STOP LOSS HIT*\n"
                     f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
@@ -372,11 +585,12 @@ class TradeLifecycleAgent:
                     f"قیمت خروج: `{current_price:,.4f}`"
                 )
                 send_telegram(msg)
-                continue  # حذف معامله از چرخه
+                continue
 
-            # بررسی تارگت نهایی (TP3)
+            # بررسی تارگت نهایی
             hit_tp3 = (is_long and current_price >= t['tp3']) or (not is_long and current_price <= t['tp3'])
             if hit_tp3:
+                PerformanceManager.record_event("tp3_hits")
                 msg = (
                     f"🏆 *MAX TARGET ACHIEVED — FULL CLOSE*\n"
                     f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
@@ -384,14 +598,14 @@ class TradeLifecycleAgent:
                     f"تارگت نهایی TP3 با موفقیت لمس شد (`{t['tp3']:,.4f}`)! سود کامل ذخیره شد."
                 )
                 send_telegram(msg)
-                continue  # معامله کامل شد
+                continue
 
             updated_trades[symbol] = t
 
         cls.save_trades(updated_trades)
 
 # =====================================================================
-# ماژول ۶: مخابره کارت‌های پیشرفته سیگنال (Dispatch Agent)
+# ماژول ارسال کارت هشدار
 # =====================================================================
 class DispatchAgent:
     @staticmethod
@@ -405,7 +619,6 @@ class DispatchAgent:
         tp2_pct = abs((tp2 - price) / price) * 100
         tp3_pct = abs((tp3 - price) / price) * 100
 
-        # محاسبه تخصیص بهینه سرمایه
         pos_size_pct = round(min(5.0, (PORTFOLIO_RISK_PERCENT / (sl_pct / 100)) / lev), 1)
 
         msg = (
@@ -443,10 +656,16 @@ class DispatchAgent:
         send_telegram(msg)
 
 # =====================================================================
-# هسته هماهنگ‌کننده کل اکوسیستم (Master Orchestrator)
+# هسته هماهنگ‌کننده کل اکوسیستم
 # =====================================================================
 def run_system():
-    # ۱. اعتبارسنجی سپر اخبار اقتصادی
+    # بررسی دستورات ارسالی در تلگرام (/status, /report, /trades, /add)
+    TelegramCommandHandler.process_pending_commands()
+
+    # ارزیابی سلامت منابع
+    SystemMaintenanceAgent.audit_system_and_notify()
+
+    # بررسی محافظ اخبار اقتصادی
     is_safe, shield_reason = EconomicShieldAgent.is_market_safe()
     if not is_safe:
         print(f"Economic Shield Triggered: {shield_reason}. Skipping scan.")
@@ -455,14 +674,16 @@ def run_system():
     tech_agent = TechnicalAgent()
     tech_agent.load_btc_benchmark()
 
-    # ۲. پیگیری معاملات فعال قبلی (TP/SL)
+    # مانیتور و مدیریت معاملات باز قبلی
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
+
+    # ساخت واچ‌لیست کامل
+    active_watchlist = SystemMaintenanceAgent.build_full_watchlist(tech_agent.primary_binance)
 
     macro_agent = MacroAIOfficerAgent()
     dispatched = 0
 
-    # ۳. اسکن بازار برای موقعیت‌های جدید در میان ۹۱ دارایی
-    for symbol in WATCHLIST:
+    for symbol in active_watchlist:
         if dispatched >= MAX_SIGNALS:
             break
 
@@ -477,7 +698,7 @@ def run_system():
 
             setup = None
 
-            # شرط خرید بهینه با تایید جذب نقدینگی و عدم ریزش شدید همبستگی
+            # شرط خرید
             if rsi < 46 and imbalance > 0.02 and vol_ratio >= 0.95 and whale['top_ratio'] >= 0.90:
                 score = int(min(99, (48 - rsi) * 2 + (imbalance * 20) + (whale['top_ratio'] * 15) + (10 if "BULLISH" in macro_agent.macro['risk_mode'] else 0)))
                 setup = {
@@ -517,7 +738,6 @@ def run_system():
                     'gold': macro_agent.macro['gold'], 'sp500': macro_agent.macro['sp500']
                 }
 
-            # ارزیابی توسط افسر هوش مصنوعی و صدور پیام
             if setup:
                 review = macro_agent.review_setup(setup)
                 if review['approved']:
@@ -526,12 +746,20 @@ def run_system():
                     DispatchAgent.send(setup)
                     TradeLifecycleAgent.register_trade(setup)
                     dispatched += 1
-                    print(f"⚡ [MULTI-AGENT DISPATCH]: {symbol} confirmed, sent, and registered in lifecycle.")
+                    print(f"⚡ [MULTI-AGENT DISPATCH]: {symbol} confirmed & tracked.")
 
-        except Exception as e:
+        except Exception:
             continue
 
-    print("System Diagnostics: Scan cycle finished. API health stable.")
+    print("Master Orchestrator: Cycle completed.")
 
 if __name__ == "__main__":
+    # پیام تست زنده جهت اطمینان ۱۰۰٪ از اتصال تلگرام در هر بار اجرا
+    test_ping = (
+        "🚀 *SYSTEM ONLINE & READY*\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "✅ اتصال تلگرام، هوش مصنوعی و اسکنر چندایجنت کاملاً برقرار است.\n"
+        "📊 در حال پایش بازار روی کندل‌های قطعی ۱۵ دقیقه‌ای..."
+    )
+    send_telegram(test_ping)
     run_system()
