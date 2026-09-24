@@ -165,5 +165,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "18:37:14 | 2026/09/24"
+  },
+  "APT/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.813,
+    "sl": 0.8318785714285714,
+    "tp1": 0.775242857142857,
+    "tp2": 0.7563642857142856,
+    "tp3": 0.7374857142857141,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "18:56:38 | 2026/09/24"
+  },
+  "SEI/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.06018,
+    "sl": 0.061164642857142855,
+    "tp1": 0.05821071428571428,
+    "tp2": 0.057226071428571425,
+    "tp3": 0.05624142857142857,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "18:56:40 | 2026/09/24"
   }
 }
