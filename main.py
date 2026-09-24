@@ -21,35 +21,26 @@ CUSTOM_WATCHLIST_FILE = "custom_watchlist.json"
 OFFSET_FILE = "telegram_offset.json"
 
 BASE_WATCHLIST = [
-    # Gold & Commodities
     "PAXG/USDT", "XAU/USDT",
-    # Layer 1
     "BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT", "XRP/USDT", "ADA/USDT",
     "AVAX/USDT", "DOT/USDT", "TRX/USDT", "NEAR/USDT", "SUI/USDT", "APT/USDT",
     "TON/USDT", "KAS/USDT", "SEI/USDT", "HBAR/USDT", "ATOM/USDT", "ALGO/USDT",
     "FTM/USDT", "EGLD/USDT", "FLOW/USDT", "MINA/USDT", "ICP/USDT",
-    # Layer 2
     "MATIC/USDT", "ARB/USDT", "OP/USDT", "STRK/USDT", "IMX/USDT", "MANTA/USDT", "METIS/USDT",
-    # DeFi
     "LINK/USDT", "UNI/USDT", "AAVE/USDT", "MKR/USDT", "SNX/USDT", "LDO/USDT",
     "CRV/USDT", "RUNE/USDT", "INJ/USDT", "PENDLE/USDT", "ENA/USDT", "DYDX/USDT", "CAKE/USDT",
-    # AI & Data
     "FET/USDT", "RENDER/USDT", "TAO/USDT", "AGIX/USDT", "OCEAN/USDT", "GRT/USDT",
     "WLD/USDT", "ARKM/USDT", "THETA/USDT",
-    # Memes
     "DOGE/USDT", "SHIB/USDT", "PEPE/USDT", "WIF/USDT", "FLOKI/USDT", "BONK/USDT",
     "BOME/USDT", "MEME/USDT",
-    # Legacy
     "LTC/USDT", "BCH/USDT", "ETC/USDT", "XLM/USDT",
-    # Gaming
     "GALA/USDT", "SAND/USDT", "MANA/USDT", "AXS/USDT", "BEAM/USDT", "RON/USDT",
-    # Storage & Infra
     "FIL/USDT", "AR/USDT", "TIA/USDT"
 ]
 
 def send_telegram(message: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        print("[TELEGRAM ERROR]: Token or Chat ID is not set in Secrets!")
+        print("[TELEGRAM ERROR]: Token or Chat ID not configured.")
         return
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "HTML"}
@@ -57,117 +48,176 @@ def send_telegram(message: str):
         res = requests.post(url, json=payload, timeout=10)
         data = res.json()
         if not data.get("ok"):
-            print(f"[TELEGRAM API REJECTED]: {data.get('description')}")
             plain = message.replace("<b>", "").replace("</b>", "").replace("<i>", "").replace("</i>", "").replace("<code>", "").replace("</code>", "")
             requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": plain}, timeout=10)
-        else:
-            print("[TELEGRAM SUCCESS]: Message delivered successfully.")
     except Exception as e:
         print(f"[TELEGRAM EXCEPTION]: {e}")
 
 # =====================================================================
-# ماژول عملکرد و آمار معاملات
+# ماژول رهگیری لحظه‌ای معاملات (TP / SL / Risk-Free Tracker)
 # =====================================================================
-class PerformanceManager:
+class TradeLifecycleAgent:
     @staticmethod
-    def load_stats():
-        if os.path.exists(PERFORMANCE_FILE):
+    def load_trades():
+        if os.path.exists(TRADES_STATE_FILE):
             try:
-                with open(PERFORMANCE_FILE, "r") as f:
+                with open(TRADES_STATE_FILE, "r") as f:
                     return json.load(f)
             except Exception: pass
-        return {"total_trades": 0, "tp1_hits": 0, "tp3_hits": 0, "sl_hits": 0, "risk_free_exits": 0}
+        # ساخت فایل اولیه در صورت عدم وجود
+        default_state = {}
+        with open(TRADES_STATE_FILE, "w") as f:
+            json.dump(default_state, f)
+        return default_state
 
     @staticmethod
-    def save_stats(stats):
+    def save_trades(trades):
         try:
-            with open(PERFORMANCE_FILE, "w") as f:
-                json.dump(stats, f, indent=2)
-        except Exception: pass
+            with open(TRADES_STATE_FILE, "w") as f:
+                json.dump(trades, f, indent=2)
+        except Exception as e:
+            print(f"Error saving trades: {e}")
 
     @classmethod
-    def record_event(cls, event_type: str):
-        stats = cls.load_stats()
-        if event_type in stats:
-            stats[event_type] += 1
-        cls.save_stats(stats)
+    def register_trade(cls, setup: dict):
+        trades = cls.load_trades()
+        symbol = setup['symbol']
+        # اگر معامله‌ای با این نام باز باشد، دوباره ثبت نشود
+        if symbol in trades:
+            return
+
+        trades[symbol] = {
+            'action': setup['action'],
+            'entry': setup['price'],
+            'sl': setup['sl'],
+            'tp1': setup['tp1'],
+            'tp2': setup['tp2'],
+            'tp3': setup['tp3'],
+            'leverage': setup['leverage'],
+            'tp1_hit': False,
+            'tp2_hit': False,
+            'risk_free': False,
+            'opened_at': datetime.utcnow().strftime("%Y-%m-%d %H:%M")
+        }
+        cls.save_trades(trades)
 
     @classmethod
-    def get_summary_text(cls) -> str:
-        stats = cls.load_stats()
-        total = stats["total_trades"]
-        if total == 0:
-            return "📊 هنوز معامله نهایی ثبت نشده است."
-        win_rate = round(((stats["tp1_hits"] + stats["tp3_hits"]) / max(1, total)) * 100, 1)
-        return (
-            f"📊 <b>INSTITUTIONAL PERFORMANCE REPORT</b>\n"
-            f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-            f"🎯 کل معاملات صادرشده: <b>{total}</b>\n"
-            f"🥇 تارگت اول محقق‌شده: <b>{stats['tp1_hits']}</b>\n"
-            f"🏆 تارگت نهایی (TP3): <b>{stats['tp3_hits']}</b>\n"
-            f"🛡️ خروج ریسک‌فری: <b>{stats['risk_free_exits']}</b>\n"
-            f"🛑 برخورد به استاپ اولیه: <b>{stats['sl_hits']}</b>\n"
-            f"📈 نرخ موفقیت ارزیابی هوش مصنوعی: <b>~{win_rate}%</b>"
-        )
+    def monitor_active_trades(cls, tech_agent):
+        trades = cls.load_trades()
+        if not trades:
+            return
+
+        remaining_trades = {}
+        for symbol, t in list(trades.items()):
+            ohlcv, _, _ = tech_agent.fetch_candle_data(symbol)
+            if not ohlcv or len(ohlcv) < 2:
+                remaining_trades[symbol] = t
+                continue
+
+            # استفاده از High و Low آخرین کندل جهت بررسی دقیق شدوها
+            last_candle = ohlcv[-2]  # آخرین کندل بسته شده قطعی
+            high_price = last_candle[2]
+            low_price = last_candle[3]
+            close_price = last_candle[4]
+
+            is_long = "LONG" in t['action']
+            closed = False
+
+            # ۱. بررسی لمس TP1 و اعمال ریسک‌فری
+            if not t['tp1_hit']:
+                tp1_reached = (high_price >= t['tp1']) if is_long else (low_price <= t['tp1'])
+                if tp1_reached:
+                    t['tp1_hit'] = True
+                    t['risk_free'] = True
+                    t['sl'] = t['entry']  # انتقال قطعی استاپ به نقطه ورود
+                    msg = (
+                        f"🎯 <b>تارگت اول (TP1) تاچ شد!</b>\n"
+                        f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
+                        f"✅ تارگت اول در قیمت <code>{t['tp1']:,.4f}</code> محقق شد.\n"
+                        f"🛡️ <b>وضعیت:</b> معامله ریسک‌فری شد (حد ضرر به نقطه ورود <code>{t['entry']:,.4f}</code> منتقل شد).\n"
+                        f"💰 بخشی از سود را سیو کنید؛ ریسک این معامله اکنون <b>صفر</b> است."
+                    )
+                    send_telegram(msg)
+
+            # ۲. بررسی لمس TP2
+            if t['tp1_hit'] and not t.get('tp2_hit', False):
+                tp2_reached = (high_price >= t['tp2']) if is_long else (low_price <= t['tp2'])
+                if tp2_reached:
+                    t['tp2_hit'] = True
+                    msg = (
+                        f"🥈 <b>تارگت دوم (TP2) تاچ شد!</b>\n"
+                        f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
+                        f"🎯 تارگت دوم در قیمت <code>{t['tp2']:,.4f}</code> لمس گردید.\n"
+                        f"🚀 پوزیشن در مسیر تارگت نهایی (TP3) قرار دارد."
+                    )
+                    send_telegram(msg)
+
+            # ۳. بررسی لمس TP3 (بستن کامل با سود حداکثری)
+            tp3_reached = (high_price >= t['tp3']) if is_long else (low_price <= t['tp3'])
+            if tp3_reached:
+                msg = (
+                    f"🏆 <b>تارگت نهایی (TP3) محقق شد — خروج کامل</b>\n"
+                    f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                    f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
+                    f"🎉 تمام اهداف معامله در قیمت <code>{t['tp3']:,.4f}</code> تکمیل شدند.\n"
+                    f"✅ معامله با سود کامل از سیستم خارج شد."
+                )
+                send_telegram(msg)
+                closed = True
+
+            # ۴. بررسی حد ضرر (Stop Loss)
+            sl_reached = (low_price <= t['sl']) if is_long else (high_price >= t['sl'])
+            if sl_reached and not closed:
+                if t['risk_free']:
+                    msg = (
+                        f"🛡️ <b>خروج در نقطه ورود (Risk-Free Exit)</b>\n"
+                        f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
+                        f"بازار برگشت و معامله در نقطه ورود <code>{t['entry']:,.4f}</code> بسته شد.\n"
+                        f"👌 نتیجه نهایی: سود TP1 حفظ شد و بدون هیچ ضرری بسته شد."
+                    )
+                else:
+                    msg = (
+                        f"🛑 <b>حد ضرر (Stop Loss) لمس شد</b>\n"
+                        f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        f"🌐 جفت‌ارز: <b>#{symbol.replace('/', '_')}</b>\n"
+                        f"معامله در قیمت <code>{t['sl']:,.4f}</code> با رعایت مدیریت ریسک بسته شد."
+                    )
+                send_telegram(msg)
+                closed = True
+
+            if not closed:
+                remaining_trades[symbol] = t
+
+        cls.save_trades(remaining_trades)
 
 # =====================================================================
-# ماژول سپر اقتصادی
-# =====================================================================
-class EconomicShieldAgent:
-    @staticmethod
-    def is_market_safe() -> (bool, str):
-        try:
-            url = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
-            requests.get(url, timeout=3).json()
-            return True, "Market Clear"
-        except Exception:
-            return True, "Shield Passthrough"
-
-# =====================================================================
-# ماژول محاسبات تکنیکال و بازار
+# ماژول تحلیل تکنیکال و صرافی‌ها
 # =====================================================================
 class TechnicalAgent:
     def __init__(self):
         self.exchanges = self._init_exchanges()
-        self.primary_binance = None
-        for name, ex in self.exchanges:
-            if "Binance" in name:
-                self.primary_binance = ex
-                break
-        self.btc_candles = None
 
     def _init_exchanges(self):
         pools = []
         try:
             b = ccxt.binance({'enableRateLimit': True, 'urls': {'api': {'public': 'https://data-api.binance.vision/api/v3'}}})
             b.load_markets()
-            pools.append(("Binance (Global)", b))
+            pools.append(("Binance", b))
         except Exception: pass
         try:
             by = ccxt.bybit({'enableRateLimit': True, 'urls': {'api': {'public': 'https://api.bytick.com'}}})
             by.load_markets()
-            pools.append(("Bybit Institutional", by))
+            pools.append(("Bybit", by))
         except Exception: pass
         try:
             ok = ccxt.okx({'enableRateLimit': True})
             ok.load_markets()
-            pools.append(("OKX Global", ok))
-        except Exception: pass
-        try:
-            m = ccxt.mexc({'enableRateLimit': True})
-            m.load_markets()
-            pools.append(("MEXC Global", m))
+            pools.append(("OKX", ok))
         except Exception: pass
         return pools
-
-    def load_btc_benchmark(self):
-        try:
-            ohlcv, _, _ = self.fetch_candle_data("BTC/USDT")
-            if ohlcv:
-                df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-                self.btc_candles = df.iloc[:-1]['close']
-        except Exception:
-            self.btc_candles = None
 
     def fetch_candle_data(self, symbol: str):
         search_symbols = [symbol]
@@ -212,20 +262,9 @@ class TechnicalAgent:
         ranges = pd.concat([high_low, high_close, low_close], axis=1)
         df['atr'] = ranges.max(axis=1).rolling(14).mean()
 
-        df['body'] = df['close'] - df['open']
-        df['cvd_proxy'] = (df['body'] / (df['high'] - df['low'] + 1e-8)) * df['volume']
-        absorption = "ABSORPTION DETECTED 🧲" if df['cvd_proxy'].iloc[-1] > df['volume'].iloc[-1] * 0.4 else "STANDARD"
-
-        btc_corr = 0.85
-        if self.btc_candles is not None and len(self.btc_candles) >= 30:
-            try:
-                corr = df['close'].tail(30).corr(self.btc_candles.tail(30))
-                btc_corr = round(corr, 2) if not math.isnan(corr) else 0.85
-            except Exception: pass
-
         latest = df.iloc[-1]
         vol_ratio = latest['volume'] / latest['vol_ma20'] if latest['vol_ma20'] > 0 else 1.0
-        return latest['close'], latest['rsi'], latest['atr'], vol_ratio, absorption, btc_corr
+        return latest['close'], latest['rsi'], latest['atr'], vol_ratio
 
 # =====================================================================
 # ماژول رصد نهنگ‌ها
@@ -260,72 +299,15 @@ class WhaleAgent:
         return metrics
 
 # =====================================================================
-# ماژول اقتصاد کلان و هوش مصنوعی دوگانه
+# ماژول هوش مصنوعی و اقتصاد کلان
 # =====================================================================
 class MacroAIOfficerAgent:
-    def __init__(self):
-        self.macro = self._fetch_macro()
-        self.fng = self._fetch_fng()
-        self.deribit = self._fetch_deribit()
-
-    def _fetch_macro(self):
-        macro = {
-            "dxy": "FLAT", "dxy_val": 104.0, "vix": 18.0, "us10y": 4.20,
-            "gold": 2650.0, "gold_trend": "FLAT", "sp500": 5800.0,
-            "risk_mode": "NEUTRAL", "net_liquidity": "EXPANDING 🟢"
-        }
-        try:
-            symbols = ["DX-Y.NYB", "^VIX", "^TNX", "GC=F", "^GSPC"]
-            data = yf.download(symbols, period="3d", interval="1d", progress=False)['Close']
-            if "DX-Y.NYB" in data:
-                d = data["DX-Y.NYB"].dropna()
-                macro['dxy_val'] = round(float(d.iloc[-1]), 2)
-                macro['dxy'] = "FALLING 🟢" if d.iloc[-1] < d.iloc[-2] else "RISING 🔴"
-            if "^VIX" in data: macro['vix'] = round(float(data["^VIX"].dropna().iloc[-1]), 1)
-            if "^TNX" in data: macro['us10y'] = round(float(data["^TNX"].dropna().iloc[-1]), 2)
-            if "GC=F" in data:
-                g = data["GC=F"].dropna()
-                macro['gold'] = round(float(g.iloc[-1]), 1)
-                macro['gold_trend'] = "BULLISH 🟢" if g.iloc[-1] > g.iloc[-2] else "BEARISH 🔴"
-            if "^GSPC" in data:
-                s = data["^GSPC"].dropna()
-                macro['sp500'] = round(float(s.iloc[-1]), 1)
-
-            if "FALLING" in macro['dxy'] and macro['vix'] < 20:
-                macro['risk_mode'] = "STRONG RISK-ON (AGGRESSIVE BULLISH)"
-                macro['net_liquidity'] = "INFLOW / SURPLUS 🟢"
-            elif macro['vix'] > 22 or "RISING" in macro['dxy']:
-                macro['risk_mode'] = "RISK-OFF (DEFENSIVE CAPITAL FLIGHT)"
-                macro['net_liquidity'] = "TIGHTENING / OUTFLOW 🔴"
-        except Exception: pass
-        return macro
-
-    def _fetch_fng(self):
-        try:
-            res = requests.get("https://api.alternative.me/fng/?limit=1", timeout=4).json()
-            return int(res['data'][0]['value'])
-        except Exception: return 50
-
-    def _fetch_deribit(self):
-        try:
-            res = requests.get("https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option", timeout=4).json()
-            items = res.get("result", [])
-            c = sum(x.get("volume", 0) for x in items if "call" in x.get("instrument_name", "").lower())
-            p = sum(x.get("volume", 0) for x in items if "put" in x.get("instrument_name", "").lower())
-            pcr = round(p / c, 2) if c > 0 else 0.8
-            return {"pcr": pcr, "options_bias": "BULLISH" if pcr < 0.75 else "BEARISH"}
-        except Exception:
-            return {"pcr": 0.75, "options_bias": "NEUTRAL"}
-
     def review_setup(self, payload: dict) -> dict:
         prompt = (
             f"Review trade setup:\nSymbol: {payload['symbol']} | Action: {payload['action']}\n"
-            f"RSI: {payload['rsi_15m']:.1f} | Imbalance: {payload['imbalance']} | L/S: {payload['top_ratio']}\n"
-            f"BTC Correlation: {payload['btc_corr']} | Absorption: {payload['absorption']}\n"
-            f"Macro: DXY {self.macro['dxy']}, VIX {self.macro['vix']}, Gold {self.macro['gold_trend']}\n\n"
+            f"RSI: {payload['rsi_15m']:.1f} | Imbalance: {payload['imbalance']} | L/S: {payload['top_ratio']}\n\n"
             f"Instruction: Start strictly with 'VERDICT: CONFIRMED' or 'VERDICT: REJECTED'. Add 2 sentences thesis."
         )
-
         analysis = ""
         engine = "Gemini Flash"
         if GEMINI_API_KEY:
@@ -345,300 +327,14 @@ class MacroAIOfficerAgent:
             except Exception: pass
 
         if not analysis:
-            return {"approved": True, "engine": "Institutional Quant Engine", "thesis": "Order flow imbalance, absorption, and whale telemetry aligned."}
+            return {"approved": True, "engine": "Institutional Quant", "thesis": "Order flow and volume telemetry aligned."}
 
         approved = analysis.strip().upper().startswith("VERDICT: CONFIRMED") or "\nVERDICT: CONFIRMED" in analysis.strip().upper()
         thesis = analysis.replace("VERDICT: CONFIRMED", "").replace("VERDICT: REJECTED", "").strip()
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
-    def on_demand_analysis(self, payload: dict) -> dict:
-        """تحلیل اختصاصی و آزاد هوش مصنوعی برای هر ارز درخواستی"""
-        prompt = (
-            f"Provide an on-demand trade analysis:\nSymbol: {payload['symbol']}\n"
-            f"Price: {payload['price']} | RSI(15m): {payload['rsi']:.1f} | ATR: {payload['atr']}\n"
-            f"Order-book Imbalance: {payload['imbalance']} | Whale L/S Ratio: {payload['whale']['top_ratio']}\n"
-            f"Funding: {payload['whale']['funding']}% | CVD State: {payload['absorption']}\n\n"
-            f"Output format:\n"
-            f"DIRECTION: [BUY / SELL / WAIT]\n"
-            f"CONFIDENCE: [0-100%]\n"
-            f"THESIS: [2 sentences explain why]"
-        )
-        analysis = ""
-        engine = "Gemini Flash"
-        if GEMINI_API_KEY:
-            try:
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
-                res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=8).json()
-                analysis = res['candidates'][0]['content']['parts'][0]['text'].strip()
-            except Exception: pass
-
-        if not analysis and GROQ_API_KEY:
-            engine = "Groq Llama-3"
-            try:
-                url = "https://api.groq.com/openai/v1/chat/completions"
-                headers = {"Authorization": f"Bearer {GROQ_API_KEY}"}
-                res = requests.post(url, headers=headers, json={"model": "llama-3.1-8b-instant", "messages": [{"role": "user", "content": prompt}], "max_tokens": 140}, timeout=8).json()
-                analysis = res['choices'][0]['message']['content'].strip()
-            except Exception: pass
-
-        if not analysis:
-            analysis = "DIRECTION: WAIT\nCONFIDENCE: 50%\nTHESIS: Market consolidations observed. Insufficient confluence."
-
-        return {"engine": engine, "raw": analysis}
-
 # =====================================================================
-# ماژول دستورات تلگرام + اسکن درخواستی
-# =====================================================================
-class TelegramCommandHandler:
-    @staticmethod
-    def load_offset():
-        if os.path.exists(OFFSET_FILE):
-            try:
-                with open(OFFSET_FILE, "r") as f:
-                    return json.load(f).get("offset", 0)
-            except Exception: pass
-        return 0
-
-    @staticmethod
-    def save_offset(offset):
-        try:
-            with open(OFFSET_FILE, "w") as f:
-                json.dump({"offset": offset}, f)
-        except Exception: pass
-
-    @classmethod
-    def process_pending_commands(cls, tech_agent: TechnicalAgent, macro_agent: MacroAIOfficerAgent):
-        if not TELEGRAM_BOT_TOKEN:
-            return
-        offset = cls.load_offset()
-        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates?offset={offset + 1}&timeout=2"
-        try:
-            res = requests.get(url, timeout=4).json()
-            if not res.get("ok"):
-                return
-            
-            for update in res.get("result", []):
-                update_id = update["update_id"]
-                cls.save_offset(update_id)
-                msg = update.get("message", {})
-                text = msg.get("text", "").strip()
-
-                if not text:
-                    continue
-
-                if text == "/status":
-                    status_text = (
-                        "🟢 <b>SYSTEM HEALTH DIAGNOSTICS</b>\n"
-                        "━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🤖 Gemini API: <b>{'Online' if GEMINI_API_KEY else 'Missing'}</b>\n"
-                        f"⚡ Groq Fallback: <b>{'Online' if GROQ_API_KEY else 'Missing'}</b>\n"
-                        f"🐋 Whale Telemetry: <b>Active</b>\n"
-                        f"🔒 Candle Engine: <b>Enforced (15m close)</b>"
-                    )
-                    send_telegram(status_text)
-
-                elif text == "/report":
-                    send_telegram(PerformanceManager.get_summary_text())
-
-                elif text == "/trades":
-                    trades = TradeLifecycleAgent.load_trades()
-                    if not trades:
-                        send_telegram("📭 در حال حاضر هیچ معامله بازی در سیستم وجود ندارد.")
-                    else:
-                        resp = "📋 <b>ACTIVE MANAGED TRADES</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        for s, t in trades.items():
-                            resp += f"• <b>{s}</b> ({t['action']}) | ورود: <code>{t['entry']}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
-                        send_telegram(resp)
-
-                elif text.startswith("/add "):
-                    new_sym = text.split(" ")[1].upper()
-                    if not new_sym.endswith("/USDT"):
-                        new_sym += "/USDT"
-                    cls._append_custom_symbol(new_sym)
-                    send_telegram(f"✅ جفت‌ارز <b>{new_sym}</b> به واچ‌لیست اضافه شد.")
-
-                # دستور جدید: اسکن و تحلیل فوری یک ارز خاص
-                elif text.startswith("/scan "):
-                    target_sym = text.split(" ")[1].upper()
-                    if not target_sym.endswith("/USDT"):
-                        target_sym += "/USDT"
-                    cls._perform_on_demand_scan(target_sym, tech_agent, macro_agent)
-
-        except Exception as e:
-            print(f"Telegram command error: {e}")
-
-    @classmethod
-    def _perform_on_demand_scan(cls, symbol: str, tech: TechnicalAgent, macro: MacroAIOfficerAgent):
-        send_telegram(f"🔎 <i>در حال بررسی و تحلیل عمیق جفت‌ارز {symbol}...</i>")
-        ohlcv, active_ex, source_name = tech.fetch_candle_data(symbol)
-        if not ohlcv:
-            send_telegram(f"❌ نماد <b>{symbol}</b> در صرافی‌های متصل یافت نشد یا داده کافی ندارد.")
-            return
-
-        try:
-            price, rsi, atr, vol_ratio, absorption, btc_corr = tech.compute_indicators(ohlcv)
-            imbalance = tech.analyze_orderbook_imbalance(active_ex, symbol)
-            whale = WhaleAgent.inspect(symbol)
-
-            payload = {
-                'symbol': symbol, 'price': price, 'rsi': rsi, 'atr': atr,
-                'vol_ratio': vol_ratio, 'absorption': absorption, 'btc_corr': btc_corr,
-                'imbalance': imbalance, 'whale': whale
-            }
-
-            ai_res = macro.on_demand_analysis(payload)
-            raw_ai = ai_res['raw']
-
-            sl_long = price - (1.5 * atr)
-            tp1_long = price + (3.0 * atr)
-            sl_short = price + (1.5 * atr)
-            tp1_short = price - (3.0 * atr)
-
-            report = (
-                f"🎯 <b>ON-DEMAND ASSET SCAN: #{symbol.replace('/', '_')}</b>\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                f"💵 قیمت لحظه‌ای: <code>{price:,.4f}</code>\n"
-                f"📚 عدم تعادل بوک: <code>{imbalance:+.2f}</code>\n"
-                f"📉 15m RSI: <code>{rsi:.1f}</code> | حجم: <code>{vol_ratio:.1f}x</code>\n\n"
-                f"🐋 <b>دیتای نهنگ‌ها</b>\n"
-                f"• نسبت Long/Short برترین‌ها: <b>{whale['top_ratio']}</b> ({whale['whale_bias']})\n"
-                f"• سود باز (OI): <code>{whale['oi_val']:,.1f}</code>\n"
-                f"• فاندینگ ریت: <code>{whale['funding']:+.4f}%</code>\n\n"
-                f"🧠 <b>تحلیل هوش مصنوعی ({ai_res['engine']})</b>\n"
-                f"<i>{raw_ai}</i>\n\n"
-                f"📐 <b>سطوح محاسباتی بر مبنای ATR</b>\n"
-                f"🟢 در صورت لانگ ➔ SL: <code>{sl_long:,.4f}</code> | TP1: <code>{tp1_long:,.4f}</code>\n"
-                f"🔴 در صورت شورت ➔ SL: <code>{sl_short:,.4f}</code> | TP1: <code>{tp1_short:,.4f}</code>"
-            )
-            send_telegram(report)
-        except Exception as e:
-            send_telegram(f"❌ خطا در پردازش تحلیل نماد: {e}")
-
-    @staticmethod
-    def _append_custom_symbol(symbol: str):
-        current = []
-        if os.path.exists(CUSTOM_WATCHLIST_FILE):
-            try:
-                with open(CUSTOM_WATCHLIST_FILE, "r") as f:
-                    current = json.load(f)
-            except Exception: pass
-        if symbol not in current:
-            current.append(symbol)
-            try:
-                with open(CUSTOM_WATCHLIST_FILE, "w") as f:
-                    json.dump(current, f, indent=2)
-            except Exception: pass
-
-    @staticmethod
-    def get_custom_symbols():
-        if os.path.exists(CUSTOM_WATCHLIST_FILE):
-            try:
-                with open(CUSTOM_WATCHLIST_FILE, "r") as f:
-                    return json.load(f)
-            except Exception: pass
-        return []
-
-# =====================================================================
-# ماژول چرخه عمر معامله
-# =====================================================================
-class TradeLifecycleAgent:
-    @staticmethod
-    def load_trades():
-        if os.path.exists(TRADES_STATE_FILE):
-            try:
-                with open(TRADES_STATE_FILE, "r") as f:
-                    return json.load(f)
-            except Exception: pass
-        return {}
-
-    @staticmethod
-    def save_trades(trades):
-        try:
-            with open(TRADES_STATE_FILE, "w") as f:
-                json.dump(trades, f, indent=2)
-        except Exception: pass
-
-    @classmethod
-    def register_trade(cls, setup: dict):
-        trades = cls.load_trades()
-        symbol = setup['symbol']
-        trades[symbol] = {
-            'action': setup['action'],
-            'entry': setup['price'],
-            'sl': setup['sl'],
-            'tp1': setup['tp1'],
-            'tp2': setup['tp2'],
-            'tp3': setup['tp3'],
-            'leverage': setup['leverage'],
-            'tp1_hit': False,
-            'risk_free': False
-        }
-        cls.save_trades(trades)
-        PerformanceManager.record_event("total_trades")
-
-    @classmethod
-    def monitor_active_trades(cls, tech_agent: TechnicalAgent):
-        trades = cls.load_trades()
-        if not trades:
-            return
-
-        updated_trades = {}
-        for symbol, t in trades.items():
-            ohlcv, _, _ = tech_agent.fetch_candle_data(symbol)
-            if not ohlcv:
-                updated_trades[symbol] = t
-                continue
-
-            current_price = ohlcv[-1][4]
-            is_long = "LONG" in t['action']
-
-            if not t['tp1_hit']:
-                if (is_long and current_price >= t['tp1']) or (not is_long and current_price <= t['tp1']):
-                    t['tp1_hit'] = True
-                    t['risk_free'] = True
-                    t['sl'] = t['entry']
-                    PerformanceManager.record_event("tp1_hits")
-                    msg = (
-                        f"🎯 <b>TARGET 1 REACHED — POSITION RISK-FREE</b>\n"
-                        f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🌐 #{symbol.replace('/', '_')}\n"
-                        f"✅ تارگت اول لمس شد (<code>{t['tp1']:,.4f}</code>).\n"
-                        f"🛡️ حد ضرر به نقطه ورود منتقل شد.\n"
-                        f"🔒 معامله ریسک‌فری شد."
-                    )
-                    send_telegram(msg)
-
-            hit_sl = (is_long and current_price <= t['sl']) or (not is_long and current_price >= t['sl'])
-            if hit_sl:
-                outcome = "در نقطه ورود (سربه‌سر)" if t['risk_free'] else "با حد ضرر اولیه"
-                msg = (
-                    f"🛑 <b>TRADE CLOSED: STOP LOSS HIT</b>\n"
-                    f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                    f"🌐 #{symbol.replace('/', '_')}\n"
-                    f"معامله {symbol} {outcome} بسته شد.\n"
-                    f"قیمت خروج: <code>{current_price:,.4f}</code>"
-                )
-                send_telegram(msg)
-                continue
-
-            hit_tp3 = (is_long and current_price >= t['tp3']) or (not is_long and current_price <= t['tp3'])
-            if hit_tp3:
-                PerformanceManager.record_event("tp3_hits")
-                msg = (
-                    f"🏆 <b>MAX TARGET ACHIEVED — FULL CLOSE</b>\n"
-                    f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                    f"🌐 #{symbol.replace('/', '_')}\n"
-                    f"تارگت نهایی TP3 لمس شد (<code>{t['tp3']:,.4f}</code>)! سود کامل ذخیره شد."
-                )
-                send_telegram(msg)
-                continue
-
-            updated_trades[symbol] = t
-
-        cls.save_trades(updated_trades)
-
-# =====================================================================
-# ماژول ارسال کارت سیگنال
+# ماژول ارسال پیام به تلگرام
 # =====================================================================
 class DispatchAgent:
     @staticmethod
@@ -652,63 +348,41 @@ class DispatchAgent:
         tp2_pct = abs((tp2 - price) / price) * 100
         tp3_pct = abs((tp3 - price) / price) * 100
 
-        pos_size_pct = round(min(5.0, (PORTFOLIO_RISK_PERCENT / (sl_pct / 100)) / lev), 1)
-
         msg = (
-            f"⚡ <b>INSTITUTIONAL MULTI-AGENT ALERT</b>\n"
+            f"⚡ <b>INSTITUTIONAL SIGNAL DETECTED</b>\n"
             f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
             f"🌐 #{symbol_tag} | Primary Pool: <b>{data['source']}</b>\n"
             f"{action_emoji} <b>{data['action']}</b>\n\n"
-            f"🏆 Grade: <b>{data['grade']}</b> | Score: <b>{data['score']}/100</b>\n"
-            f"📈 Market Sentiment: <b>{data['regime']} (FnG: {data['fng']})</b>\n"
-            f"🌍 Macro: <b>{data['macro_mode']}</b>\n\n"
+            f"🏆 Grade: <b>{data['grade']}</b> | Quant Score: <b>{data['score']}/100</b>\n"
             f"🧠 <b>AI CONFLUENCE ({data['ai_engine']})</b>\n"
             f"<i>{data['ai_thesis']}</i>\n\n"
             f"🐋 <b>WHALE TELEMETRY</b>\n"
             f"📊 Top Traders L/S: <b>{data['top_ratio']}</b> ({data['whale_bias']})\n"
-            f"📦 Open Interest: <code>{data['oi_val']:,.1f}</code> | Funding: <code>{data['funding']:+.4f}%</code>\n"
-            f"🧲 Order Flow State: <b>{data['absorption']}</b>\n"
-            f"🔗 BTC Correlation: <code>{data['btc_corr']}</code>\n\n"
+            f"📦 Open Interest: <code>{data['oi_val']:,.1f}</code> | Funding: <code>{data['funding']:+.4f}%</code>\n\n"
             f"📍 <b>ENTRY ZONE</b>\n"
             f"<code>{data['entry_min']:,.4f}</code> – <code>{data['entry_max']:,.4f}</code>\n\n"
             f"🛑 <b>STOP LOSS</b>\n"
             f"<code>{sl:,.4f}</code> (-{sl_pct:.2f}%)\n\n"
-            f"⚠️ Suggested Leverage: <b>{lev}x</b> | 💵 Margin: <b>~{pos_size_pct}% of balance</b>\n\n"
             f"🎯 <b>TAKE PROFIT TARGETS</b>\n"
             f"🥇 TP1 ➔ <code>{tp1:,.4f}</code> (+{tp1_pct:.2f}%)\n"
             f"🥈 TP2 ➔ <code>{tp2:,.4f}</code> (+{tp2_pct:.2f}%)\n"
             f"🥉 TP3 ➔ <code>{tp3:,.4f}</code> (+{tp3_pct:.2f}%)\n\n"
-            f"⏱️ <i>Lifecycle tracking active. Auto Risk-Free alert enabled on TP1.</i>"
+            f"⏱️ <i>سیستم به صورت خودکار لمس تارگت ۱ و ریسک‌فری شدن را رصد و اعلام خواهد کرد.</i>"
         )
         send_telegram(msg)
 
 # =====================================================================
-# هسته هماهنگ‌کننده
+# هسته هماهنگ‌کننده کل برنامه
 # =====================================================================
 def run_system():
     tech_agent = TechnicalAgent()
-    tech_agent.load_btc_benchmark()
     macro_agent = MacroAIOfficerAgent()
 
-    # اول پردازش دستورات تلگرامی کاربر (شامل /scan, /trades, /status)
-    TelegramCommandHandler.process_pending_commands(tech_agent, macro_agent)
-
-    is_safe, shield_reason = EconomicShieldAgent.is_market_safe()
-    if not is_safe:
-        print(f"Economic Shield Triggered: {shield_reason}. Skipping regular scan.")
-        return
-
+    # گام اول: رصد تمام معاملات بازی که قبلاً صادر شده بودند (بررسی TP1, TP2, TP3, SL)
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
 
-    # ساخت واچ‌لیست کامل
-    active_watchlist = list(BASE_WATCHLIST)
-    for custom_sym in TelegramCommandHandler.get_custom_symbols():
-        if custom_sym not in active_watchlist:
-            active_watchlist.append(custom_sym)
-
     dispatched = 0
-
-    for symbol in active_watchlist:
+    for symbol in BASE_WATCHLIST:
         if dispatched >= MAX_SIGNALS:
             break
 
@@ -717,40 +391,34 @@ def run_system():
             continue
 
         try:
-            price, rsi, atr, vol_ratio, absorption, btc_corr = tech_agent.compute_indicators(ohlcv)
+            price, rsi, atr, vol_ratio = tech_agent.compute_indicators(ohlcv)
             imbalance = tech_agent.analyze_orderbook_imbalance(active_ex, symbol)
             whale = WhaleAgent.inspect(symbol)
 
             setup = None
 
+            # شرط خرید (Long)
             if rsi < 46 and imbalance > 0.02 and vol_ratio >= 0.95 and whale['top_ratio'] >= 0.90:
-                score = int(min(99, (48 - rsi) * 2 + (imbalance * 20) + (whale['top_ratio'] * 15) + (10 if "BULLISH" in macro_agent.macro['risk_mode'] else 0)))
+                score = int(min(99, (48 - rsi) * 2 + (imbalance * 20) + (whale['top_ratio'] * 15)))
                 setup = {
                     'source': source_name, 'symbol': symbol, 'action': 'LONG — BUY SETUP',
                     'grade': 'A+' if score >= 85 else 'A', 'score': score,
-                    'regime': "GREED" if macro_agent.fng >= 50 else "FEAR", 'fng': macro_agent.fng,
-                    'macro_mode': macro_agent.macro['risk_mode'], 'net_liquidity': macro_agent.macro['net_liquidity'],
                     'price': price, 'entry_min': price * 0.998, 'entry_max': price * 1.002,
                     'sl': price - (1.5 * atr), 'tp1': price + (3.0 * atr), 'tp2': price + (4.5 * atr), 'tp3': price + (6.0 * atr),
-                    'risk_level': 'CONTROLLED', 'leverage': 5, 'rsi_15m': rsi, 'vol_ratio': vol_ratio,
-                    'imbalance': imbalance, 'funding': whale['funding'], 'oi_val': whale['oi_val'],
-                    'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
-                    'absorption': absorption, 'btc_corr': btc_corr
+                    'leverage': 5, 'rsi_15m': rsi, 'imbalance': imbalance, 'funding': whale['funding'],
+                    'oi_val': whale['oi_val'], 'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias']
                 }
 
+            # شرط فروش (Short)
             elif rsi > 56 and imbalance < -0.02 and vol_ratio >= 0.95 and whale['top_ratio'] <= 1.15:
-                score = int(min(99, (rsi - 54) * 2 + (abs(imbalance) * 20) + ((1.5 - min(whale['top_ratio'], 1.5)) * 20) + (10 if "DEFENSIVE" in macro_agent.macro['risk_mode'] else 0)))
+                score = int(min(99, (rsi - 54) * 2 + (abs(imbalance) * 20) + ((1.5 - min(whale['top_ratio'], 1.5)) * 20)))
                 setup = {
                     'source': source_name, 'symbol': symbol, 'action': 'SHORT — SELL SETUP',
                     'grade': 'A+' if score >= 85 else 'A', 'score': score,
-                    'regime': "GREED" if macro_agent.fng >= 50 else "FEAR", 'fng': macro_agent.fng,
-                    'macro_mode': macro_agent.macro['risk_mode'], 'net_liquidity': macro_agent.macro['net_liquidity'],
                     'price': price, 'entry_min': price * 0.998, 'entry_max': price * 1.002,
                     'sl': price + (1.5 * atr), 'tp1': price - (3.0 * atr), 'tp2': price - (4.5 * atr), 'tp3': price - (6.0 * atr),
-                    'risk_level': 'CONTROLLED', 'leverage': 5, 'rsi_15m': rsi, 'vol_ratio': vol_ratio,
-                    'imbalance': imbalance, 'funding': whale['funding'], 'oi_val': whale['oi_val'],
-                    'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
-                    'absorption': absorption, 'btc_corr': btc_corr
+                    'leverage': 5, 'rsi_15m': rsi, 'imbalance': imbalance, 'funding': whale['funding'],
+                    'oi_val': whale['oi_val'], 'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias']
                 }
 
             if setup:
@@ -758,10 +426,12 @@ def run_system():
                 if review['approved']:
                     setup['ai_engine'] = review['engine']
                     setup['ai_thesis'] = review['thesis']
+                    # ۱. ارسال سیگنال به تلگرام
                     DispatchAgent.send(setup)
+                    # ۲. ثبت بلافاصله در چرخه پایش معاملات
                     TradeLifecycleAgent.register_trade(setup)
                     dispatched += 1
-                    print(f"⚡ [DISPATCH]: {symbol} confirmed & sent.")
+                    print(f"⚡ [DISPATCH & TRACK]: {symbol} registered.")
 
         except Exception:
             continue
