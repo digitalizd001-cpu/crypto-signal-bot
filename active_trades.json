@@ -297,5 +297,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "21:58:19 | 2026/09/24"
+  },
+  "LINK/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 13.237,
+    "sl": 13.454928571428571,
+    "tp1": 12.801142857142857,
+    "tp2": 12.583214285714284,
+    "tp3": 12.365285714285713,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "22:13:43 | 2026/09/24"
+  },
+  "MANA/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.08791,
+    "sl": 0.08888714285714286,
+    "tp1": 0.0859557142857143,
+    "tp2": 0.08497857142857144,
+    "tp3": 0.08400142857142859,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "22:14:01 | 2026/09/24"
   }
 }
