@@ -441,19 +441,6 @@
     "risk_free": false,
     "opened_at": "01:19:01 | 2026/09/25"
   },
-  "XLM/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.2143,
-    "sl": 0.21685857142857143,
-    "tp1": 0.20918285714285714,
-    "tp2": 0.2066242857142857,
-    "tp3": 0.2040657142857143,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "01:19:27 | 2026/09/25"
-  },
   "MEME/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.000627,
@@ -674,5 +661,18 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "03:19:42 | 2026/09/25"
+  },
+  "THETA/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.2228,
+    "sl": 0.22103214285714284,
+    "tp1": 0.22633571428571428,
+    "tp2": 0.22810357142857143,
+    "tp3": 0.2298714285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "03:38:20 | 2026/09/25"
   }
 }
