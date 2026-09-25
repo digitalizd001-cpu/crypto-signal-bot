@@ -181,19 +181,6 @@
     "risk_free": false,
     "opened_at": "21:58:04 | 2026/09/24"
   },
-  "SNX/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 0.2478,
-    "sl": 0.2478,
-    "tp1": 0.2553642857142857,
-    "tp2": 0.2591464285714286,
-    "tp3": 0.26292857142857146,
-    "leverage": 5,
-    "tp1_hit": true,
-    "tp2_hit": false,
-    "risk_free": true,
-    "opened_at": "21:58:09 | 2026/09/24"
-  },
   "ARKM/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 0.1287,
@@ -301,14 +288,14 @@
   "XAUT/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 4265.5,
-    "sl": 4256.832142857143,
+    "sl": 4265.5,
     "tp1": 4282.835714285714,
     "tp2": 4291.503571428571,
     "tp3": 4300.171428571428,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "23:56:34 | 2026/09/24"
   },
   "IMX/USDT": {
@@ -336,32 +323,6 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "00:10:23 | 2026/09/25"
-  },
-  "PAXG/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 4267.4,
-    "sl": 4274.7928571428565,
-    "tp1": 4252.614285714286,
-    "tp2": 4245.221428571428,
-    "tp3": 4237.828571428571,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "00:35:35 | 2026/09/25"
-  },
-  "XAU/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 4267.4,
-    "sl": 4274.7928571428565,
-    "tp1": 4252.614285714286,
-    "tp2": 4245.221428571428,
-    "tp3": 4237.828571428571,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "00:35:36 | 2026/09/25"
   },
   "RUNE/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
@@ -402,30 +363,17 @@
     "risk_free": false,
     "opened_at": "01:19:01 | 2026/09/25"
   },
-  "MEME/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.000627,
-    "sl": 0.0006307928571428572,
-    "tp1": 0.0006194142857142857,
-    "tp2": 0.0006156214285714285,
-    "tp3": 0.0006118285714285714,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "01:36:33 | 2026/09/25"
-  },
   "SOL/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 116.55,
-    "sl": 115.97678571428571,
+    "sl": 116.55,
     "tp1": 117.69642857142856,
     "tp2": 118.26964285714284,
     "tp3": 118.84285714285713,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "01:54:35 | 2026/09/25"
   },
   "WLD/USDT": {
@@ -519,19 +467,6 @@
     "risk_free": false,
     "opened_at": "02:36:01 | 2026/09/25"
   },
-  "AXS/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 1.0773,
-    "sl": 1.0773,
-    "tp1": 1.0916785714285713,
-    "tp2": 1.098867857142857,
-    "tp3": 1.1060571428571428,
-    "leverage": 5,
-    "tp1_hit": true,
-    "tp2_hit": true,
-    "risk_free": true,
-    "opened_at": "02:36:11 | 2026/09/25"
-  },
   "ARB/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 0.21713,
@@ -600,14 +535,14 @@
   "AR/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 4.495,
-    "sl": 4.453535714285715,
+    "sl": 4.495,
     "tp1": 4.577928571428571,
     "tp2": 4.619392857142857,
     "tp3": 4.660857142857142,
     "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "tp2_hit": true,
+    "risk_free": true,
     "opened_at": "03:19:42 | 2026/09/25"
   },
   "THETA/USDT": {
@@ -674,5 +609,18 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "04:36:22 | 2026/09/25"
+  },
+  "NEAR/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 4.597,
+    "sl": 4.5062500000000005,
+    "tp1": 4.778499999999999,
+    "tp2": 4.869249999999999,
+    "tp3": 4.959999999999999,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "04:53:39 | 2026/09/25"
   }
 }
