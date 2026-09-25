@@ -622,5 +622,31 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "03:38:20 | 2026/09/25"
+  },
+  "SUI/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 1.0293,
+    "sl": 1.0413214285714287,
+    "tp1": 1.0052571428571428,
+    "tp2": 0.9932357142857143,
+    "tp3": 0.9812142857142857,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "04:23:09 | 2026/09/25"
+  },
+  "INJ/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 7.944,
+    "sl": 7.846500000000001,
+    "tp1": 8.139,
+    "tp2": 8.2365,
+    "tp3": 8.333999999999998,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "04:23:24 | 2026/09/25"
   }
 }
