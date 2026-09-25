@@ -246,19 +246,6 @@
     "risk_free": false,
     "opened_at": "23:06:43 | 2026/09/24"
   },
-  "RON/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.06164,
-    "sl": 0.06250357142857142,
-    "tp1": 0.05991285714285714,
-    "tp2": 0.05904928571428572,
-    "tp3": 0.05818571428571429,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "23:06:45 | 2026/09/24"
-  },
   "RUNE/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.6369,
@@ -531,5 +518,57 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "08:11:13 | 2026/09/25"
+  },
+  "MINA/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.14095,
+    "sl": 0.13860571428571428,
+    "tp1": 0.14563857142857142,
+    "tp2": 0.1479828571428571,
+    "tp3": 0.15032714285714283,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "08:22:47 | 2026/09/25"
+  },
+  "LDO/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.4377,
+    "sl": 0.43144285714285713,
+    "tp1": 0.4502142857142857,
+    "tp2": 0.45647142857142853,
+    "tp3": 0.4627285714285713,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "08:22:57 | 2026/09/25"
+  },
+  "BEAM/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.012112,
+    "sl": 0.012121535714285713,
+    "tp1": 0.012092928571428572,
+    "tp2": 0.012083392857142857,
+    "tp3": 0.012073857142857143,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "08:23:19 | 2026/09/25"
+  },
+  "RON/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.06354,
+    "sl": 0.06437678571428572,
+    "tp1": 0.061866428571428565,
+    "tp2": 0.06102964285714285,
+    "tp3": 0.06019285714285714,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "08:23:20 | 2026/09/25"
   }
 }
