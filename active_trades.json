@@ -359,7 +359,7 @@
     "tp3": 118.84285714285713,
     "leverage": 5,
     "tp1_hit": true,
-    "tp2_hit": false,
+    "tp2_hit": true,
     "risk_free": true,
     "opened_at": "01:54:35 | 2026/09/25"
   },
@@ -584,17 +584,17 @@
     "risk_free": false,
     "opened_at": "05:06:07 | 2026/09/25"
   },
-  "XLM/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.21977,
-    "sl": 0.2230667857142857,
-    "tp1": 0.21317642857142857,
-    "tp2": 0.20987964285714283,
-    "tp3": 0.20658285714285712,
+  "INJ/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 7.929,
+    "sl": 7.826250000000001,
+    "tp1": 8.1345,
+    "tp2": 8.23725,
+    "tp3": 8.339999999999998,
     "leverage": 5,
     "tp1_hit": false,
     "tp2_hit": false,
     "risk_free": false,
-    "opened_at": "05:36:08 | 2026/09/25"
+    "opened_at": "05:54:21 | 2026/09/25"
   }
 }
