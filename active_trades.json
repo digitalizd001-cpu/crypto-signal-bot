@@ -1,17 +1,4 @@
 {
-  "DOT/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 1.1664,
-    "sl": 1.1664,
-    "tp1": 1.1352857142857142,
-    "tp2": 1.1197285714285714,
-    "tp3": 1.1041714285714286,
-    "leverage": 5,
-    "tp1_hit": true,
-    "tp2_hit": false,
-    "risk_free": true,
-    "opened_at": "18:24:42 | 2026/09/24"
-  },
   "CRV/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.3506,
@@ -76,19 +63,6 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "20:22:24 | 2026/09/24"
-  },
-  "EGLD/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 4.585,
-    "sl": 4.585,
-    "tp1": 4.412714285714285,
-    "tp2": 4.3265714285714285,
-    "tp3": 4.240428571428571,
-    "leverage": 5,
-    "tp1_hit": true,
-    "tp2_hit": false,
-    "risk_free": true,
-    "opened_at": "20:22:35 | 2026/09/24"
   },
   "METIS/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
@@ -184,14 +158,14 @@
   "ARKM/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 0.1287,
-    "sl": 0.12664928571428571,
+    "sl": 0.1288287,
     "tp1": 0.13280142857142857,
     "tp2": 0.13485214285714286,
     "tp3": 0.13690285714285716,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "21:58:19 | 2026/09/24"
   },
   "MANTA/USDT": {
@@ -207,19 +181,6 @@
     "risk_free": true,
     "opened_at": "22:35:47 | 2026/09/24"
   },
-  "LINK/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 13.434,
-    "sl": 13.677321428571428,
-    "tp1": 12.947357142857141,
-    "tp2": 12.704035714285713,
-    "tp3": 12.460714285714284,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "22:35:49 | 2026/09/24"
-  },
   "AAVE/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 146.74,
@@ -232,19 +193,6 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "23:06:23 | 2026/09/24"
-  },
-  "MANA/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.08921,
-    "sl": 0.09014535714285714,
-    "tp1": 0.08733928571428572,
-    "tp2": 0.08640392857142858,
-    "tp3": 0.08546857142857144,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "23:06:43 | 2026/09/24"
   },
   "RUNE/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
@@ -363,19 +311,6 @@
     "risk_free": false,
     "opened_at": "05:06:00 | 2026/09/25"
   },
-  "ICP/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 3.07,
-    "sl": 3.0380714285714285,
-    "tp1": 3.1338571428571425,
-    "tp2": 3.165785714285714,
-    "tp3": 3.1977142857142855,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "05:06:07 | 2026/09/25"
-  },
   "INJ/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 7.929,
@@ -405,28 +340,15 @@
   "APT/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 0.7919,
-    "sl": 0.7823107142857143,
+    "sl": 0.7926919,
     "tp1": 0.8110785714285714,
     "tp2": 0.8206678571428572,
     "tp3": 0.8302571428571428,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "06:21:28 | 2026/09/25"
-  },
-  "SEI/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.06333,
-    "sl": 0.06451071428571428,
-    "tp1": 0.06096857142857143,
-    "tp2": 0.05978785714285714,
-    "tp3": 0.05860714285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "06:21:30 | 2026/09/25"
   },
   "ARB/USDT": {
     "action": "LONG \u2014 BUY SETUP",
@@ -444,14 +366,14 @@
   "FLOW/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 0.03143,
-    "sl": 0.031110714285714287,
+    "sl": 0.03146143,
     "tp1": 0.032068571428571425,
     "tp2": 0.03238785714285714,
     "tp3": 0.03270714285714285,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "06:53:50 | 2026/09/25"
   },
   "SNX/USDT": {
@@ -483,27 +405,27 @@
   "OP/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 0.1302,
-    "sl": 0.12874285714285716,
+    "sl": 0.1303302,
     "tp1": 0.1331142857142857,
     "tp2": 0.13457142857142856,
     "tp3": 0.13602857142857142,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "07:36:01 | 2026/09/25"
   },
   "GRT/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 0.02559,
-    "sl": 0.02527821428571429,
+    "sl": 0.025615589999999997,
     "tp1": 0.02621357142857143,
     "tp2": 0.026525357142857142,
     "tp3": 0.026837142857142855,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "07:56:10 | 2026/09/25"
   },
   "LTC/USDT": {
@@ -532,32 +454,6 @@
     "risk_free": false,
     "opened_at": "08:22:47 | 2026/09/25"
   },
-  "LDO/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 0.4377,
-    "sl": 0.43144285714285713,
-    "tp1": 0.4502142857142857,
-    "tp2": 0.45647142857142853,
-    "tp3": 0.4627285714285713,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "08:22:57 | 2026/09/25"
-  },
-  "BEAM/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.012112,
-    "sl": 0.012121535714285713,
-    "tp1": 0.012092928571428572,
-    "tp2": 0.012083392857142857,
-    "tp3": 0.012073857142857143,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "08:23:19 | 2026/09/25"
-  },
   "RON/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.06354,
@@ -570,5 +466,33 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "08:23:20 | 2026/09/25"
+  },
+  "SHIB/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 5.83e-06,
+    "sl": 5.754571428571429e-06,
+    "tp1": 5.891714285714286e-06,
+    "tp2": 5.949999999999999e-06,
+    "tp3": 6.0185714285714275e-06,
+    "leverage": 3,
+    "tp1_hit": false,
+    "risk_free": false,
+    "rsi_at_entry": 36.36363636363638,
+    "imbalance_at_entry": 0.12,
+    "opened_at": "12:12:55 | 2026/09/25"
+  },
+  "BONK/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 3.68e-06,
+    "sl": 3.610857142857143e-06,
+    "tp1": 3.7365714285714284e-06,
+    "tp2": 3.7899999999999997e-06,
+    "tp3": 3.852857142857142e-06,
+    "leverage": 3,
+    "tp1_hit": false,
+    "risk_free": false,
+    "rsi_at_entry": 32.49999999999993,
+    "imbalance_at_entry": 0.18,
+    "opened_at": "12:13:00 | 2026/09/25"
   }
 }
