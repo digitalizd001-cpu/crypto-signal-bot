@@ -272,19 +272,6 @@
     "risk_free": false,
     "opened_at": "23:06:45 | 2026/09/24"
   },
-  "SUI/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 1.0163,
-    "sl": 1.031525,
-    "tp1": 0.9858499999999999,
-    "tp2": 0.9706249999999997,
-    "tp3": 0.9553999999999997,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "23:20:23 | 2026/09/24"
-  },
   "APT/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 0.8115,
@@ -301,14 +288,14 @@
   "GRT/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 0.02596,
-    "sl": 0.025649285714285715,
+    "sl": 0.02596,
     "tp1": 0.026581428571428572,
     "tp2": 0.02689214285714286,
     "tp3": 0.027202857142857147,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "23:37:01 | 2026/09/24"
   },
   "XAUT/USDT": {
@@ -402,32 +389,6 @@
     "risk_free": false,
     "opened_at": "01:06:28 | 2026/09/25"
   },
-  "ALGO/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.11258,
-    "sl": 0.11369749999999999,
-    "tp1": 0.110345,
-    "tp2": 0.1092275,
-    "tp3": 0.10811000000000001,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "01:06:30 | 2026/09/25"
-  },
-  "BONK/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 3.755e-06,
-    "sl": 3.80525e-06,
-    "tp1": 3.6545000000000003e-06,
-    "tp2": 3.6042500000000003e-06,
-    "tp3": 3.554e-06,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "01:06:49 | 2026/09/25"
-  },
   "HBAR/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.09406,
@@ -483,14 +444,14 @@
   "XRP/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 1.5314,
-    "sl": 1.5202142857142857,
+    "sl": 1.5314,
     "tp1": 1.5537714285714286,
     "tp2": 1.564957142857143,
     "tp3": 1.5761428571428573,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "02:06:17 | 2026/09/25"
   },
   "ICP/USDT": {
@@ -518,19 +479,6 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "02:21:04 | 2026/09/25"
-  },
-  "ENA/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.2237,
-    "sl": 0.2274082142857143,
-    "tp1": 0.21628357142857144,
-    "tp2": 0.21257535714285714,
-    "tp3": 0.20886714285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "02:21:22 | 2026/09/25"
   },
   "FIL/USDT": {
     "action": "LONG \u2014 BUY SETUP",
