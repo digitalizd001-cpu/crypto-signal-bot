@@ -28,14 +28,14 @@
   "BNB/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 784.9,
-    "sl": 790.1071428571429,
+    "sl": 784.9,
     "tp1": 774.4857142857143,
     "tp2": 769.2785714285714,
     "tp3": 764.0714285714286,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "20:10:35 | 2026/09/24"
   },
   "ADA/USDT": {
@@ -288,14 +288,14 @@
   "HBAR/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.09406,
-    "sl": 0.09494714285714285,
+    "sl": 0.09406,
     "tp1": 0.0922857142857143,
     "tp2": 0.09139857142857144,
     "tp3": 0.09051142857142859,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "01:19:01 | 2026/09/25"
   },
   "SOL/USDT": {
@@ -336,19 +336,6 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "02:36:01 | 2026/09/25"
-  },
-  "ARB/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 0.21713,
-    "sl": 0.21436892857142856,
-    "tp1": 0.22265214285714285,
-    "tp2": 0.2254132142857143,
-    "tp3": 0.22817428571428572,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "02:53:22 | 2026/09/25"
   },
   "PENDLE/USDT": {
     "action": "LONG \u2014 BUY SETUP",
@@ -392,14 +379,14 @@
   "PAXG/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 4286.7,
-    "sl": 4292.989285714286,
+    "sl": 4286.7,
     "tp1": 4274.121428571428,
     "tp2": 4267.832142857143,
     "tp3": 4261.5428571428565,
     "leverage": 5,
-    "tp1_hit": false,
+    "tp1_hit": true,
     "tp2_hit": false,
-    "risk_free": false,
+    "risk_free": true,
     "opened_at": "05:05:52 | 2026/09/25"
   },
   "SUI/USDT": {
@@ -479,5 +466,18 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "06:21:30 | 2026/09/25"
+  },
+  "ARB/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.21537,
+    "sl": 0.21220714285714287,
+    "tp1": 0.2216957142857143,
+    "tp2": 0.22485857142857144,
+    "tp3": 0.22802142857142857,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "06:36:13 | 2026/09/25"
   }
 }
