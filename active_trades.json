@@ -518,5 +518,18 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "07:56:10 | 2026/09/25"
+  },
+  "LTC/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 70.89,
+    "sl": 70.02964285714286,
+    "tp1": 72.6107142857143,
+    "tp2": 73.47107142857143,
+    "tp3": 74.33142857142857,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "08:11:13 | 2026/09/25"
   }
 }
