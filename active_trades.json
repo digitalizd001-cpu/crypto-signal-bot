@@ -259,19 +259,6 @@
     "risk_free": false,
     "opened_at": "23:06:45 | 2026/09/24"
   },
-  "XAUT/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 4265.5,
-    "sl": 4265.5,
-    "tp1": 4282.835714285714,
-    "tp2": 4291.503571428571,
-    "tp3": 4300.171428571428,
-    "leverage": 5,
-    "tp1_hit": true,
-    "tp2_hit": false,
-    "risk_free": true,
-    "opened_at": "23:56:34 | 2026/09/24"
-  },
   "RUNE/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.6369,
@@ -518,5 +505,18 @@
     "tp2_hit": false,
     "risk_free": false,
     "opened_at": "07:36:01 | 2026/09/25"
+  },
+  "GRT/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 0.02559,
+    "sl": 0.02527821428571429,
+    "tp1": 0.02621357142857143,
+    "tp2": 0.026525357142857142,
+    "tp3": 0.026837142857142855,
+    "leverage": 5,
+    "tp1_hit": false,
+    "tp2_hit": false,
+    "risk_free": false,
+    "opened_at": "07:56:10 | 2026/09/25"
   }
 }
