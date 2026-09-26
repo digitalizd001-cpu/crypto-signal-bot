@@ -16,7 +16,7 @@ TRADES_STATE_FILE = "active_trades.json"
 OFFSET_FILE = "telegram_offset.json"
 
 BASE_WATCHLIST = [
-    # Gold (VIP)
+    # Gold & Commodities
     "PAXG/USDT", "XAU/USDT",
     # Majors & Layer 1
     "BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT", "XRP/USDT", "ADA/USDT",
@@ -48,7 +48,7 @@ def send_telegram(message: str):
         return False
 
 # =====================================================================
-# ماژول دستورات تعاملی تلگرام (/gold, /status, /trades)
+# ماژول دستورات تلگرام (/gold, /status, /trades, /scan)
 # =====================================================================
 class TelegramCommandHandler:
     @staticmethod
@@ -68,7 +68,7 @@ class TelegramCommandHandler:
         except Exception: pass
 
     @classmethod
-    def process_pending_commands(cls, tech_agent):
+    def process_pending_commands(cls, tech_agent, macro_agent):
         if not TELEGRAM_BOT_TOKEN:
             return
         offset = cls.load_offset()
@@ -88,9 +88,9 @@ class TelegramCommandHandler:
                 if text in ["/gold", "/xau", "/paxg"]:
                     ohlcv, active_ex, name = tech_agent.fetch_candle_data("PAXG/USDT")
                     if ohlcv:
-                        price, rsi, atr, vol_ratio = tech_agent.compute_indicators(ohlcv)
+                        price, rsi, atr, vol_ratio, ema20 = tech_agent.compute_indicators(ohlcv)
                         send_telegram(
-                            f"🥇 <b>گزارش اختصاصی طلا (PAXG/USDT)</b>\n"
+                            f"🥇 <b>گزارش وضعیت طلا (PAXG/USDT)</b>\n"
                             f"━━━━━━━━━━━━━━━━━━\n"
                             f"💵 قیمت: <code>${price:,.2f}</code>\n"
                             f"📉 15m RSI: <code>{rsi:.1f}</code>\n"
@@ -98,7 +98,7 @@ class TelegramCommandHandler:
                             f"⏱️ زمان تهران: <code>{get_tehran_time_str()}</code>"
                         )
                 elif text == "/status":
-                    send_telegram(f"🟢 ربات فعال است و بازار بدون توقف در حال اسکن می‌باشد.\n⏱️ زمان تهران: <code>{get_tehran_time_str()}</code>")
+                    send_telegram(f"🟢 ربات فعال و اسکنر در حال مانیتور است.\n⏱️ زمان تهران: <code>{get_tehran_time_str()}</code>")
                 elif text == "/trades":
                     trades = TradeLifecycleAgent.load_trades()
                     if not trades:
@@ -261,6 +261,7 @@ class TechnicalAgent:
         rs = gain / (loss + 1e-8)
         df['rsi'] = 100 - (100 / (1 + rs))
         df['vol_ma20'] = df['volume'].rolling(20).mean()
+        df['ema20'] = df['close'].ewm(span=20, adjust=False).mean()
 
         high_low = df['high'] - df['low']
         high_close = (df['high'] - df['close'].shift()).abs()
@@ -270,7 +271,7 @@ class TechnicalAgent:
 
         latest = df.iloc[-1]
         vol_ratio = latest['volume'] / latest['vol_ma20'] if latest['vol_ma20'] > 0 else 1.0
-        return latest['close'], latest['rsi'], latest['atr'], vol_ratio
+        return latest['close'], latest['rsi'], latest['atr'], vol_ratio, latest['ema20']
 
 # =====================================================================
 # هوش مصنوعی تاییدکننده معامله
@@ -301,7 +302,7 @@ class MacroAIOfficerAgent:
             except Exception: pass
 
         if not analysis:
-            return {"approved": True, "engine": "Quant Strict Filter", "thesis": "Order flow & momentum aligned."}
+            return {"approved": True, "engine": "Quant Filter", "thesis": "Order flow & momentum aligned."}
 
         approved = "CONFIRMED" in analysis.upper()
         thesis = analysis.replace("VERDICT: CONFIRMED", "").replace("VERDICT: REJECTED", "").strip()
@@ -345,12 +346,13 @@ def run_system():
     macro_agent = MacroAIOfficerAgent()
 
     # ۱. پردازش دستورات تلگرام کاربر
-    TelegramCommandHandler.process_pending_commands(tech_agent)
+    TelegramCommandHandler.process_pending_commands(tech_agent, macro_agent)
 
     # ۲. رصد معاملات باز قبلی
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
 
     dispatched = 0
+    print(f"--- [SCANNING {len(BASE_WATCHLIST)} ASSETS] ---")
     for symbol in BASE_WATCHLIST:
         if dispatched >= MAX_SIGNALS:
             break
@@ -360,26 +362,26 @@ def run_system():
             continue
 
         try:
-            price, rsi, atr, vol_ratio = tech_agent.compute_indicators(ohlcv)
+            price, rsi, atr, vol_ratio, ema20 = tech_agent.compute_indicators(ohlcv)
             imbalance = tech_agent.analyze_orderbook_imbalance(active_ex, symbol)
 
             setup = None
 
-            # فیلتر لانگ: اشباع فروش RSI + برتری حجم خریدار در اوردربوک
-            if rsi < 40 and imbalance > 0.04 and vol_ratio >= 0.90:
+            # فیلتر تطبیقی لانگ (RSI زیر 43 و برتری ملایم خریداران یا پولبک صعودی)
+            if (rsi < 43 and imbalance > 0.02) or (price > ema20 and rsi < 46 and imbalance > 0.05):
                 setup = {
                     'source': source_name, 'symbol': symbol, 'action': 'LONG — BUY SETUP',
-                    'price': price, 'sl': price - (2.0 * atr),
-                    'tp1': price + (1.8 * atr), 'tp2': price + (3.5 * atr), 'tp3': price + (5.0 * atr),
+                    'price': price, 'sl': price - (1.8 * atr),
+                    'tp1': price + (1.6 * atr), 'tp2': price + (3.0 * atr), 'tp3': price + (4.5 * atr),
                     'leverage': 3, 'rsi': rsi, 'imbalance': imbalance
                 }
 
-            # فیلتر شورت: اشباع خرید RSI + برتری حجم فروشنده در اوردربوک
-            elif rsi > 60 and imbalance < -0.04 and vol_ratio >= 0.90:
+            # فیلتر تطبیقی شورت (RSI بالای 57 و برتری ملایم فروشندگان یا پولبک نزولی)
+            elif (rsi > 57 and imbalance < -0.02) or (price < ema20 and rsi > 54 and imbalance < -0.05):
                 setup = {
                     'source': source_name, 'symbol': symbol, 'action': 'SHORT — SELL SETUP',
-                    'price': price, 'sl': price + (2.0 * atr),
-                    'tp1': price - (1.8 * atr), 'tp2': price - (3.5 * atr), 'tp3': price - (5.0 * atr),
+                    'price': price, 'sl': price + (1.8 * atr),
+                    'tp1': price - (1.6 * atr), 'tp2': price - (3.0 * atr), 'tp3': price - (4.5 * atr),
                     'leverage': 3, 'rsi': rsi, 'imbalance': imbalance
                 }
 
@@ -391,7 +393,11 @@ def run_system():
                     DispatchAgent.send(setup)
                     TradeLifecycleAgent.register_trade(setup)
                     dispatched += 1
-                    print(f"[SIGNAL SENT]: {symbol}")
+                    print(f"🎯 [MATCHED & DISPATCHED]: {symbol}")
+                else:
+                    print(f"❌ [AI REJECTED]: {symbol}")
+            else:
+                print(f"  - {symbol}: RSI={rsi:.1f}, Imbalance={imbalance:+.2f} (No setup)")
 
         except Exception as e:
             print(f"[SCAN ERROR on {symbol}] {e}")
