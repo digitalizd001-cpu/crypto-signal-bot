@@ -12,19 +12,6 @@
     "risk_free": true,
     "opened_at": "20:22:22 | 2026/09/24"
   },
-  "METIS/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 3.541,
-    "sl": 3.541,
-    "tp1": 3.4317142857142855,
-    "tp2": 3.3770714285714285,
-    "tp3": 3.3224285714285715,
-    "leverage": 5,
-    "tp1_hit": true,
-    "tp2_hit": false,
-    "risk_free": true,
-    "opened_at": "20:22:41 | 2026/09/24"
-  },
   "RON/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.06354,
@@ -41,49 +28,49 @@
   "DOT/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 1.202,
-    "sl": 1.180785714285714,
+    "sl": 1.202,
     "tp1": 1.2208571428571429,
     "tp2": 1.2373571428571428,
     "tp3": 1.2550357142857145,
     "leverage": 3,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "14:25:36 | 2026/09/28"
   },
   "ETH/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 2673.41,
-    "sl": 2662.6781428571426,
+    "sl": 2673.41,
     "tp1": 2682.9494285714286,
     "tp2": 2691.2964285714284,
     "tp3": 2700.239642857143,
     "leverage": 3,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "04:04:58 | 2026/09/30"
   },
   "XRP/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 1.4909,
-    "sl": 1.4812185714285713,
+    "sl": 1.4909,
     "tp1": 1.4995057142857142,
     "tp2": 1.5070357142857143,
     "tp3": 1.5151035714285712,
     "leverage": 3,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "04:05:00 | 2026/09/30"
   },
-  "LINK/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 14.506,
-    "sl": 14.359685714285714,
-    "tp1": 14.636057142857144,
-    "tp2": 14.749857142857143,
-    "tp3": 14.871785714285716,
+  "SOL/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 119.6,
+    "sl": 120.51285714285714,
+    "tp1": 118.78857142857142,
+    "tp2": 118.07857142857142,
+    "tp3": 117.31785714285714,
     "leverage": 3,
     "tp1_hit": false,
     "risk_free": false,
-    "opened_at": "04:05:05 | 2026/09/30"
+    "opened_at": "14:00:41 | 2026/09/30"
   }
 }
