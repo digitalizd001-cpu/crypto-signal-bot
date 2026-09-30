@@ -49,28 +49,28 @@
     "risk_free": true,
     "opened_at": "04:04:58 | 2026/09/30"
   },
-  "XRP/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 1.4909,
-    "sl": 1.4909,
-    "tp1": 1.4995057142857142,
-    "tp2": 1.5070357142857143,
-    "tp3": 1.5151035714285712,
-    "leverage": 3,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "04:05:00 | 2026/09/30"
-  },
   "SOL/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 119.6,
-    "sl": 120.51285714285714,
+    "sl": 119.6,
     "tp1": 118.78857142857142,
     "tp2": 118.07857142857142,
     "tp3": 117.31785714285714,
     "leverage": 3,
+    "tp1_hit": true,
+    "risk_free": true,
+    "opened_at": "14:00:41 | 2026/09/30"
+  },
+  "AVAX/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 10.934,
+    "sl": 10.836414285714286,
+    "tp1": 11.020742857142857,
+    "tp2": 11.096642857142855,
+    "tp3": 11.177964285714284,
+    "leverage": 3,
     "tp1_hit": false,
     "risk_free": false,
-    "opened_at": "14:00:41 | 2026/09/30"
+    "opened_at": "00:57:29 | 2026/10/01"
   }
 }
