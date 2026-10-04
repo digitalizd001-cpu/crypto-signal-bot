@@ -23,28 +23,52 @@
     "risk_free": false,
     "opened_at": "00:57:29 | 2026/10/01"
   },
-  "BNB/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 790.2,
-    "sl": 787.5128571428572,
-    "tp1": 792.5885714285715,
-    "tp2": 794.6785714285714,
-    "tp3": 796.9178571428572,
-    "leverage": 3,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "17:12:58 | 2026/10/04"
-  },
   "TRX/USDT": {
     "action": "SHORT \u2014 SELL SETUP",
     "entry": 0.33647,
-    "sl": 0.337001,
+    "sl": 0.33613353,
     "tp1": 0.33599799999999996,
     "tp2": 0.33558499999999997,
     "tp3": 0.3351425,
     "leverage": 3,
+    "tp1_hit": true,
+    "risk_free": true,
+    "opened_at": "17:13:02 | 2026/10/04"
+  },
+  "BTC/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 85220.5,
+    "sl": 85057.54857142858,
+    "tp1": 85365.34571428572,
+    "tp2": 85492.08571428571,
+    "tp3": 85627.87857142858,
+    "leverage": 3,
     "tp1_hit": false,
     "risk_free": false,
-    "opened_at": "17:13:02 | 2026/10/04"
+    "opened_at": "17:47:33 | 2026/10/04"
+  },
+  "SOL/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 121.65,
+    "sl": 122.14242857142858,
+    "tp1": 121.21228571428573,
+    "tp2": 120.82928571428572,
+    "tp3": 120.41892857142858,
+    "leverage": 3,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "17:47:34 | 2026/10/04"
+  },
+  "BNB/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 787.5,
+    "sl": 784.9414285714286,
+    "tp1": 789.7742857142857,
+    "tp2": 791.7642857142857,
+    "tp3": 793.8964285714286,
+    "leverage": 3,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "17:47:36 | 2026/10/04"
   }
 }
