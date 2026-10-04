@@ -4,12 +4,13 @@ on:
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
+  repository_dispatch:
+    types: [run-scanner]
 
 permissions:
   contents: write
 
 env:
-  NODE_OPTIONS: "--no-deprecation"
   ACTIONS_RUNNER_FORCE_NODE24: "true"
 
 jobs:
@@ -45,10 +46,10 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add active_trades.json trade_history.json telegram_offset.json || true
+          git add active_trades.json trade_history.json telegram_offset.json daily_signals.json || true
           if git diff --staged --quiet; then
             echo "No state changes to commit."
           else
-            git commit -m "Auto-update trade lifecycle state [skip ci]"
+            git commit -m "Auto-update state & trades [skip ci]"
             git push
           fi
