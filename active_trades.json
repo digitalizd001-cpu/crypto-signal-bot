@@ -1,42 +1,4 @@
 {
-  "BTC/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 84550.1,
-    "sl": 84550.1,
-    "tp1": 83133.39285714287,
-    "tp2": 82425.03928571432,
-    "tp3": 81716.68571428575,
-    "leverage": 5,
-    "tp1_hit": true,
-    "tp2_hit": false,
-    "risk_free": true,
-    "opened_at": "20:22:22 | 2026/09/24"
-  },
-  "RON/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.06354,
-    "sl": 0.06437678571428572,
-    "tp1": 0.061866428571428565,
-    "tp2": 0.06102964285714285,
-    "tp3": 0.06019285714285714,
-    "leverage": 5,
-    "tp1_hit": false,
-    "tp2_hit": false,
-    "risk_free": false,
-    "opened_at": "08:23:20 | 2026/09/25"
-  },
-  "DOT/USDT": {
-    "action": "LONG \u2014 BUY SETUP",
-    "entry": 1.202,
-    "sl": 1.202,
-    "tp1": 1.2208571428571429,
-    "tp2": 1.2373571428571428,
-    "tp3": 1.2550357142857145,
-    "leverage": 3,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "14:25:36 | 2026/09/28"
-  },
   "ETH/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 2673.41,
@@ -49,18 +11,6 @@
     "risk_free": true,
     "opened_at": "04:04:58 | 2026/09/30"
   },
-  "SOL/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 119.6,
-    "sl": 119.6,
-    "tp1": 118.78857142857142,
-    "tp2": 118.07857142857142,
-    "tp3": 117.31785714285714,
-    "leverage": 3,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "14:00:41 | 2026/09/30"
-  },
   "AVAX/USDT": {
     "action": "LONG \u2014 BUY SETUP",
     "entry": 10.934,
@@ -72,5 +22,29 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:57:29 | 2026/10/01"
+  },
+  "BNB/USDT": {
+    "action": "LONG \u2014 BUY SETUP",
+    "entry": 790.2,
+    "sl": 787.5128571428572,
+    "tp1": 792.5885714285715,
+    "tp2": 794.6785714285714,
+    "tp3": 796.9178571428572,
+    "leverage": 3,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "17:12:58 | 2026/10/04"
+  },
+  "TRX/USDT": {
+    "action": "SHORT \u2014 SELL SETUP",
+    "entry": 0.33647,
+    "sl": 0.337001,
+    "tp1": 0.33599799999999996,
+    "tp2": 0.33558499999999997,
+    "tp3": 0.3351425,
+    "leverage": 3,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "17:13:02 | 2026/10/04"
   }
 }
