@@ -21,7 +21,7 @@ HISTORY_FILE = "trade_history.json"
 OFFSET_FILE = "telegram_offset.json"
 
 BASE_WATCHLIST = [
-    # Gold & Commodities
+    # Gold & Commodities (VIP)
     "PAXG/USDT", "XAU/USDT", "XAUT/USDT",
     # Layer 1
     "BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT", "XRP/USDT", "ADA/USDT",
@@ -71,7 +71,7 @@ def send_telegram(message: str) -> bool:
         return False
 
 # =====================================================================
-# ماژول کنترل سقف روزانه سیگنال‌ها (۱۰ سیگنال در ۲۴ ساعت به وقت تهران)
+# ماژول مدیریت سقف ۱۰ سیگنال روزانه
 # =====================================================================
 class DailyQuotaManager:
     @staticmethod
@@ -105,7 +105,7 @@ class DailyQuotaManager:
             print(f"[TRACKER ERROR]: {e}")
 
 # =====================================================================
-# ماژول دستورات تلگرام (/gold, /trades, /status)
+# ماژول دستورات تعاملی تلگرام (/gold, /trades, /status)
 # =====================================================================
 class TelegramCommandHandler:
     @staticmethod
@@ -149,8 +149,8 @@ class TelegramCommandHandler:
                     send_telegram(
                         f"📊 <b>وضعیت زنده اسکنر</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🎯 سهمیه روزانه: <b>{quota['dispatched_count']} از {MAX_DAILY_SIGNALS}</b>\n"
-                        f"🤖 هوش مصنوعی: <b>{'Gemini Flash' if GEMINI_API_KEY else 'Groq Llama-3'}</b>\n"
+                        f"🎯 سهمیه مصرفی امروز: <b>{quota['dispatched_count']} از {MAX_DAILY_SIGNALS}</b>\n"
+                        f"🤖 موتور هوش مصنوعی: <b>{'Gemini Flash' if GEMINI_API_KEY else 'Groq Llama-3'}</b>\n"
                         f"⏱ زمان تهران: <code>{get_tehran_time_str()}</code>"
                     )
                 elif text == "/trades":
@@ -160,14 +160,14 @@ class TelegramCommandHandler:
                     else:
                         resp = "📋 <b>ACTIVE MANAGED TRADES</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         for s, t in trades.items():
-                            resp += f"• <b>{s}</b> ({t['action']}) | ورود: <code>{t['entry']}</code> | ریسک‌‌فری: <b>{t['risk_free']}</b>\n"
+                            resp += f"• <b>{s}</b> ({t['action']}) | ورود: <code>{t['entry']}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
                         send_telegram(resp)
         except Exception as e:
             print(f"[COMMAND ERROR] {e}")
 
     @classmethod
     def _report_gold_status(cls, tech_agent):
-        send_telegram("🥇 <i>در حال تحلیل وضعیت لحظه‌ای انس طلا...</i>")
+        send_telegram("🥇 <i>در حال بررسی وضعیت لحظه‌ای طلا...</i>")
         ohlcv, active_ex, source_name = tech_agent.fetch_candle_data("PAXG/USDT")
         if not ohlcv:
             ohlcv, active_ex, source_name = tech_agent.fetch_candle_data("XAU/USDT")
@@ -180,15 +180,15 @@ class TelegramCommandHandler:
                 f"🥇 <b>گزارش اختصاصی طلا (PAXG/XAU)</b>\n"
                 f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"🌐 استخر: <b>{source_name}</b>\n"
-                f"💵 قیمت انس: <code>${price:,.2f}</code>\n"
+                f"💵 قیمت هر انس: <code>${price:,.2f}</code>\n"
                 f"📉 15m RSI: <code>{rsi:.1f}</code> | نسبت حجم: <code>{vol_ratio:.1f}x</code>\n"
                 f"📚 عدم تعادل بوک: <code>{imbalance:+.2f}</code>\n"
-                f"🐋 جهت نهنگ‌ها: <b>{whale['top_ratio']}</b> ({whale['whale_bias']})\n\n"
-                f"⏱️ <i>زمان گزارش: {get_tehran_time_str()}</i>"
+                f"🐋 نهنگ‌ها (L/S): <b>{whale['top_ratio']}</b> ({whale['whale_bias']})\n\n"
+                f"⏱️ <i>زمان گزارش به وقت تهران: {get_tehran_time_str()}</i>"
             )
             send_telegram(msg)
         else:
-            send_telegram("❌ خطا در اتصال به استخرهای طلای صرافی‌ها.")
+            send_telegram("❌ خطا در اتصال به منابع دیتای طلا.")
 
 # =====================================================================
 # ماژول رهگیری لحظه‌ای معاملات (TP / SL / Auto Risk-Free)
@@ -429,36 +429,84 @@ class MacroAIOfficerAgent:
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
 # =====================================================================
-# ماژول ارسال سیگنال
+# ماژول صدور کارت سیگنال (قالب پیشرفته فیوچرز با اطلاعات کامل)
 # =====================================================================
 class DispatchAgent:
     @staticmethod
-    def send(data: dict, daily_num: int):
+    def send(data: dict):
         symbol_tag = data['symbol'].replace('/', '_')
-        action_emoji = "🟢" if "LONG" in data['action'] else "🔴"
-        price, sl = data['price'], data['sl']
+        is_long = "LONG" in data['action']
+        action_title = "LONG — BUY" if is_long else "SHORT — SELL"
+        action_emoji = "🟢" if is_long else "🔴"
+        
+        price = data['price']
+        sl = data['sl']
         sl_pct = abs((price - sl) / price) * 100
-        tp1, tp2, tp3 = data['tp1'], data['tp2'], data['tp3']
+        risk_dist = abs(price - sl)
+
+        # محاسبه دقیق تارگت‌ها بر اساس R:R
+        # TP1 -> 1:2 | TP2 -> 1:3 | TP3 -> 1:4
+        if is_long:
+            tp1 = price + (risk_dist * 2.0)
+            tp2 = price + (risk_dist * 3.0)
+            tp3 = price + (risk_dist * 4.0)
+        else:
+            tp1 = price - (risk_dist * 2.0)
+            tp2 = price - (risk_dist * 3.0)
+            tp3 = price - (risk_dist * 4.0)
+
         tp1_pct = abs((tp1 - price) / price) * 100
         tp2_pct = abs((tp2 - price) / price) * 100
         tp3_pct = abs((tp3 - price) / price) * 100
 
+        leverage = data['leverage']
+        roi1 = tp1_pct * leverage
+        roi2 = tp2_pct * leverage
+        roi3 = tp3_pct * leverage
+
+        # ارزیابی سطح ریسک
+        if sl_pct <= 1.5:
+            risk_label = "🟢 LOW"
+        elif sl_pct <= 3.0:
+            risk_label = "🟡 MEDIUM"
+        else:
+            risk_label = "🔴 HIGH"
+
+        # ساخت پیام با فرمت کامل و منظم
         msg = (
-            f"⚡ <b>HIGH-CONVICTION SIGNAL [{daily_num}/{MAX_DAILY_SIGNALS}]</b>\n"
-            f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"🌐 #{symbol_tag} | استخر: <b>{data['source']}</b>\n"
-            f"{action_emoji} <b>{data['action']}</b>\n\n"
-            f"🧠 <b>تأیید هوش مصنوعی ({data['ai_engine']}):</b>\n"
-            f"<i>{data['ai_thesis']}</i>\n\n"
-            f"🐋 <b>نهنگ‌ها:</b> <b>{data['top_ratio']}</b> ({data['whale_bias']})\n"
-            f"📍 <b>نقطه ورود:</b> <code>{price:,.4f}</code>\n"
-            f"🛑 <b>حد ضرر:</b> <code>{sl:,.4f}</code> (-{sl_pct:.2f}%)\n\n"
-            f"🎯 <b>تارگت‌های سود:</b>\n"
-            f"🥇 TP1 ➔ <code>{tp1:,.4f}</code> (+{tp1_pct:.2f}%) [ریسک‌فری]\n"
-            f"🥈 TP2 ➔ <code>{tp2:,.4f}</code> (+{tp2_pct:.2f}%)\n"
-            f"🥉 TP3 ➔ <code>{tp3:,.4f}</code> (+{tp3_pct:.2f}%)\n\n"
-            f"⏱️ <b>زمان صدور به وقت تهران:</b> <code>{get_tehran_time_str()}</code>"
+            f"🚨 <b>FUTURES SIGNAL</b>\n"
+            f"━━━━━━━━━━━━━━━━━━\n\n"
+            f"🪙 #{symbol_tag}\n"
+            f"{action_emoji} <b>{action_title}</b>\n\n"
+            f"🏆 Grade: <b>{data['grade']}</b>  |  Score: <b>{data['score']}/100</b>\n"
+            f"📈 Market regime: <b>{data['regime']}</b>\n\n"
+            f"📍 <b>ENTRY</b>\n"
+            f"<code>{price:,.4f}</code>\n\n"
+            f"🛑 <b>STOP LOSS</b>\n"
+            f"<code>{sl:,.4f}</code>  ({sl_pct:.2f}%)\n\n"
+            f"⚠️ <b>RISK:</b> {risk_label}\n"
+            f"⚡️ Suggested leverage: <b>{leverage}x</b>\n\n"
+            f"🎯 <b>TAKE PROFIT</b>\n\n"
+            f"🥇 TP1 ➔ <code>{tp1:,.4f}</code>  (+{tp1_pct:.2f}%)\n"
+            f"🥈 TP2 ➔ <code>{tp2:,.4f}</code>  (+{tp2_pct:.2f}%)\n"
+            f"🥉 TP3 ➔ <code>{tp3:,.4f}</code>  (+{tp3_pct:.2f}%)\n\n"
+            f"📊 <b>APPROX. ROI @ {leverage}x</b>\n\n"
+            f"TP1 ➔ +{roi1:.2f}%\n"
+            f"TP2 ➔ +{roi2:.2f}%\n"
+            f"TP3 ➔ +{roi3:.2f}%\n\n"
+            f"⚖️ <b>RISK / REWARD</b>\n"
+            f"TP1 ➔ <b>1:2</b>\n"
+            f"TP2 ➔ <b>1:3</b>\n"
+            f"TP3 ➔ <b>1:4</b>\n\n"
+            f"🧠 <i>AI Confluence: {data['ai_thesis']}</i>\n"
+            f"⏱️ <i>Tehran Time: {get_tehran_time_str()}</i>"
         )
+
+        # به روزرسانی مقادیر محاسبه‌شده در ستاپ برای رهگیری
+        data['tp1'] = tp1
+        data['tp2'] = tp2
+        data['tp3'] = tp3
+
         send_telegram(msg)
 
 # =====================================================================
@@ -504,30 +552,40 @@ def run_system():
             whale = WhaleAgent.inspect(symbol)
 
             setup = None
-            quality_score = 0
+            raw_score = 75
 
             # ستاپ لانگ باکیفیت
             if (rsi < 42 and imbalance > 0.05) or (price > ema20 and rsi < 45 and imbalance > 0.08 and vol_ratio > 1.2):
-                quality_score = abs(imbalance) * 10 + vol_ratio + (whale['top_ratio'] if whale['top_ratio'] > 1.0 else 0)
+                raw_score += int(min(abs(imbalance) * 100, 20))
+                if vol_ratio > 1.5: raw_score += 10
+                if whale['top_ratio'] > 1.15: raw_score += 10
+                
+                grade = "A+" if raw_score >= 100 else ("A" if raw_score >= 88 else "B+")
+                regime = "BULL" if price > ema20 else "ACCUMULATION"
+
                 setup = {
-                    'source': source_name, 'symbol': symbol, 'action': 'LONG — BUY SETUP',
+                    'source': source_name, 'symbol': symbol, 'action': 'LONG — BUY',
                     'price': price, 'sl': price - (1.8 * atr),
-                    'tp1': price + (1.6 * atr), 'tp2': price + (3.0 * atr), 'tp3': price + (4.5 * atr),
-                    'leverage': 3, 'rsi': rsi, 'imbalance': imbalance,
+                    'leverage': 5, 'rsi': rsi, 'imbalance': imbalance,
                     'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
-                    'score': quality_score
+                    'score': raw_score, 'grade': grade, 'regime': regime
                 }
 
             # ستاپ شورت باکیفیت
             elif (rsi > 58 and imbalance < -0.05) or (price < ema20 and rsi > 55 and imbalance < -0.08 and vol_ratio > 1.2):
-                quality_score = abs(imbalance) * 10 + vol_ratio + (1.0 / whale['top_ratio'] if whale['top_ratio'] < 1.0 else 0)
+                raw_score += int(min(abs(imbalance) * 100, 20))
+                if vol_ratio > 1.5: raw_score += 10
+                if whale['top_ratio'] < 0.85: raw_score += 10
+                
+                grade = "A+" if raw_score >= 100 else ("A" if raw_score >= 88 else "B+")
+                regime = "BEAR" if price < ema20 else "DISTRIBUTION"
+
                 setup = {
-                    'source': source_name, 'symbol': symbol, 'action': 'SHORT — SELL SETUP',
+                    'source': source_name, 'symbol': symbol, 'action': 'SHORT — SELL',
                     'price': price, 'sl': price + (1.8 * atr),
-                    'tp1': price - (1.6 * atr), 'tp2': price - (3.0 * atr), 'tp3': price - (4.5 * atr),
-                    'leverage': 3, 'rsi': rsi, 'imbalance': imbalance,
+                    'leverage': 5, 'rsi': rsi, 'imbalance': imbalance,
                     'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
-                    'score': quality_score
+                    'score': raw_score, 'grade': grade, 'regime': regime
                 }
 
             if setup:
@@ -546,11 +604,10 @@ def run_system():
             best_setup['ai_engine'] = review['engine']
             best_setup['ai_thesis'] = review['thesis']
             
-            new_count = quota["dispatched_count"] + 1
-            DispatchAgent.send(best_setup, new_count)
+            DispatchAgent.send(best_setup)
             TradeLifecycleAgent.register_trade(best_setup)
             DailyQuotaManager.record_dispatch(best_setup['symbol'])
-            print(f"🎯 [DISPATCHED]: {best_setup['symbol']} | Score: {best_setup['score']:.2f}")
+            print(f"🎯 [DISPATCHED]: {best_setup['symbol']} | Score: {best_setup['score']}")
         else:
             print(f"❌ [AI REJECTED]: {best_setup['symbol']}")
     else:
