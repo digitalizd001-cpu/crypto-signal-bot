@@ -11,30 +11,6 @@
     "risk_free": false,
     "opened_at": "00:57:29 | 2026/10/01"
   },
-  "TRX/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 0.33647,
-    "sl": 0.33613353,
-    "tp1": 0.33599799999999996,
-    "tp2": 0.33558499999999997,
-    "tp3": 0.3351425,
-    "leverage": 3,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "17:13:02 | 2026/10/04"
-  },
-  "SOL/USDT": {
-    "action": "SHORT \u2014 SELL SETUP",
-    "entry": 121.65,
-    "sl": 121.52835,
-    "tp1": 121.21228571428573,
-    "tp2": 120.82928571428572,
-    "tp3": 120.41892857142858,
-    "leverage": 3,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "17:47:34 | 2026/10/04"
-  },
   "INJ/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 7.521,
@@ -46,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "13:04:17 | 2026/10/05"
+  },
+  "SEI/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.07229,
+    "sl": 0.07146585714285714,
+    "tp1": 0.0739382857142857,
+    "tp2": 0.07476242857142856,
+    "tp3": 0.07558657142857142,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "18:49:45 | 2026/10/05"
   }
 }
