@@ -12,18 +12,19 @@ permissions:
 
 env:
   ACTIONS_RUNNER_FORCE_NODE24: "true"
+  NODE_OPTIONS: "--no-deprecation"
 
 jobs:
   run-scanner:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 1
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.4.0
         with:
           python-version: '3.11'
           cache: 'pip'
