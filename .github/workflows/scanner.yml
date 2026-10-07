@@ -11,6 +11,7 @@ permissions:
   contents: write
 
 env:
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "true"
   ACTIONS_RUNNER_FORCE_NODE24: "true"
   NODE_OPTIONS: "--no-deprecation"
 
