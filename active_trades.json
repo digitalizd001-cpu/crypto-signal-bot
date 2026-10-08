@@ -26,13 +26,13 @@
   "XAUT/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 4124.2,
-    "sl": 4115.547142857143,
+    "sl": 4128.324199999999,
     "tp1": 4141.505714285714,
     "tp2": 4150.158571428571,
     "tp3": 4158.811428571428,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "2026-10-08 06:41:15 UTC"
   },
   "ARB/USDT": {
