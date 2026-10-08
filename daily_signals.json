@@ -1,6 +1,6 @@
 {
   "date": "2026-10-08",
-  "dispatched_count": 7,
+  "dispatched_count": 8,
   "dispatched_symbols": [
     "SOL/USDT",
     "SEI/USDT",
@@ -8,6 +8,7 @@
     "ICP/USDT",
     "XAUT/USDT",
     "ARB/USDT",
-    "MINA/USDT"
+    "MINA/USDT",
+    "ALGO/USDT"
   ]
 }
