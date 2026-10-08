@@ -58,17 +58,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "2026-10-08 06:46:26 UTC"
-  },
-  "DYDX/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.1346,
-    "sl": 0.13647457142857142,
-    "tp1": 0.13085085714285716,
-    "tp2": 0.12897628571428574,
-    "tp3": 0.12710171428571432,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "2026-10-08 07:31:45 UTC"
   }
 }
