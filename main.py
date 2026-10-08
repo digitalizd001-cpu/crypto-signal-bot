@@ -43,15 +43,13 @@ BASE_WATCHLIST = [
     "LTC/USDT", "BCH/USDT", "ETC/USDT", "XLM/USDT", "FIL/USDT", "AR/USDT", "TIA/USDT"
 ]
 
-def get_tehran_datetime() -> datetime:
-    tehran_tz = timezone(timedelta(hours=3, minutes=30))
-    return datetime.now(tehran_tz)
+def get_current_time_str() -> str:
+    now_utc = datetime.now(timezone.utc)
+    return now_utc.strftime("%Y-%m-%d %H:%M:%S UTC")
 
-def get_tehran_time_str() -> str:
-    return get_tehran_datetime().strftime("%H:%M:%S | %Y/%m/%d")
-
-def get_tehran_date_str() -> str:
-    return get_tehran_datetime().strftime("%Y-%m-%d")
+def get_current_date_str() -> str:
+    now_utc = datetime.now(timezone.utc)
+    return now_utc.strftime("%Y-%m-%d")
 
 def send_telegram(message: str) -> bool:
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -71,12 +69,12 @@ def send_telegram(message: str) -> bool:
         return False
 
 # =====================================================================
-# ماژول کنترل سقف روزانه سیگنال‌ها (۱۰ سهمیه روزانه به وقت ایران)
+# ماژول مدیریت سقف ۱۰ سیگنال در هر ۲۴ ساعت (Rolling/Daily Quota)
 # =====================================================================
 class DailyQuotaManager:
     @staticmethod
     def get_status() -> dict:
-        today = get_tehran_date_str()
+        today = get_current_date_str()
         default_data = {"date": today, "dispatched_count": 0, "dispatched_symbols": []}
         if os.path.exists(DAILY_TRACKER_FILE):
             try:
@@ -146,20 +144,18 @@ class TelegramCommandHandler:
                     cls._report_gold_status(tech_agent)
                 elif text == "/status":
                     quota = DailyQuotaManager.get_status()
-                    tehran_h = get_tehran_datetime().hour
-                    window_mode = "ساعت اصلی ایران (فعال عادی)" if (tehran_h >= 5 or tehran_h <= 1) else "بازه شبانه (حالت فوق‌العاده حساس)"
                     send_telegram(
-                        f"📊 <b>وضعیت زنده اسکنر</b>\n"
+                        f"📊 <b>24/7 GLOBAL SCANNER STATUS</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🎯 سهمیه مصرفی امروز: <b>{quota['dispatched_count']} از {MAX_DAILY_SIGNALS}</b>\n"
-                        f"🕒 وضعیت زمانی: <b>{window_mode}</b>\n"
+                        f"🎯 سهمیه مصرفی ۲۴ ساعت: <b>{quota['dispatched_count']} از {MAX_DAILY_SIGNALS}</b>\n"
+                        f"🌍 حالت اسکن: <b>فعال ۲۴ ساعته (Global Continuous)</b>\n"
                         f"🤖 موتور هوش مصنوعی: <b>{'Gemini Flash' if GEMINI_API_KEY else 'Groq Llama-3'}</b>\n"
-                        f"⏱ زمان تهران: <code>{get_tehran_time_str()}</code>"
+                        f"⏱ زمان سرور: <code>{get_current_time_str()}</code>"
                     )
                 elif text == "/trades":
                     trades = TradeLifecycleAgent.load_trades()
                     if not trades:
-                        send_telegram("📭 در حال حاضر هیچ پوزیشن بازی وجود ندارد.")
+                        send_telegram("📭 در حال حاضر هیچ معامله فعالی در جریان نیست.")
                     else:
                         resp = "📋 <b>ACTIVE MANAGED TRADES</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         for s, t in trades.items():
@@ -170,7 +166,7 @@ class TelegramCommandHandler:
 
     @classmethod
     def _report_gold_status(cls, tech_agent):
-        send_telegram("🥇 <i>در حال بررسی وضعیت لحظه‌ای طلا...</i>")
+        send_telegram("🥇 <i>در حال واکشی اطلاعات جهانی طلا...</i>")
         ohlcv, active_ex, source_name = tech_agent.fetch_candle_data("PAXG/USDT")
         if not ohlcv:
             ohlcv, active_ex, source_name = tech_agent.fetch_candle_data("XAU/USDT")
@@ -180,18 +176,18 @@ class TelegramCommandHandler:
             imbalance = tech_agent.analyze_orderbook_imbalance(active_ex, "PAXG/USDT")
             whale = WhaleAgent.inspect("PAXG/USDT")
             msg = (
-                f"🥇 <b>گزارش اختصاصی طلا (PAXG/XAU)</b>\n"
+                f"🥇 <b>گزارش لحظه‌ای طلا (PAXG/XAU)</b>\n"
                 f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                f"🌐 استخر: <b>{source_name}</b>\n"
-                f"💵 قیمت انس: <code>${price:,.2f}</code>\n"
+                f"🌐 استخر تأمین: <b>{source_name}</b>\n"
+                f"💵 قیمت هر انس: <code>${price:,.2f}</code>\n"
                 f"📉 15m RSI: <code>{rsi:.1f}</code> | نسبت حجم: <code>{vol_ratio:.1f}x</code>\n"
-                f"📚 عدم تعادل بوک: <code>{imbalance:+.2f}</code>\n"
-                f"🐋 نهنگ‌ها (L/S): <b>{whale['top_ratio']}</b> ({whale['whale_bias']})\n\n"
-                f"⏱️ <i>زمان گزارش به وقت تهران: {get_tehran_time_str()}</i>"
+                f"📚 برتری اوردربوک: <code>{imbalance:+.2f}</code>\n"
+                f"🐋 جهت نهنگ‌ها (L/S): <b>{whale['top_ratio']}</b> ({whale['whale_bias']})\n\n"
+                f"⏱️ <i>زمان گزارش: {get_current_time_str()}</i>"
             )
             send_telegram(msg)
         else:
-            send_telegram("❌ خطا در اتصال به منابع دیتای طلا.")
+            send_telegram("❌ خطا در اتصال به استخرهای طلای صرافی‌ها.")
 
 # =====================================================================
 # ماژول رهگیری لحظه‌ای معاملات (TP / SL / Auto Risk-Free)
@@ -230,7 +226,7 @@ class TradeLifecycleAgent:
             'leverage': setup['leverage'],
             'tp1_hit': False,
             'risk_free': False,
-            'opened_at': get_tehran_time_str()
+            'opened_at': get_current_time_str()
         }
         cls.save_trades(trades)
 
@@ -241,7 +237,7 @@ class TradeLifecycleAgent:
             return
 
         remaining = {}
-        tehran_now = get_tehran_time_str()
+        now_str = get_current_time_str()
 
         for symbol, t in list(trades.items()):
             ohlcv, _, _ = tech_agent.fetch_candle_data(symbol)
@@ -264,9 +260,9 @@ class TradeLifecycleAgent:
                         f"🎯 <b>تارگت اول (TP1) تاچ شد!</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 #{symbol.replace('/', '_')}\n"
-                        f"✅ لمس قیمت: <code>{t['tp1']:,.4f}</code>\n"
+                        f"✅ قیمت: <code>{t['tp1']:,.4f}</code>\n"
                         f"🛡️ استاپ به نقطه ورود منتقل و معامله کاملاً ریسک‌فری شد.\n"
-                        f"⏱️ <i>زمان: {tehran_now}</i>"
+                        f"⏱️ <i>زمان: {now_str}</i>"
                     )
 
             tp3_hit = (high_p >= t['tp3']) if is_long else (low_p <= t['tp3'])
@@ -275,8 +271,8 @@ class TradeLifecycleAgent:
                     f"🏆 <b>تارگت نهایی (TP3) کامل شد!</b>\n"
                     f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                     f"🌐 #{symbol.replace('/', '_')}\n"
-                    f"💰 پوزیشن با حداکثر سود بسته شد.\n"
-                    f"⏱️ <i>زمان: {tehran_now}</i>"
+                    f"💰 معامله با سود حداکثری به پایان رسید.\n"
+                    f"⏱️ <i>زمان: {now_str}</i>"
                 )
                 closed = True
 
@@ -298,7 +294,7 @@ class TradeLifecycleAgent:
         cls.save_trades(remaining)
 
 # =====================================================================
-# ماژول تحلیل تکنیکال و چند صرافی
+# ماژول تحلیل تکنیکال و صرافی‌های بین‌المللی
 # =====================================================================
 class TechnicalAgent:
     def __init__(self):
@@ -315,6 +311,11 @@ class TechnicalAgent:
             by = ccxt.bybit({'enableRateLimit': True, 'urls': {'api': {'public': 'https://api.bytick.com'}}})
             by.load_markets()
             pools.append(("Bybit", by))
+        except Exception: pass
+        try:
+            ok = ccxt.okx({'enableRateLimit': True})
+            ok.load_markets()
+            pools.append(("OKX", ok))
         except Exception: pass
         return pools
 
@@ -373,7 +374,7 @@ class TechnicalAgent:
         return latest['close'], latest['rsi'], latest['atr'], vol_ratio, latest['ema20']
 
 # =====================================================================
-# ماژول رصد نهنگ‌ها
+# ماژول رصد موقعیت نهنگ‌ها
 # =====================================================================
 class WhaleAgent:
     @staticmethod
@@ -396,7 +397,7 @@ class WhaleAgent:
         return metrics
 
 # =====================================================================
-# ماژول هوش مصنوعی تاییدکننده نهایی
+# ماژول هوش مصنوعی ارزیاب نهایی (Gemini / Groq)
 # =====================================================================
 class MacroAIOfficerAgent:
     def review_setup(self, payload: dict) -> dict:
@@ -447,7 +448,7 @@ class DispatchAgent:
         sl_pct = abs((price - sl) / price) * 100
         risk_dist = abs(price - sl)
 
-        # محاسبه دقیق تارگت‌ها بر اساس R:R
+        # محاسبه دقیق تارگت‌ها بر مبنای R:R
         # TP1 -> 1:2 | TP2 -> 1:3 | TP3 -> 1:4
         if is_long:
             tp1 = price + (risk_dist * 2.0)
@@ -500,7 +501,7 @@ class DispatchAgent:
             f"TP2 ➔ <b>1:3</b>\n"
             f"TP3 ➔ <b>1:4</b>\n\n"
             f"🧠 <i>AI Confluence: {data['ai_thesis']}</i>\n"
-            f"⏱️ <i>Tehran Time: {get_tehran_time_str()}</i>"
+            f"⏱️ <i>Time: {get_current_time_str()}</i>"
         )
 
         data['tp1'] = tp1
@@ -510,32 +511,27 @@ class DispatchAgent:
         send_telegram(msg)
 
 # =====================================================================
-# هسته هماهنگ‌کننده کل اسکنر
+# هسته هماهنگ‌کننده کل اسکنر (24/7 Global Unrestricted)
 # =====================================================================
 def run_system():
-    now_tehran = get_tehran_datetime()
-    current_hour = now_tehran.hour
-    print(f"=== [RUN CYCLE: {get_tehran_time_str()}] ===")
-
-    # فیلتر ساعات فعال: ساعت ۵ صبح تا ۲۴ و ۱ بامداد به وقت ایران (بازه اصلی)
-    is_prime_hours = (current_hour >= 5 or current_hour <= 1)
+    print(f"=== [24/7 SCAN CYCLE STARTED: {get_current_time_str()}] ===")
 
     tech_agent = TechnicalAgent()
     macro_agent = MacroAIOfficerAgent()
 
-    # ۱. پاسخ‌دهی به دستورات تلگرام کاربر
+    # ۱. پردازش دستورات تلگرام
     TelegramCommandHandler.process_pending_commands(tech_agent, macro_agent)
 
-    # ۲. رصد و مدیریت معاملات باز قبلی (۲۴ ساعته فعال است)
+    # ۲. رصد معاملات باز (۲۴ ساعته بی‌وقفه)
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
 
-    # ۳. بررسی سقف روزانه ۱۰ سیگنال
+    # ۳. بررسی سقف ۱۰ سیگنال در بازه ۲۴ ساعته
     quota = DailyQuotaManager.get_status()
     if quota["dispatched_count"] >= MAX_DAILY_SIGNALS:
-        print(f"🛑 [DAILY QUOTA FULL]: {quota['dispatched_count']}/{MAX_DAILY_SIGNALS} reached for {quota['date']}. Standing by.")
+        print(f"🛑 [24H QUOTA FULL]: {quota['dispatched_count']}/{MAX_DAILY_SIGNALS} signals issued for period {quota['date']}. Waiting for rollover.")
         return
 
-    # ۴. ارزیابی نامزدها با فیلتر حساسیت زمانی
+    # ۴. ارزیابی سراسری بازار فارغ از ساعت شبانه‌روز
     candidate_setups = []
 
     for symbol in BASE_WATCHLIST:
@@ -554,7 +550,7 @@ def run_system():
             setup = None
             raw_score = 75
 
-            # شرایط لانگ
+            # فیلتر ستاپ لانگ باکیفیت بالا
             if (rsi < 42 and imbalance > 0.05) or (price > ema20 and rsi < 45 and imbalance > 0.08 and vol_ratio > 1.2):
                 raw_score += int(min(abs(imbalance) * 100, 20))
                 if vol_ratio > 1.5: raw_score += 10
@@ -563,17 +559,15 @@ def run_system():
                 grade = "A+" if raw_score >= 100 else ("A" if raw_score >= 88 else "B+")
                 regime = "BULL" if price > ema20 else "ACCUMULATION"
 
-                # فیلتر شبانه: بین ساعت ۲ تا ۴:۵۹ بامداد تنها ستاپ‌های Grade A+ مجاز هستند
-                if is_prime_hours or (not is_prime_hours and grade == "A+"):
-                    setup = {
-                        'source': source_name, 'symbol': symbol, 'action': 'LONG — BUY',
-                        'price': price, 'sl': price - (1.8 * atr),
-                        'leverage': 5, 'rsi': rsi, 'imbalance': imbalance,
-                        'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
-                        'score': raw_score, 'grade': grade, 'regime': regime
-                    }
+                setup = {
+                    'source': source_name, 'symbol': symbol, 'action': 'LONG — BUY',
+                    'price': price, 'sl': price - (1.8 * atr),
+                    'leverage': 5, 'rsi': rsi, 'imbalance': imbalance,
+                    'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
+                    'score': raw_score, 'grade': grade, 'regime': regime
+                }
 
-            # شرایط شورت
+            # فیلتر ستاپ شورت باکیفیت بالا
             elif (rsi > 58 and imbalance < -0.05) or (price < ema20 and rsi > 55 and imbalance < -0.08 and vol_ratio > 1.2):
                 raw_score += int(min(abs(imbalance) * 100, 20))
                 if vol_ratio > 1.5: raw_score += 10
@@ -582,14 +576,13 @@ def run_system():
                 grade = "A+" if raw_score >= 100 else ("A" if raw_score >= 88 else "B+")
                 regime = "BEAR" if price < ema20 else "DISTRIBUTION"
 
-                if is_prime_hours or (not is_prime_hours and grade == "A+"):
-                    setup = {
-                        'source': source_name, 'symbol': symbol, 'action': 'SHORT — SELL',
-                        'price': price, 'sl': price + (1.8 * atr),
-                        'leverage': 5, 'rsi': rsi, 'imbalance': imbalance,
-                        'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
-                        'score': raw_score, 'grade': grade, 'regime': regime
-                    }
+                setup = {
+                    'source': source_name, 'symbol': symbol, 'action': 'SHORT — SELL',
+                    'price': price, 'sl': price + (1.8 * atr),
+                    'leverage': 5, 'rsi': rsi, 'imbalance': imbalance,
+                    'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
+                    'score': raw_score, 'grade': grade, 'regime': regime
+                }
 
             if setup:
                 candidate_setups.append(setup)
@@ -597,7 +590,7 @@ def run_system():
         except Exception:
             continue
 
-    # انتخاب ستاپ با بالاترین امتیاز کیفی در این چرخه
+    # انتخاب معتبرترین ستاپ در این دور اسکن و ارسال به تلگرام
     if candidate_setups:
         candidate_setups.sort(key=lambda s: s['score'], reverse=True)
         best_setup = candidate_setups[0]
@@ -610,11 +603,11 @@ def run_system():
             DispatchAgent.send(best_setup)
             TradeLifecycleAgent.register_trade(best_setup)
             DailyQuotaManager.record_dispatch(best_setup['symbol'])
-            print(f"🎯 [DISPATCHED]: {best_setup['symbol']} | Score: {best_setup['score']}")
+            print(f"🎯 [DISPATCHED HIGH-GRADE]: {best_setup['symbol']} | Score: {best_setup['score']}")
         else:
-            print(f"❌ [AI REJECTED]: {best_setup['symbol']}")
+            print(f"❌ [AI FILTERED]: {best_setup['symbol']}")
     else:
-        print("🔍 [SCAN COMPLETED]: No setup reached institutional threshold.")
+        print("🔍 [SCAN COMPLETED]: No symbol matched high-conviction criteria.")
 
 if __name__ == "__main__":
     run_system()
