@@ -1,7 +1,8 @@
 {
   "date": "2026-10-09",
-  "dispatched_count": 1,
+  "dispatched_count": 2,
   "dispatched_symbols": [
-    "INJ/USDT"
+    "INJ/USDT",
+    "ICP/USDT"
   ]
 }
