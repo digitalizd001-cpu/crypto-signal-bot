@@ -1,16 +1,7 @@
 {
-  "date": "2026-10-09",
-  "dispatched_count": 10,
+  "date": "2026-10-10",
+  "dispatched_count": 1,
   "dispatched_symbols": [
-    "INJ/USDT",
-    "ICP/USDT",
-    "DOT/USDT",
-    "SOL/USDT",
-    "BONK/USDT",
-    "TRX/USDT",
-    "BCH/USDT",
-    "SEI/USDT",
-    "RENDER/USDT",
-    "PENDLE/USDT"
+    "FET/USDT"
   ]
 }
