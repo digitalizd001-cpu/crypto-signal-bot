@@ -106,5 +106,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "04:46:40 | 2026/10/09"
+  },
+  "PENDLE/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 2.082,
+    "sl": 2.0638714285714284,
+    "tp1": 2.118257142857143,
+    "tp2": 2.1363857142857143,
+    "tp3": 2.154514285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "04:59:28 | 2026/10/09"
   }
 }
