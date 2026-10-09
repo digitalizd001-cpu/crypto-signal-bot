@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:26 | 2026/10/10"
+  },
+  "AR/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 4.051,
+    "sl": 4.012042857142857,
+    "tp1": 4.128914285714286,
+    "tp2": 4.167871428571429,
+    "tp3": 4.206828571428572,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:28:01 | 2026/10/10"
   }
 }
