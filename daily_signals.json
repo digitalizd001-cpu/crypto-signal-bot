@@ -1,10 +1,11 @@
 {
   "date": "2026-10-10",
-  "dispatched_count": 4,
+  "dispatched_count": 5,
   "dispatched_symbols": [
     "FET/USDT",
     "BTC/USDT",
     "TAO/USDT",
-    "AR/USDT"
+    "AR/USDT",
+    "SHIB/USDT"
   ]
 }
