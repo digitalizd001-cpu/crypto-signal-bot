@@ -1,16 +1,7 @@
 {
-  "date": "2026-10-08",
-  "dispatched_count": 10,
+  "date": "2026-10-09",
+  "dispatched_count": 1,
   "dispatched_symbols": [
-    "SOL/USDT",
-    "SEI/USDT",
-    "TRX/USDT",
-    "ICP/USDT",
-    "XAUT/USDT",
-    "ARB/USDT",
-    "MINA/USDT",
-    "ALGO/USDT",
-    "DYDX/USDT",
-    "PAXG/USDT"
+    "INJ/USDT"
   ]
 }

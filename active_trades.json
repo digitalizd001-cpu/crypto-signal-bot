@@ -10,5 +10,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "23:17:17 | 2026/10/07"
+  },
+  "INJ/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 6.757,
+    "sl": 6.681785714285714,
+    "tp1": 6.9074285714285715,
+    "tp2": 6.982642857142857,
+    "tp3": 7.057857142857143,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "2026-10-09 00:02:11 UTC"
   }
 }
