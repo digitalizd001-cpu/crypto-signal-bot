@@ -1,12 +1,13 @@
 {
   "date": "2026-10-09",
-  "dispatched_count": 6,
+  "dispatched_count": 7,
   "dispatched_symbols": [
     "INJ/USDT",
     "ICP/USDT",
     "DOT/USDT",
     "SOL/USDT",
     "BONK/USDT",
-    "TRX/USDT"
+    "TRX/USDT",
+    "BCH/USDT"
   ]
 }
