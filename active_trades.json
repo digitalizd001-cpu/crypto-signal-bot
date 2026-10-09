@@ -58,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "04:10:31 | 2026/10/09"
+  },
+  "TRX/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.33259,
+    "sl": 0.3321901428571429,
+    "tp1": 0.33338971428571423,
+    "tp2": 0.33378957142857135,
+    "tp3": 0.33418942857142847,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "04:16:23 | 2026/10/09"
   }
 }
