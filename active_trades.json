@@ -62,13 +62,13 @@
   "SHIB/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 5.424e-06,
-    "sl": 5.3886428571428575e-06,
+    "sl": 5.429424e-06,
     "tp1": 5.494714285714285e-06,
     "tp2": 5.530071428571428e-06,
     "tp3": 5.56542857142857e-06,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:32:01 | 2026/10/10"
   },
   "PENDLE/USDT": {
