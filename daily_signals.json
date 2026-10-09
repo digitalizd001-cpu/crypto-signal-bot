@@ -1,6 +1,6 @@
 {
   "date": "2026-10-10",
-  "dispatched_count": 8,
+  "dispatched_count": 9,
   "dispatched_symbols": [
     "FET/USDT",
     "BTC/USDT",
@@ -9,6 +9,7 @@
     "SHIB/USDT",
     "PENDLE/USDT",
     "DOGE/USDT",
-    "FLOKI/USDT"
+    "FLOKI/USDT",
+    "ALGO/USDT"
   ]
 }
