@@ -1,16 +1,4 @@
 {
-  "SOL/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 109.1,
-    "sl": 109.20909999999998,
-    "tp1": 110.84342857142855,
-    "tp2": 111.71514285714282,
-    "tp3": 112.5868571428571,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "04:01:43 | 2026/10/09"
-  },
   "BCH/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 275.7,
@@ -22,17 +10,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "04:32:08 | 2026/10/09"
-  },
-  "PENDLE/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.082,
-    "sl": 2.0840819999999995,
-    "tp1": 2.118257142857143,
-    "tp2": 2.1363857142857143,
-    "tp3": 2.154514285714286,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "04:59:28 | 2026/10/09"
   }
 }
