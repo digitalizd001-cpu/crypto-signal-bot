@@ -95,18 +95,6 @@
     "risk_free": false,
     "opened_at": "00:46:33 | 2026/10/10"
   },
-  "FLOKI/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 2.734e-05,
-    "sl": 2.7556e-05,
-    "tp1": 2.6908e-05,
-    "tp2": 2.6692e-05,
-    "tp3": 2.6476000000000002e-05,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:57:39 | 2026/10/10"
-  },
   "ALGO/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.11315,
