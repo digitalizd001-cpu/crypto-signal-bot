@@ -19,12 +19,13 @@
       "symbols": []
     },
     "2": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "SUI/USDT",
         "ALGO/USDT",
         "AAVE/USDT",
-        "MINA/USDT"
+        "MINA/USDT",
+        "GRT/USDT"
       ]
     },
     "3": {
@@ -32,5 +33,5 @@
       "symbols": []
     }
   },
-  "total_dispatched": 14
+  "total_dispatched": 15
 }
