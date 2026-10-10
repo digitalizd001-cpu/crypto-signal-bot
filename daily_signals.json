@@ -12,5 +12,22 @@
     "FLOKI/USDT",
     "ALGO/USDT",
     "SEI/USDT"
-  ]
+  ],
+  "shifts": {
+    "1": {
+      "count": 0,
+      "symbols": []
+    },
+    "2": {
+      "count": 1,
+      "symbols": [
+        "SUI/USDT"
+      ]
+    },
+    "3": {
+      "count": 0,
+      "symbols": []
+    }
+  },
+  "total_dispatched": 11
 }
