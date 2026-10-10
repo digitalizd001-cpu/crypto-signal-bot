@@ -83,18 +83,6 @@
     "risk_free": false,
     "opened_at": "00:40:39 | 2026/10/10"
   },
-  "DOGE/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.08514,
-    "sl": 0.08562342857142856,
-    "tp1": 0.08417314285714286,
-    "tp2": 0.0836897142857143,
-    "tp3": 0.08320628571428573,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:46:33 | 2026/10/10"
-  },
   "ALGO/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.11315,
