@@ -47,18 +47,6 @@
     "risk_free": true,
     "opened_at": "08:46:37 | 2026/10/10"
   },
-  "CRV/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.3605,
-    "sl": 0.35807,
-    "tp1": 0.36535999999999996,
-    "tp2": 0.36778999999999995,
-    "tp3": 0.37021999999999994,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:11:12 | 2026/10/11"
-  },
   "TIA/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.5792,
