@@ -1,12 +1,13 @@
 {
   "date": "2026-10-11",
-  "total_dispatched": 2,
+  "total_dispatched": 3,
   "shifts": {
     "1": {
-      "count": 2,
+      "count": 3,
       "symbols": [
         "METIS/USDT",
-        "CRV/USDT"
+        "CRV/USDT",
+        "SHIB/USDT"
       ]
     },
     "2": {
