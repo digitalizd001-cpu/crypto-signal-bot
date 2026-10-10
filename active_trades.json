@@ -38,25 +38,25 @@
   "TAO/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 271.8,
-    "sl": 269.24142857142857,
+    "sl": 272.0718,
     "tp1": 276.9171428571429,
     "tp2": 279.47571428571433,
     "tp3": 282.0342857142858,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:16:26 | 2026/10/10"
   },
   "AR/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 4.051,
-    "sl": 4.012042857142857,
+    "sl": 4.055051,
     "tp1": 4.128914285714286,
     "tp2": 4.167871428571429,
     "tp3": 4.206828571428572,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:28:01 | 2026/10/10"
   },
   "SHIB/USDT": {
@@ -74,13 +74,13 @@
   "PENDLE/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 2.078,
-    "sl": 2.0538285714285713,
+    "sl": 2.0800779999999994,
     "tp1": 2.126342857142857,
     "tp2": 2.1505142857142854,
     "tp3": 2.174685714285714,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:40:39 | 2026/10/10"
   },
   "ALGO/USDT": {
