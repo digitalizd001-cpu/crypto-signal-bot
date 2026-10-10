@@ -71,18 +71,6 @@
     "risk_free": true,
     "opened_at": "01:01:42 | 2026/10/10"
   },
-  "AAVE/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 173.14,
-    "sl": 175.85414285714285,
-    "tp1": 167.71171428571427,
-    "tp2": 164.9975714285714,
-    "tp3": 162.28342857142854,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:43:21 | 2026/10/10"
-  },
   "MINA/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.09472,
