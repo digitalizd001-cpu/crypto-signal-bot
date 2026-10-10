@@ -19,9 +19,10 @@
       "symbols": []
     },
     "2": {
-      "count": 1,
+      "count": 2,
       "symbols": [
-        "SUI/USDT"
+        "SUI/USDT",
+        "ALGO/USDT"
       ]
     },
     "3": {
@@ -29,5 +30,5 @@
       "symbols": []
     }
   },
-  "total_dispatched": 11
+  "total_dispatched": 12
 }
