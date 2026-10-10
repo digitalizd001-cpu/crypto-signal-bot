@@ -11,7 +11,8 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-MAX_DAILY_SIGNALS = 10
+MAX_DAILY_SIGNALS = 15
+SIGNALS_PER_SHIFT = 5
 PORTFOLIO_RISK_PERCENT = 1.0
 
 DAILY_TRACKER_FILE = "daily_signals.json"
@@ -53,6 +54,12 @@ def get_tehran_time_str() -> str:
 def get_tehran_date_str() -> str:
     return get_tehran_datetime().strftime("%Y-%m-%d")
 
+def get_current_shift_id(hour: int) -> int:
+    # بازه ۰ تا ۷ -> شیفت ۱ (۰۰:۰۰ تا ۰۷:۵۹)
+    # بازه ۸ تا ۱۵ -> شیفت ۲ (۰۸:۰۰ تا ۱۵:۵۹)
+    # بازه ۱۶ تا ۲۳ -> شیفت ۳ (۱۶:۰۰ تا ۲۳:۵۹)
+    return (hour // 8) + 1
+
 def send_telegram(message: str) -> bool:
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("[TELEGRAM ERROR]: Token or Chat ID not configured.")
@@ -71,33 +78,62 @@ def send_telegram(message: str) -> bool:
         return False
 
 # =====================================================================
-# ماژول کنترل سقف ۱۰ سیگنال در ۲۴ ساعت بر اساس تاریخ تقویمی ایران
+# ماژول مدیریت سهمیه شیفتی (۳ شیفت ۸ ساعته × ۵ سیگنال = ۱۵ سیگنال روزانه)
 # =====================================================================
-class DailyQuotaManager:
+class ShiftQuotaManager:
     @staticmethod
     def get_status() -> dict:
         today = get_tehran_date_str()
-        default_data = {"date": today, "dispatched_count": 0, "dispatched_symbols": []}
+        current_hour = get_tehran_datetime().hour
+        current_shift = get_current_shift_id(current_hour)
+
+        default_data = {
+            "date": today,
+            "total_dispatched": 0,
+            "shifts": {
+                "1": {"count": 0, "symbols": []},
+                "2": {"count": 0, "symbols": []},
+                "3": {"count": 0, "symbols": []}
+            }
+        }
+
         if os.path.exists(DAILY_TRACKER_FILE):
             try:
                 with open(DAILY_TRACKER_FILE, "r") as f:
                     data = json.load(f)
                     if data.get("date") == today:
+                        # تطبیق ساختار فایل اگر از فرمت قدیم باقی مانده بود
+                        if "shifts" not in data:
+                            data["shifts"] = default_data["shifts"]
+                            data["total_dispatched"] = data.get("dispatched_count", 0)
                         return data
             except Exception:
                 pass
         return default_data
 
     @staticmethod
-    def can_dispatch() -> bool:
-        status = DailyQuotaManager.get_status()
-        return status["dispatched_count"] < MAX_DAILY_SIGNALS
+    def can_dispatch() -> tuple[bool, str]:
+        status = ShiftQuotaManager.get_status()
+        current_shift = str(get_current_shift_id(get_tehran_datetime().hour))
+
+        if status["total_dispatched"] >= MAX_DAILY_SIGNALS:
+            return False, f"سقف روزانه ({MAX_DAILY_SIGNALS} سیگنال) تکمیل است."
+
+        shift_count = status["shifts"][current_shift]["count"]
+        if shift_count >= SIGNALS_PER_SHIFT:
+            return False, f"سهمیه شیفت {current_shift} ({SIGNALS_PER_SHIFT} سیگنال) تکمیل است. در انتظار شیفت بعدی."
+
+        return True, "مجاز به ارسال"
 
     @staticmethod
     def record_dispatch(symbol: str):
-        status = DailyQuotaManager.get_status()
-        status["dispatched_count"] += 1
-        status["dispatched_symbols"].append(symbol)
+        status = ShiftQuotaManager.get_status()
+        current_shift = str(get_current_shift_id(get_tehran_datetime().hour))
+
+        status["total_dispatched"] += 1
+        status["shifts"][current_shift]["count"] += 1
+        status["shifts"][current_shift]["symbols"].append(symbol)
+
         try:
             with open(DAILY_TRACKER_FILE, "w") as f:
                 json.dump(status, f, indent=2)
@@ -145,12 +181,16 @@ class TelegramCommandHandler:
                 if text in ["/gold", "/xau", "/paxg"]:
                     cls._report_gold_status(tech_agent)
                 elif text == "/status":
-                    quota = DailyQuotaManager.get_status()
+                    quota = ShiftQuotaManager.get_status()
+                    shift_id = str(get_current_shift_id(get_tehran_datetime().hour))
+                    s_count = quota["shifts"][shift_id]["count"]
+                    t_count = quota["total_dispatched"]
                     send_telegram(
-                        f"📊 <b>24/7 SCANNER STATUS</b>\n"
+                        f"📊 <b>وضعیت زنده اسکنر ۳ شیفته</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🎯 سهمیه مصرفی امروز: <b>{quota['dispatched_count']} از {MAX_DAILY_SIGNALS}</b>\n"
-                        f"🤖 موتور هوش مصنوعی: <b>{'Gemini Flash' if GEMINI_API_KEY else 'Groq Llama-3'}</b>\n"
+                        f"⏰ شیفت کنونی ایران: <b>شیفت {shift_id} (سهمیه: {s_count} از {SIGNALS_PER_SHIFT})</b>\n"
+                        f"🎯 کل سیگنال‌های امروز: <b>{t_count} از {MAX_DAILY_SIGNALS}</b>\n"
+                        f"🤖 هوش مصنوعی: <b>{'Gemini Flash' if GEMINI_API_KEY else 'Groq Llama-3'}</b>\n"
                         f"⏱ زمان به وقت ایران: <code>{get_tehran_time_str()}</code>"
                     )
                 elif text == "/trades":
@@ -434,11 +474,11 @@ class MacroAIOfficerAgent:
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
 # =====================================================================
-# ماژول صدور کارت سیگنال ساختاریافته فیوچرز (با ساعت دقیق ایران)
+# ماژول صدور کارت سیگنال ساختاریافته فیوچرز
 # =====================================================================
 class DispatchAgent:
     @staticmethod
-    def send(data: dict):
+    def send(data: dict, shift_num: int, shift_count: int, total_count: int):
         symbol_tag = data['symbol'].replace('/', '_')
         is_long = "LONG" in data['action']
         action_title = "LONG — BUY" if is_long else "SHORT — SELL"
@@ -475,7 +515,7 @@ class DispatchAgent:
             risk_label = "🔴 HIGH"
 
         msg = (
-            f"🚨 <b>FUTURES SIGNAL</b>\n"
+            f"🚨 <b>FUTURES SIGNAL [شیفت {shift_num}: {shift_count}/{SIGNALS_PER_SHIFT} | کل: {total_count}/{MAX_DAILY_SIGNALS}]</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n\n"
             f"🪙 #{symbol_tag}\n"
             f"{action_emoji} <b>{action_title}</b>\n\n"
@@ -510,31 +550,35 @@ class DispatchAgent:
         send_telegram(msg)
 
 # =====================================================================
-# هسته هماهنگ‌کننده کل اسکنر (24 ساعته بدون وقفه)
+# هسته هماهنگ‌کننده کل اسکنر
 # =====================================================================
 def run_system():
-    print(f"=== [24/7 SCAN CYCLE STARTED: {get_tehran_time_str()} (Tehran)] ===")
+    print(f"=== [SCAN CYCLE: {get_tehran_time_str()} (Tehran)] ===")
 
     tech_agent = TechnicalAgent()
     macro_agent = MacroAIOfficerAgent()
 
-    # ۱. پردازش دستورات تلگرام
+    # ۱. پردازش دستورات تلگرام کاربر
     TelegramCommandHandler.process_pending_commands(tech_agent, macro_agent)
 
     # ۲. رصد معاملات باز (۲۴ ساعته فعال)
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
 
-    # ۳. بررسی سقف روزانه ۱۰ سیگنال بر اساس تقویم ایران
-    quota = DailyQuotaManager.get_status()
-    if quota["dispatched_count"] >= MAX_DAILY_SIGNALS:
-        print(f"🛑 [DAILY QUOTA FULL]: {quota['dispatched_count']}/{MAX_DAILY_SIGNALS} signals issued for {quota['date']}.")
+    # ۳. بررسی سهمیه شیفت و کل روز
+    can_proceed, reason = ShiftQuotaManager.can_dispatch()
+    if not can_proceed:
+        print(f"🛑 [SHIFT/DAILY LIMIT]: {reason}")
         return
 
-    # ۴. ارزیابی بازار در تمام ساعات شبانه‌روز
+    quota = ShiftQuotaManager.get_status()
+    current_shift_id = str(get_current_shift_id(get_tehran_datetime().hour))
+    dispatched_in_this_shift = quota["shifts"][current_shift_id]["symbols"]
+
+    # ۴. ارزیابی بازار و گلچین بهترین ستاپ
     candidate_setups = []
 
     for symbol in BASE_WATCHLIST:
-        if symbol in quota["dispatched_symbols"]:
+        if symbol in dispatched_in_this_shift:
             continue
 
         ohlcv, active_ex, source_name = tech_agent.fetch_candle_data(symbol)
@@ -599,14 +643,18 @@ def run_system():
             best_setup['ai_engine'] = review['engine']
             best_setup['ai_thesis'] = review['thesis']
             
-            DispatchAgent.send(best_setup)
+            s_num = int(current_shift_id)
+            s_count = quota["shifts"][current_shift_id]["count"] + 1
+            t_count = quota["total_dispatched"] + 1
+
+            DispatchAgent.send(best_setup, s_num, s_count, t_count)
             TradeLifecycleAgent.register_trade(best_setup)
-            DailyQuotaManager.record_dispatch(best_setup['symbol'])
-            print(f"🎯 [DISPATCHED]: {best_setup['symbol']} | Score: {best_setup['score']}")
+            ShiftQuotaManager.record_dispatch(best_setup['symbol'])
+            print(f"🎯 [DISPATCHED]: {best_setup['symbol']} | Shift: {s_num} ({s_count}/{SIGNALS_PER_SHIFT})")
         else:
             print(f"❌ [AI REJECTED]: {best_setup['symbol']}")
     else:
-        print("🔍 [SCAN COMPLETED]: No symbol matched criteria in this cycle.")
+        print("🔍 [SCAN COMPLETED]: No symbol reached threshold in this cycle.")
 
 if __name__ == "__main__":
     run_system()
