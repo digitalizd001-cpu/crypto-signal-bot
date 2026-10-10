@@ -110,13 +110,13 @@
   "SEI/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.06523,
-    "sl": 0.06465271428571429,
+    "sl": 0.06529523,
     "tp1": 0.06638457142857142,
     "tp2": 0.06696185714285713,
     "tp3": 0.06753914285714284,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "01:13:43 | 2026/10/10"
   }
 }
