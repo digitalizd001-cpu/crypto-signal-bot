@@ -47,18 +47,6 @@
     "risk_free": true,
     "opened_at": "00:16:26 | 2026/10/10"
   },
-  "AR/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 4.051,
-    "sl": 4.055051,
-    "tp1": 4.128914285714286,
-    "tp2": 4.167871428571429,
-    "tp3": 4.206828571428572,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:28:01 | 2026/10/10"
-  },
   "SHIB/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 5.424e-06,
