@@ -44,6 +44,22 @@ BASE_WATCHLIST = [
     "LTC/USDT", "BCH/USDT", "ETC/USDT", "XLM/USDT", "FIL/USDT", "AR/USDT", "TIA/USDT"
 ]
 
+def format_dynamic_price(val: float) -> str:
+    """قالب‌بندی هوشمند اعشار برای جلوگیری از نمایش 0.0000 در میم‌کوین‌ها"""
+    if val is None or math.isnan(val):
+        return "0.00"
+    abs_v = abs(val)
+    if abs_v >= 100:
+        return f"{val:,.2f}"
+    elif abs_v >= 1:
+        return f"{val:,.4f}"
+    elif abs_v >= 0.01:
+        return f"{val:,.5f}"
+    elif abs_v >= 0.0001:
+        return f"{val:,.7f}"
+    else:
+        return f"{val:,.9f}".rstrip('0').rstrip('.')
+
 def get_tehran_datetime() -> datetime:
     tehran_tz = timezone(timedelta(hours=3, minutes=30))
     return datetime.now(tehran_tz)
@@ -55,9 +71,6 @@ def get_tehran_date_str() -> str:
     return get_tehran_datetime().strftime("%Y-%m-%d")
 
 def get_current_shift_id(hour: int) -> int:
-    # بازه ۰ تا ۷ -> شیفت ۱ (۰۰:۰۰ تا ۰۷:۵۹)
-    # بازه ۸ تا ۱۵ -> شیفت ۲ (۰۸:۰۰ تا ۱۵:۵۹)
-    # بازه ۱۶ تا ۲۳ -> شیفت ۳ (۱۶:۰۰ تا ۲۳:۵۹)
     return (hour // 8) + 1
 
 def send_telegram(message: str) -> bool:
@@ -78,15 +91,12 @@ def send_telegram(message: str) -> bool:
         return False
 
 # =====================================================================
-# ماژول مدیریت سهمیه شیفتی (۳ شیفت ۸ ساعته × ۵ سیگنال = ۱۵ سیگنال روزانه)
+# ماژول مدیریت سهمیه شیفتی (۳ شیفت ۸ ساعته × ۵ سیگنال)
 # =====================================================================
 class ShiftQuotaManager:
     @staticmethod
     def get_status() -> dict:
         today = get_tehran_date_str()
-        current_hour = get_tehran_datetime().hour
-        current_shift = get_current_shift_id(current_hour)
-
         default_data = {
             "date": today,
             "total_dispatched": 0,
@@ -102,7 +112,6 @@ class ShiftQuotaManager:
                 with open(DAILY_TRACKER_FILE, "r") as f:
                     data = json.load(f)
                     if data.get("date") == today:
-                        # تطبیق ساختار فایل اگر از فرمت قدیم باقی مانده بود
                         if "shifts" not in data:
                             data["shifts"] = default_data["shifts"]
                             data["total_dispatched"] = data.get("dispatched_count", 0)
@@ -200,7 +209,8 @@ class TelegramCommandHandler:
                     else:
                         resp = "📋 <b>ACTIVE MANAGED TRADES</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         for s, t in trades.items():
-                            resp += f"• <b>{s}</b> ({t['action']}) | ورود: <code>{t['entry']}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
+                            p_str = format_dynamic_price(t['entry'])
+                            resp += f"• <b>{s}</b> ({t['action']}) | ورود: <code>{p_str}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
                         send_telegram(resp)
         except Exception as e:
             print(f"[COMMAND ERROR] {e}")
@@ -220,7 +230,7 @@ class TelegramCommandHandler:
                 f"🥇 <b>گزارش اختصاصی طلا (PAXG/XAU)</b>\n"
                 f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"🌐 استخر تأمین: <b>{source_name}</b>\n"
-                f"💵 قیمت هر انس: <code>${price:,.2f}</code>\n"
+                f"💵 قیمت هر انس: <code>${format_dynamic_price(price)}</code>\n"
                 f"📉 15m RSI: <code>{rsi:.1f}</code> | نسبت حجم: <code>{vol_ratio:.1f}x</code>\n"
                 f"📚 برتری اوردربوک: <code>{imbalance:+.2f}</code>\n"
                 f"🐋 جهت نهنگ‌ها: <b>{whale['top_ratio']}</b> ({whale['whale_bias']})\n\n"
@@ -301,7 +311,7 @@ class TradeLifecycleAgent:
                         f"🎯 <b>تارگت اول (TP1) تاچ شد!</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 #{symbol.replace('/', '_')}\n"
-                        f"✅ لمس قیمت: <code>{t['tp1']:,.4f}</code>\n"
+                        f"✅ لمس قیمت: <code>{format_dynamic_price(t['tp1'])}</code>\n"
                         f"🛡️ استاپ به نقطه ورود منتقل و معامله کاملاً ریسک‌فری شد.\n"
                         f"⏱️ <i>زمان به وقت ایران: {now_tehran}</i>"
                     )
@@ -325,7 +335,7 @@ class TradeLifecycleAgent:
                     send_telegram(
                         f"🛑 <b>حد ضرر (Stop Loss) فعال شد</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🌐 #{symbol.replace('/', '_')} | خروج در قیمت: <code>{t['sl']:,.4f}</code>"
+                        f"🌐 #{symbol.replace('/', '_')} | خروج در قیمت: <code>{format_dynamic_price(t['sl'])}</code>"
                     )
                 closed = True
 
@@ -335,7 +345,7 @@ class TradeLifecycleAgent:
         cls.save_trades(remaining)
 
 # =====================================================================
-# ماژول تحلیل تکنیکال و چند صرافی
+# ماژول تحلیل تکنیکال و صرافی‌های بین‌المللی
 # =====================================================================
 class TechnicalAgent:
     def __init__(self):
@@ -474,7 +484,7 @@ class MacroAIOfficerAgent:
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
 # =====================================================================
-# ماژول صدور کارت سیگنال ساختاریافته فیوچرز
+# ماژول صدور کارت سیگنال ساختاریافته فیوچرز (با اعشار پویا)
 # =====================================================================
 class DispatchAgent:
     @staticmethod
@@ -514,6 +524,13 @@ class DispatchAgent:
         else:
             risk_label = "🔴 HIGH"
 
+        # قالب‌بندی ارقام اعشار به شکل کاملاً پویا و خوانا
+        entry_str = format_dynamic_price(price)
+        sl_str = format_dynamic_price(sl)
+        tp1_str = format_dynamic_price(tp1)
+        tp2_str = format_dynamic_price(tp2)
+        tp3_str = format_dynamic_price(tp3)
+
         msg = (
             f"🚨 <b>FUTURES SIGNAL [شیفت {shift_num}: {shift_count}/{SIGNALS_PER_SHIFT} | کل: {total_count}/{MAX_DAILY_SIGNALS}]</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n\n"
@@ -522,15 +539,15 @@ class DispatchAgent:
             f"🏆 Grade: <b>{data['grade']}</b>  |  Score: <b>{data['score']}/100</b>\n"
             f"📈 Market regime: <b>{data['regime']}</b>\n\n"
             f"📍 <b>ENTRY</b>\n"
-            f"<code>{price:,.4f}</code>\n\n"
+            f"<code>{entry_str}</code>\n\n"
             f"🛑 <b>STOP LOSS</b>\n"
-            f"<code>{sl:,.4f}</code>  ({sl_pct:.2f}%)\n\n"
+            f"<code>{sl_str}</code>  ({sl_pct:.2f}%)\n\n"
             f"⚠️ <b>RISK:</b> {risk_label}\n"
             f"⚡️ Suggested leverage: <b>{leverage}x</b>\n\n"
             f"🎯 <b>TAKE PROFIT</b>\n\n"
-            f"🥇 TP1 ➔ <code>{tp1:,.4f}</code>  (+{tp1_pct:.2f}%)\n"
-            f"🥈 TP2 ➔ <code>{tp2:,.4f}</code>  (+{tp2_pct:.2f}%)\n"
-            f"🥉 TP3 ➔ <code>{tp3:,.4f}</code>  (+{tp3_pct:.2f}%)\n\n"
+            f"🥇 TP1 ➔ <code>{tp1_str}</code>  (+{tp1_pct:.2f}%)\n"
+            f"🥈 TP2 ➔ <code>{tp2_str}</code>  (+{tp2_pct:.2f}%)\n"
+            f"🥉 TP3 ➔ <code>{tp3_str}</code>  (+{tp3_pct:.2f}%)\n\n"
             f"📊 <b>APPROX. ROI @ {leverage}x</b>\n\n"
             f"TP1 ➔ +{roi1:.2f}%\n"
             f"TP2 ➔ +{roi2:.2f}%\n"
@@ -558,13 +575,9 @@ def run_system():
     tech_agent = TechnicalAgent()
     macro_agent = MacroAIOfficerAgent()
 
-    # ۱. پردازش دستورات تلگرام کاربر
     TelegramCommandHandler.process_pending_commands(tech_agent, macro_agent)
-
-    # ۲. رصد معاملات باز (۲۴ ساعته فعال)
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
 
-    # ۳. بررسی سهمیه شیفت و کل روز
     can_proceed, reason = ShiftQuotaManager.can_dispatch()
     if not can_proceed:
         print(f"🛑 [SHIFT/DAILY LIMIT]: {reason}")
@@ -574,7 +587,6 @@ def run_system():
     current_shift_id = str(get_current_shift_id(get_tehran_datetime().hour))
     dispatched_in_this_shift = quota["shifts"][current_shift_id]["symbols"]
 
-    # ۴. ارزیابی بازار و گلچین بهترین ستاپ
     candidate_setups = []
 
     for symbol in BASE_WATCHLIST:
@@ -633,7 +645,6 @@ def run_system():
         except Exception:
             continue
 
-    # انتخاب بالاترین امتیاز و ارسال سیگنال
     if candidate_setups:
         candidate_setups.sort(key=lambda s: s['score'], reverse=True)
         best_setup = candidate_setups[0]
@@ -650,7 +661,7 @@ def run_system():
             DispatchAgent.send(best_setup, s_num, s_count, t_count)
             TradeLifecycleAgent.register_trade(best_setup)
             ShiftQuotaManager.record_dispatch(best_setup['symbol'])
-            print(f"🎯 [DISPATCHED]: {best_setup['symbol']} | Shift: {s_num} ({s_count}/{SIGNALS_PER_SHIFT})")
+            print(f"🎯 [DISPATCHED]: {best_setup['symbol']} | Price: {format_dynamic_price(best_setup['price'])}")
         else:
             print(f"❌ [AI REJECTED]: {best_setup['symbol']}")
     else:
