@@ -70,5 +70,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:16:35 | 2026/10/11"
+  },
+  "APT/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.8562,
+    "sl": 0.8651228571428571,
+    "tp1": 0.8383542857142857,
+    "tp2": 0.8294314285714286,
+    "tp3": 0.8205085714285715,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:28:55 | 2026/10/11"
   }
 }
