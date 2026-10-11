@@ -22,17 +22,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "08:46:37 | 2026/10/10"
-  },
-  "SOL/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 109.44,
-    "sl": 109.54943999999999,
-    "tp1": 110.34257142857143,
-    "tp2": 110.79385714285715,
-    "tp3": 111.24514285714287,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:15:25 | 2026/10/11"
   }
 }
