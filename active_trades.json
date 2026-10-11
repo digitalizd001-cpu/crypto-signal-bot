@@ -82,5 +82,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:02 | 2026/10/11"
+  },
+  "LINK/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 12.922,
+    "sl": 12.9751,
+    "tp1": 12.815800000000003,
+    "tp2": 12.762700000000004,
+    "tp3": 12.709600000000005,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:43:34 | 2026/10/11"
   }
 }
