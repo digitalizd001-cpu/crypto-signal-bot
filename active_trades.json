@@ -70,29 +70,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:28:49 | 2026/10/11"
-  },
-  "PAXG/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 4186.4,
-    "sl": 4185.667142857143,
-    "tp1": 4187.865714285714,
-    "tp2": 4188.598571428571,
-    "tp3": 4189.331428571428,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:31:59 | 2026/10/11"
-  },
-  "XAUT/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 4186.4,
-    "sl": 4185.667142857143,
-    "tp1": 4187.865714285714,
-    "tp2": 4188.598571428571,
-    "tp3": 4189.331428571428,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:42:05 | 2026/10/11"
   }
 }
