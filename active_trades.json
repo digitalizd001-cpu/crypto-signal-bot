@@ -58,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:33 | 2026/10/12"
+  },
+  "SEI/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.07018,
+    "sl": 0.06962200000000002,
+    "tp1": 0.07129599999999998,
+    "tp2": 0.07185399999999997,
+    "tp3": 0.07241199999999996,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:25:54 | 2026/10/12"
   }
 }
