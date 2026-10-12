@@ -23,40 +23,16 @@
     "risk_free": false,
     "opened_at": "00:16:38 | 2026/10/13"
   },
-  "TRX/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.33008,
-    "sl": 0.3297315714285714,
-    "tp1": 0.33077685714285715,
-    "tp2": 0.33112528571428573,
-    "tp3": 0.3314737142857143,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:28:25 | 2026/10/13"
-  },
   "ETH/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 2518.81,
-    "sl": 2528.8025714285714,
+    "sl": 2516.29119,
     "tp1": 2498.824857142857,
     "tp2": 2488.8322857142857,
     "tp3": 2478.8397142857143,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:32:08 | 2026/10/13"
-  },
-  "GRT/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.02675,
-    "sl": 0.026890142857142856,
-    "tp1": 0.026469714285714287,
-    "tp2": 0.02632957142857143,
-    "tp3": 0.026189428571428575,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:41:52 | 2026/10/13"
   }
 }
