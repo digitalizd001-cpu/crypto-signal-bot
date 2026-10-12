@@ -14,13 +14,13 @@
   "DOT/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 1.2665,
-    "sl": 1.2825971428571428,
+    "sl": 1.2652335,
     "tp1": 1.2343057142857143,
     "tp2": 1.2182085714285715,
     "tp3": 1.2021114285714287,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:46:33 | 2026/10/12"
   }
 }
