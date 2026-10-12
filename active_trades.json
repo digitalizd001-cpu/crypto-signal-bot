@@ -22,17 +22,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "00:16:38 | 2026/10/13"
-  },
-  "ETH/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 2518.81,
-    "sl": 2516.29119,
-    "tp1": 2498.824857142857,
-    "tp2": 2488.8322857142857,
-    "tp3": 2478.8397142857143,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:32:08 | 2026/10/13"
   }
 }
