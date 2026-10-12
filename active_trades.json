@@ -26,13 +26,13 @@
   "BTC/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 84140.3,
-    "sl": 84450.62000000001,
+    "sl": 84056.1597,
     "tp1": 83519.65999999999,
     "tp2": 83209.33999999998,
     "tp3": 82899.01999999997,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:31:59 | 2026/10/12"
   },
   "THETA/USDT": {
