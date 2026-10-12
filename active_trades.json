@@ -23,18 +23,6 @@
     "risk_free": true,
     "opened_at": "08:46:37 | 2026/10/10"
   },
-  "BTC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 84140.3,
-    "sl": 84056.1597,
-    "tp1": 83519.65999999999,
-    "tp2": 83209.33999999998,
-    "tp3": 82899.01999999997,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:31:59 | 2026/10/12"
-  },
   "THETA/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.2268,
@@ -58,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:01:56 | 2026/10/12"
+  },
+  "BTC/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 82866.5,
+    "sl": 82554.66285714286,
+    "tp1": 83490.17428571428,
+    "tp2": 83802.01142857142,
+    "tp3": 84113.84857142856,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:16:39 | 2026/10/12"
   }
 }
