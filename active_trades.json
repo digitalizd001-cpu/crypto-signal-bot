@@ -70,5 +70,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:33:08 | 2026/10/12"
+  },
+  "THETA/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.2268,
+    "sl": 0.22875428571428572,
+    "tp1": 0.22289142857142857,
+    "tp2": 0.22093714285714286,
+    "tp3": 0.21898285714285715,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:46:25 | 2026/10/12"
   }
 }
