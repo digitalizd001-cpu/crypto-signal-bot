@@ -1,16 +1,4 @@
 {
-  "MINA/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.09472,
-    "sl": 0.09462527999999999,
-    "tp1": 0.08698,
-    "tp2": 0.08311,
-    "tp3": 0.07924,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:46:37 | 2026/10/10"
-  },
   "DOT/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 1.2665,
