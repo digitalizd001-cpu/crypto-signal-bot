@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:01:49 | 2026/10/12"
+  },
+  "SHIB/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 5.517e-06,
+    "sl": 5.487557142857143e-06,
+    "tp1": 5.575885714285714e-06,
+    "tp2": 5.6053285714285715e-06,
+    "tp3": 5.634771428571429e-06,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:15:52 | 2026/10/12"
   }
 }
