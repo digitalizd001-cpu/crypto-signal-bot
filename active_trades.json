@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:32:08 | 2026/10/13"
+  },
+  "GRT/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.02675,
+    "sl": 0.026890142857142856,
+    "tp1": 0.026469714285714287,
+    "tp2": 0.02632957142857143,
+    "tp3": 0.026189428571428575,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:41:52 | 2026/10/13"
   }
 }
