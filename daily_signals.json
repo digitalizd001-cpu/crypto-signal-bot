@@ -1,12 +1,13 @@
 {
   "date": "2026-10-13",
-  "total_dispatched": 2,
+  "total_dispatched": 3,
   "shifts": {
     "1": {
-      "count": 2,
+      "count": 3,
       "symbols": [
         "METIS/USDT",
-        "BTC/USDT"
+        "BTC/USDT",
+        "TRX/USDT"
       ]
     },
     "2": {
