@@ -35,18 +35,6 @@
     "risk_free": false,
     "opened_at": "16:01:56 | 2026/10/12"
   },
-  "BTC/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 82866.5,
-    "sl": 82554.66285714286,
-    "tp1": 83490.17428571428,
-    "tp2": 83802.01142857142,
-    "tp3": 84113.84857142856,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:16:39 | 2026/10/12"
-  },
   "AVAX/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 10.909,
@@ -70,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:46:33 | 2026/10/12"
+  },
+  "APT/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.8686,
+    "sl": 0.8603585714285715,
+    "tp1": 0.8850828571428571,
+    "tp2": 0.8933242857142856,
+    "tp3": 0.9015657142857141,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "17:11:45 | 2026/10/12"
   }
 }
