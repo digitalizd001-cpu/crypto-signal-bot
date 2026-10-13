@@ -58,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:32 | 2026/10/14"
+  },
+  "AAVE/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 160.76,
+    "sl": 161.9737142857143,
+    "tp1": 158.33257142857138,
+    "tp2": 157.11885714285708,
+    "tp3": 155.90514285714278,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:32:01 | 2026/10/14"
   }
 }
