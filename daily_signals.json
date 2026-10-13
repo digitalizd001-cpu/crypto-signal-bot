@@ -1,14 +1,15 @@
 {
   "date": "2026-10-14",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "ARB/USDT",
         "EGLD/USDT",
         "SUI/USDT",
-        "AAVE/USDT"
+        "AAVE/USDT",
+        "BTC/USDT"
       ]
     },
     "2": {

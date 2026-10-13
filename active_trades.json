@@ -70,5 +70,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:32:01 | 2026/10/14"
+  },
+  "BTC/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 83411.0,
+    "sl": 83673.91571428571,
+    "tp1": 82885.16857142857,
+    "tp2": 82622.25285714286,
+    "tp3": 82359.33714285714,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:40:12 | 2026/10/14"
   }
 }
