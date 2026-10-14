@@ -22,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:10:37 | 2026/10/15"
+  },
+  "TIA/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.5502,
+    "sl": 0.5605885714285714,
+    "tp1": 0.5294228571428572,
+    "tp2": 0.5190342857142858,
+    "tp3": 0.5086457142857144,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:16:30 | 2026/10/15"
   }
 }
