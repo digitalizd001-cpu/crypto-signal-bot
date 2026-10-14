@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:30 | 2026/10/15"
+  },
+  "PEPE/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 4.061e-06,
+    "sl": 4.0176714285714285e-06,
+    "tp1": 4.147657142857142e-06,
+    "tp2": 4.190985714285713e-06,
+    "tp3": 4.2343142857142846e-06,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:32:06 | 2026/10/15"
   }
 }
