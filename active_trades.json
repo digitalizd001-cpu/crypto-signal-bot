@@ -26,13 +26,13 @@
   "EGLD/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 3.774,
-    "sl": 3.7500857142857145,
+    "sl": 3.7777739999999995,
     "tp1": 3.821828571428571,
     "tp2": 3.8457428571428567,
     "tp3": 3.8696571428571422,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:12:22 | 2026/10/14"
   },
   "SUI/USDT": {
@@ -46,18 +46,6 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:32 | 2026/10/14"
-  },
-  "AAVE/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 160.76,
-    "sl": 161.9737142857143,
-    "tp1": 158.33257142857138,
-    "tp2": 157.11885714285708,
-    "tp3": 155.90514285714278,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:32:01 | 2026/10/14"
   },
   "BTC/USDT": {
     "action": "SHORT \u2014 SELL",
