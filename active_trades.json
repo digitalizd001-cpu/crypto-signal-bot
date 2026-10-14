@@ -1,16 +1,4 @@
 {
-  "SOL/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 108.08,
-    "sl": 107.97192,
-    "tp1": 106.64771428571429,
-    "tp2": 105.93157142857143,
-    "tp3": 105.21542857142857,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:16:29 | 2026/10/14"
-  },
   "BTC/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 82842.9,
@@ -34,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:14 | 2026/10/14"
+  },
+  "SEI/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.06272,
+    "sl": 0.061891999999999996,
+    "tp1": 0.064376,
+    "tp2": 0.06520400000000001,
+    "tp3": 0.06603200000000001,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:30 | 2026/10/14"
   }
 }
