@@ -26,13 +26,13 @@
   "SOL/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 108.08,
-    "sl": 108.79614285714285,
+    "sl": 107.97192,
     "tp1": 106.64771428571429,
     "tp2": 105.93157142857143,
     "tp3": 105.21542857142857,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:16:29 | 2026/10/14"
   },
   "XAUT/USDT": {
