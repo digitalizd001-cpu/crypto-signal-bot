@@ -1,6 +1,6 @@
 {
   "date": "2026-10-14",
-  "total_dispatched": 12,
+  "total_dispatched": 13,
   "shifts": {
     "1": {
       "count": 5,
@@ -23,10 +23,11 @@
       ]
     },
     "3": {
-      "count": 2,
+      "count": 3,
       "symbols": [
         "PAXG/USDT",
-        "XAUT/USDT"
+        "XAUT/USDT",
+        "BTC/USDT"
       ]
     }
   }
