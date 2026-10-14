@@ -59,18 +59,6 @@
     "risk_free": false,
     "opened_at": "08:28:28 | 2026/10/14"
   },
-  "BTC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 83751.1,
-    "sl": 84045.68285714286,
-    "tp1": 83161.93428571429,
-    "tp2": 82867.35142857143,
-    "tp3": 82572.76857142858,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:32:12 | 2026/10/14"
-  },
   "PAXG/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 4163.6,
