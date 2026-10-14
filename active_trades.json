@@ -23,18 +23,6 @@
     "risk_free": false,
     "opened_at": "16:16:23 | 2026/10/13"
   },
-  "SEI/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.06189,
-    "sl": 0.061951889999999996,
-    "tp1": 0.06333257142857143,
-    "tp2": 0.06405385714285715,
-    "tp3": 0.06477514285714286,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "16:24:17 | 2026/10/13"
-  },
   "EGLD/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 3.774,
