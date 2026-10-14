@@ -1,14 +1,15 @@
 {
   "date": "2026-10-15",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "ICP/USDT",
         "METIS/USDT",
         "TIA/USDT",
-        "PEPE/USDT"
+        "PEPE/USDT",
+        "SOL/USDT"
       ]
     },
     "2": {
