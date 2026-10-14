@@ -2,13 +2,13 @@
   "FET/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.2107,
-    "sl": 0.20713857142857142,
+    "sl": 0.21091069999999998,
     "tp1": 0.21782285714285715,
     "tp2": 0.22138428571428573,
     "tp3": 0.2249457142857143,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:01:55 | 2026/10/13"
   },
   "AVAX/USDT": {
@@ -34,29 +34,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "00:12:22 | 2026/10/14"
-  },
-  "SUI/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 1.055,
-    "sl": 1.0649514285714285,
-    "tp1": 1.0350971428571427,
-    "tp2": 1.025145714285714,
-    "tp3": 1.0151942857142855,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:16:32 | 2026/10/14"
-  },
-  "BTC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 83411.0,
-    "sl": 83673.91571428571,
-    "tp1": 82885.16857142857,
-    "tp2": 82622.25285714286,
-    "tp3": 82359.33714285714,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:40:12 | 2026/10/14"
   }
 }
