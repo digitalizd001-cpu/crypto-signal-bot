@@ -1,16 +1,4 @@
 {
-  "BTC/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 82842.9,
-    "sl": 82373.09999999999,
-    "tp1": 83782.5,
-    "tp2": 84252.3,
-    "tp3": 84722.1,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:18:32 | 2026/10/14"
-  },
   "APT/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.8046,
