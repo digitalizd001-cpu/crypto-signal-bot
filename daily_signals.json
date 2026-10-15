@@ -1,6 +1,6 @@
 {
   "date": "2026-10-15",
-  "total_dispatched": 11,
+  "total_dispatched": 12,
   "shifts": {
     "1": {
       "count": 5,
@@ -23,9 +23,10 @@
       ]
     },
     "3": {
-      "count": 1,
+      "count": 2,
       "symbols": [
-        "ARB/USDT"
+        "ARB/USDT",
+        "DOT/USDT"
       ]
     }
   }
