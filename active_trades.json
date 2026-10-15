@@ -1,28 +1,4 @@
 {
-  "TIA/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.5502,
-    "sl": 0.5496498000000001,
-    "tp1": 0.5294228571428572,
-    "tp2": 0.5190342857142858,
-    "tp3": 0.5086457142857144,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:16:30 | 2026/10/15"
-  },
-  "FET/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.1928,
-    "sl": 0.18966285714285713,
-    "tp1": 0.19907428571428573,
-    "tp2": 0.2022114285714286,
-    "tp3": 0.20534857142857146,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:01 | 2026/10/15"
-  },
   "PAXG/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 4156.6,
