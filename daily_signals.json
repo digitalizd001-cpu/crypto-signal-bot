@@ -1,14 +1,15 @@
 {
   "date": "2026-10-17",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "PAXG/USDT",
         "TAO/USDT",
         "BTC/USDT",
-        "PEPE/USDT"
+        "PEPE/USDT",
+        "FLOW/USDT"
       ]
     },
     "2": {
