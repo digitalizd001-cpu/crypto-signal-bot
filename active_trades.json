@@ -14,25 +14,13 @@
   "OP/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.14186,
-    "sl": 0.14436457142857145,
+    "sl": 0.14171814000000002,
     "tp1": 0.13685085714285714,
     "tp2": 0.1343462857142857,
     "tp3": 0.13184171428571426,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:16:26 | 2026/10/16"
-  },
-  "ICP/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 3.047,
-    "sl": 3.014214285714286,
-    "tp1": 3.1125714285714285,
-    "tp2": 3.1453571428571427,
-    "tp3": 3.178142857142857,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:18 | 2026/10/16"
   }
 }
