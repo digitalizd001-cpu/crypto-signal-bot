@@ -1,36 +1,20 @@
 {
-  "date": "2026-10-16",
-  "total_dispatched": 15,
+  "date": "2026-10-17",
+  "total_dispatched": 1,
   "shifts": {
     "1": {
-      "count": 5,
+      "count": 1,
       "symbols": [
-        "BTC/USDT",
-        "ETH/USDT",
-        "FIL/USDT",
-        "BONK/USDT",
-        "SOL/USDT"
+        "PAXG/USDT"
       ]
     },
     "2": {
-      "count": 5,
-      "symbols": [
-        "MINA/USDT",
-        "TIA/USDT",
-        "BTC/USDT",
-        "BONK/USDT",
-        "XAUT/USDT"
-      ]
+      "count": 0,
+      "symbols": []
     },
     "3": {
-      "count": 5,
-      "symbols": [
-        "SEI/USDT",
-        "OP/USDT",
-        "PAXG/USDT",
-        "ICP/USDT",
-        "STRK/USDT"
-      ]
+      "count": 0,
+      "symbols": []
     }
   }
 }
