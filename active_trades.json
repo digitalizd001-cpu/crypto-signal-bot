@@ -1,16 +1,4 @@
 {
-  "PAXG/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 4156.6,
-    "sl": 4160.7566,
-    "tp1": 4180.4114285714295,
-    "tp2": 4192.317142857144,
-    "tp3": 4204.222857142859,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "16:46:42 | 2026/10/15"
-  },
   "MINA/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.07489,
