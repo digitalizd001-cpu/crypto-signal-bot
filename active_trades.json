@@ -11,18 +11,6 @@
     "risk_free": false,
     "opened_at": "00:16:21 | 2026/10/17"
   },
-  "SUI/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 1.0141,
-    "sl": 1.0130859,
-    "tp1": 0.9985685714285717,
-    "tp2": 0.9908028571428575,
-    "tp3": 0.9830371428571434,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:07:51 | 2026/10/17"
-  },
   "ARB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.19085,
@@ -34,17 +22,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "08:35:54 | 2026/10/17"
-  },
-  "ADA/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.2211,
-    "sl": 0.2200842857142857,
-    "tp1": 0.22313142857142856,
-    "tp2": 0.22414714285714285,
-    "tp3": 0.22516285714285714,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:08 | 2026/10/17"
   }
 }
