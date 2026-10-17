@@ -35,18 +35,6 @@
     "risk_free": false,
     "opened_at": "00:16:21 | 2026/10/17"
   },
-  "PEPE/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 4.011e-06,
-    "sl": 3.9643285714285714e-06,
-    "tp1": 4.104342857142858e-06,
-    "tp2": 4.1510142857142866e-06,
-    "tp3": 4.197685714285715e-06,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:32:14 | 2026/10/17"
-  },
   "SUI/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 1.0141,
@@ -70,5 +58,17 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "08:35:54 | 2026/10/17"
+  },
+  "ETH/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 2431.49,
+    "sl": 2425.175857142857,
+    "tp1": 2444.118285714286,
+    "tp2": 2450.4324285714288,
+    "tp3": 2456.7465714285718,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:01:43 | 2026/10/17"
   }
 }
