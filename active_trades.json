@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:32:14 | 2026/10/17"
+  },
+  "FIL/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 1.1753,
+    "sl": 1.1958714285714287,
+    "tp1": 1.1341571428571426,
+    "tp2": 1.113585714285714,
+    "tp3": 1.0930142857142853,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:01:44 | 2026/10/17"
   }
 }
