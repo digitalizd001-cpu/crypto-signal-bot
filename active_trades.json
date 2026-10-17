@@ -50,13 +50,13 @@
   "SUI/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 1.0141,
-    "sl": 1.0218657142857142,
+    "sl": 1.0130859,
     "tp1": 0.9985685714285717,
     "tp2": 0.9908028571428575,
     "tp3": 0.9830371428571434,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:07:51 | 2026/10/17"
   },
   "ARB/USDT": {
