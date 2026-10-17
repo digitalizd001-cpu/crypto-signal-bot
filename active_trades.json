@@ -59,18 +59,6 @@
     "risk_free": false,
     "opened_at": "08:07:51 | 2026/10/17"
   },
-  "AVAX/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 10.009,
-    "sl": 10.074314285714285,
-    "tp1": 9.87837142857143,
-    "tp2": 9.813057142857145,
-    "tp3": 9.74774285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:16:31 | 2026/10/17"
-  },
   "ARB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.19085,
