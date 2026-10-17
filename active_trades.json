@@ -46,17 +46,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:32:14 | 2026/10/17"
-  },
-  "FLOW/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.03205,
-    "sl": 0.03241,
-    "tp1": 0.031330000000000004,
-    "tp2": 0.030970000000000004,
-    "tp3": 0.030610000000000005,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:38:24 | 2026/10/17"
   }
 }
