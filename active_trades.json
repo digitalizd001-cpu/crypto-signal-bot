@@ -11,18 +11,6 @@
     "risk_free": false,
     "opened_at": "00:16:21 | 2026/10/17"
   },
-  "ALGO/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.10654,
-    "sl": 0.10664653999999998,
-    "tp1": 0.1085662857142857,
-    "tp2": 0.10957942857142855,
-    "tp3": 0.1105925714285714,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:16:31 | 2026/10/19"
-  },
   "RENDER/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 1.734,
@@ -34,17 +22,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "00:32:19 | 2026/10/19"
-  },
-  "BONK/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.828e-06,
-    "sl": 2.8308279999999996e-06,
-    "tp1": 2.881742857142857e-06,
-    "tp2": 2.9086142857142855e-06,
-    "tp3": 2.935485714285714e-06,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:42:54 | 2026/10/19"
   }
 }
