@@ -22,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:31 | 2026/10/19"
+  },
+  "EGLD/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 3.431,
+    "sl": 3.4052857142857142,
+    "tp1": 3.4824285714285717,
+    "tp2": 3.5081428571428575,
+    "tp3": 3.5338571428571433,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:20:22 | 2026/10/19"
   }
 }
