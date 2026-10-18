@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:28 | 2026/10/18"
+  },
+  "MANTA/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.0664,
+    "sl": 0.065617,
+    "tp1": 0.06796600000000001,
+    "tp2": 0.06874900000000002,
+    "tp3": 0.06953200000000002,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:32:36 | 2026/10/18"
   }
 }
