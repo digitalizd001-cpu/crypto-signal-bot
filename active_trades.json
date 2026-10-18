@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:01:54 | 2026/10/18"
+  },
+  "DYDX/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.11566,
+    "sl": 0.114733,
+    "tp1": 0.117514,
+    "tp2": 0.11844099999999999,
+    "tp3": 0.11936799999999999,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:16:25 | 2026/10/18"
   }
 }
