@@ -1,14 +1,15 @@
 {
   "date": "2026-10-19",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "PAXG/USDT",
         "ALGO/USDT",
         "EGLD/USDT",
-        "RENDER/USDT"
+        "RENDER/USDT",
+        "BONK/USDT"
       ]
     },
     "2": {
