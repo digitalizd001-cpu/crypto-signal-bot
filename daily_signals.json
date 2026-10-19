@@ -1,6 +1,6 @@
 {
   "date": "2026-10-19",
-  "total_dispatched": 7,
+  "total_dispatched": 8,
   "shifts": {
     "1": {
       "count": 5,
@@ -13,10 +13,11 @@
       ]
     },
     "2": {
-      "count": 2,
+      "count": 3,
       "symbols": [
         "PEPE/USDT",
-        "BTC/USDT"
+        "BTC/USDT",
+        "ALGO/USDT"
       ]
     },
     "3": {
