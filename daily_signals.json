@@ -1,14 +1,15 @@
 {
   "date": "2026-10-20",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "MINA/USDT",
         "DOT/USDT",
         "APT/USDT",
-        "SEI/USDT"
+        "SEI/USDT",
+        "HBAR/USDT"
       ]
     },
     "2": {
