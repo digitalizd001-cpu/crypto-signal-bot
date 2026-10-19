@@ -1,36 +1,20 @@
 {
-  "date": "2026-10-19",
-  "total_dispatched": 15,
+  "date": "2026-10-20",
+  "total_dispatched": 1,
   "shifts": {
     "1": {
-      "count": 5,
+      "count": 1,
       "symbols": [
-        "PAXG/USDT",
-        "ALGO/USDT",
-        "EGLD/USDT",
-        "RENDER/USDT",
-        "BONK/USDT"
+        "MINA/USDT"
       ]
     },
     "2": {
-      "count": 5,
-      "symbols": [
-        "PEPE/USDT",
-        "BTC/USDT",
-        "ALGO/USDT",
-        "THETA/USDT",
-        "AVAX/USDT"
-      ]
+      "count": 0,
+      "symbols": []
     },
     "3": {
-      "count": 5,
-      "symbols": [
-        "TAO/USDT",
-        "OP/USDT",
-        "THETA/USDT",
-        "PAXG/USDT",
-        "ALGO/USDT"
-      ]
+      "count": 0,
+      "symbols": []
     }
   }
 }
