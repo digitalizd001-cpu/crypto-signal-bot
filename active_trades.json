@@ -10,29 +10,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "08:01:41 | 2026/10/19"
-  },
-  "THETA/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.1885,
-    "sl": 0.18712428571428572,
-    "tp1": 0.19125142857142857,
-    "tp2": 0.19262714285714286,
-    "tp3": 0.19400285714285714,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:32:01 | 2026/10/19"
-  },
-  "AVAX/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 9.745,
-    "sl": 9.671328571428571,
-    "tp1": 9.892342857142856,
-    "tp2": 9.966014285714284,
-    "tp3": 10.039685714285712,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:46:24 | 2026/10/19"
   }
 }
