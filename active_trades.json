@@ -23,18 +23,6 @@
     "risk_free": false,
     "opened_at": "08:16:29 | 2026/10/19"
   },
-  "ALGO/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.11167,
-    "sl": 0.11095514285714286,
-    "tp1": 0.11309971428571429,
-    "tp2": 0.11381457142857143,
-    "tp3": 0.11452942857142857,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:19:04 | 2026/10/19"
-  },
   "THETA/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.1885,
@@ -46,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:32:01 | 2026/10/19"
+  },
+  "AVAX/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 9.745,
+    "sl": 9.671328571428571,
+    "tp1": 9.892342857142856,
+    "tp2": 9.966014285714284,
+    "tp3": 10.039685714285712,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:46:24 | 2026/10/19"
   }
 }
