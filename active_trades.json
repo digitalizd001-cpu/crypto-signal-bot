@@ -106,5 +106,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:19:04 | 2026/10/20"
+  },
+  "EGLD/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 3.669,
+    "sl": 3.7037142857142857,
+    "tp1": 3.5995714285714286,
+    "tp2": 3.564857142857143,
+    "tp3": 3.5301428571428572,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:30 | 2026/10/20"
   }
 }
