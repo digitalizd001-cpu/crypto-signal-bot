@@ -11,18 +11,6 @@
     "risk_free": false,
     "opened_at": "00:10:48 | 2026/10/20"
   },
-  "SEI/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.05996,
-    "sl": 0.06001995999999999,
-    "tp1": 0.061256000000000005,
-    "tp2": 0.06190400000000001,
-    "tp3": 0.06255200000000001,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:31:58 | 2026/10/20"
-  },
   "HBAR/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.08212,
