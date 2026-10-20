@@ -22,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:11:29 | 2026/10/21"
+  },
+  "PAXG/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 4127.0,
+    "sl": 4130.792857142857,
+    "tp1": 4119.414285714285,
+    "tp2": 4115.621428571428,
+    "tp3": 4111.82857142857,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:16:34 | 2026/10/21"
   }
 }
