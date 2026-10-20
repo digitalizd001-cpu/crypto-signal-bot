@@ -94,5 +94,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:16:34 | 2026/10/20"
+  },
+  "WLD/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.5543,
+    "sl": 0.5645857142857144,
+    "tp1": 0.5337285714285713,
+    "tp2": 0.523442857142857,
+    "tp3": 0.5131571428571426,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:19:04 | 2026/10/20"
   }
 }
