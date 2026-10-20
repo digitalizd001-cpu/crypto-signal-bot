@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:32:15 | 2026/10/21"
+  },
+  "XRP/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 1.3347,
+    "sl": 1.343532857142857,
+    "tp1": 1.3170342857142858,
+    "tp2": 1.3082014285714287,
+    "tp3": 1.2993685714285717,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:40:48 | 2026/10/21"
   }
 }
