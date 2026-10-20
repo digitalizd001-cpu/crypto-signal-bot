@@ -38,13 +38,13 @@
   "GRT/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.02385,
-    "sl": 0.02402357142857143,
+    "sl": 0.02382615,
     "tp1": 0.02350285714285714,
     "tp2": 0.023329285714285712,
     "tp3": 0.023155714285714283,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:16:27 | 2026/10/20"
   },
   "BTC/USDT": {
@@ -62,25 +62,25 @@
   "SOL/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 105.24,
-    "sl": 105.87128571428572,
+    "sl": 105.13476,
     "tp1": 103.97742857142855,
     "tp2": 103.34614285714282,
     "tp3": 102.7148571428571,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:31:50 | 2026/10/20"
   },
   "ETH/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 2409.37,
-    "sl": 2422.234857142857,
+    "sl": 2406.96063,
     "tp1": 2383.6402857142857,
     "tp2": 2370.7754285714286,
     "tp3": 2357.9105714285715,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:46:29 | 2026/10/20"
   }
 }
