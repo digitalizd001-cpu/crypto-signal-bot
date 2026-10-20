@@ -11,18 +11,6 @@
     "risk_free": false,
     "opened_at": "00:10:48 | 2026/10/20"
   },
-  "HBAR/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.08212,
-    "sl": 0.08220211999999999,
-    "tp1": 0.08335171428571428,
-    "tp2": 0.08396757142857142,
-    "tp3": 0.08458342857142856,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:38:07 | 2026/10/20"
-  },
   "METIS/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 4.149,
