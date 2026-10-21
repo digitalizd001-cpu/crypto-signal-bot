@@ -11,30 +11,6 @@
     "risk_free": true,
     "opened_at": "00:10:48 | 2026/10/20"
   },
-  "ETH/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2439.77,
-    "sl": 2442.20977,
-    "tp1": 2465.8340000000003,
-    "tp2": 2478.8660000000004,
-    "tp3": 2491.8980000000006,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:11:29 | 2026/10/21"
-  },
-  "DOGE/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.08196,
-    "sl": 0.08250257142857144,
-    "tp1": 0.08087485714285714,
-    "tp2": 0.0803322857142857,
-    "tp3": 0.07978971428571427,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:32:15 | 2026/10/21"
-  },
   "ICP/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 2.911,
@@ -46,18 +22,6 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:01:57 | 2026/10/21"
-  },
-  "RENDER/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 1.846,
-    "sl": 1.8478459999999999,
-    "tp1": 1.8758285714285714,
-    "tp2": 1.890742857142857,
-    "tp3": 1.9056571428571427,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:14:57 | 2026/10/21"
   },
   "ALGO/USDT": {
     "action": "LONG \u2014 BUY",
@@ -106,5 +70,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:20 | 2026/10/21"
+  },
+  "ETH/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 2485.69,
+    "sl": 2500.6325714285717,
+    "tp1": 2455.8048571428567,
+    "tp2": 2440.862285714285,
+    "tp3": 2425.9197142857133,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:47 | 2026/10/21"
   }
 }
