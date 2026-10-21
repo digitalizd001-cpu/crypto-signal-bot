@@ -46,17 +46,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:01:54 | 2026/10/21"
-  },
-  "TRX/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.33193,
-    "sl": 0.332551,
-    "tp1": 0.33068800000000004,
-    "tp2": 0.33006700000000005,
-    "tp3": 0.32944600000000007,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:20 | 2026/10/21"
   }
 }
