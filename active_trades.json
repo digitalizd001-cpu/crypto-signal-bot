@@ -23,18 +23,6 @@
     "risk_free": false,
     "opened_at": "08:01:57 | 2026/10/21"
   },
-  "ALGO/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.11339,
-    "sl": 0.11250157142857142,
-    "tp1": 0.11516685714285717,
-    "tp2": 0.11605528571428575,
-    "tp3": 0.11694371428571433,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:32:06 | 2026/10/21"
-  },
   "ARB/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.19061,
