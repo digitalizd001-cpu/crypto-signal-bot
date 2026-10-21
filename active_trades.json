@@ -50,13 +50,13 @@
   "RENDER/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 1.846,
-    "sl": 1.8310857142857144,
+    "sl": 1.8478459999999999,
     "tp1": 1.8758285714285714,
     "tp2": 1.890742857142857,
     "tp3": 1.9056571428571427,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:14:57 | 2026/10/21"
   },
   "ALGO/USDT": {
