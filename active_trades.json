@@ -11,30 +11,6 @@
     "risk_free": true,
     "opened_at": "00:10:48 | 2026/10/20"
   },
-  "ICP/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.911,
-    "sl": 2.9139109999999997,
-    "tp1": 2.959857142857143,
-    "tp2": 2.9842857142857144,
-    "tp3": 3.008714285714286,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:01:57 | 2026/10/21"
-  },
-  "ARB/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.19061,
-    "sl": 0.19080060999999998,
-    "tp1": 0.19680457142857144,
-    "tp2": 0.19990185714285716,
-    "tp3": 0.20299914285714288,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:44:36 | 2026/10/21"
-  },
   "TRX/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.33133,
