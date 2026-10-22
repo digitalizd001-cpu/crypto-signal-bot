@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:32:06 | 2026/10/23"
+  },
+  "IMX/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.144,
+    "sl": 0.1431,
+    "tp1": 0.14579999999999996,
+    "tp2": 0.14669999999999994,
+    "tp3": 0.14759999999999993,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:46:41 | 2026/10/23"
   }
 }
