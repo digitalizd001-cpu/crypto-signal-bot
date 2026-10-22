@@ -1,28 +1,4 @@
 {
-  "FLOW/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.029,
-    "sl": 0.028764714285714286,
-    "tp1": 0.029470571428571433,
-    "tp2": 0.02970585714285715,
-    "tp3": 0.029941142857142864,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:01:46 | 2026/10/22"
-  },
-  "AR/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 3.671,
-    "sl": 3.648242857142857,
-    "tp1": 3.7165142857142857,
-    "tp2": 3.7392714285714286,
-    "tp3": 3.7620285714285715,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:12 | 2026/10/22"
-  },
   "ICP/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 2.754,
