@@ -1,11 +1,12 @@
 {
   "date": "2026-10-23",
-  "total_dispatched": 1,
+  "total_dispatched": 2,
   "shifts": {
     "1": {
-      "count": 1,
+      "count": 2,
       "symbols": [
-        "SEI/USDT"
+        "SEI/USDT",
+        "STRK/USDT"
       ]
     },
     "2": {
