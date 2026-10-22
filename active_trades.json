@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:46:31 | 2026/10/22"
+  },
+  "GRT/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.02415,
+    "sl": 0.023926285714285716,
+    "tp1": 0.024597428571428572,
+    "tp2": 0.024821142857142858,
+    "tp3": 0.025044857142857143,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:52:13 | 2026/10/22"
   }
 }

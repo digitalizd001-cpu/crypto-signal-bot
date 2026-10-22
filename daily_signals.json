@@ -1,6 +1,6 @@
 {
   "date": "2026-10-22",
-  "total_dispatched": 9,
+  "total_dispatched": 10,
   "shifts": {
     "1": {
       "count": 5,
@@ -13,12 +13,13 @@
       ]
     },
     "2": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "TAO/USDT",
         "ALGO/USDT",
         "CRV/USDT",
-        "RENDER/USDT"
+        "RENDER/USDT",
+        "GRT/USDT"
       ]
     },
     "3": {
