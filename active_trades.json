@@ -1,14 +1,1 @@
-{
-  "ICP/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.754,
-    "sl": 2.7342,
-    "tp1": 2.7936,
-    "tp2": 2.8134,
-    "tp3": 2.8332,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:46:38 | 2026/10/22"
-  }
-}
+{}
