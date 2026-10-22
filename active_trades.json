@@ -22,17 +22,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:28 | 2026/10/22"
-  },
-  "RENDER/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 1.859,
-    "sl": 1.840742857142857,
-    "tp1": 1.895514285714286,
-    "tp2": 1.913771428571429,
-    "tp3": 1.9320285714285719,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:46:31 | 2026/10/22"
   }
 }
