@@ -1,14 +1,15 @@
 {
   "date": "2026-10-24",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "XAUT/USDT",
         "ALGO/USDT",
         "SEI/USDT",
-        "MEME/USDT"
+        "MEME/USDT",
+        "FET/USDT"
       ]
     },
     "2": {
