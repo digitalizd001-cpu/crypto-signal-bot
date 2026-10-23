@@ -1,16 +1,4 @@
 {
-  "SEI/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.05693,
-    "sl": 0.05698693,
-    "tp1": 0.057974000000000005,
-    "tp2": 0.058496000000000006,
-    "tp3": 0.05901800000000001,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:01:59 | 2026/10/23"
-  },
   "IMX/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.144,
@@ -70,17 +58,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:32:06 | 2026/10/23"
-  },
-  "PENDLE/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 2.071,
-    "sl": 2.090157142857143,
-    "tp1": 2.0326857142857144,
-    "tp2": 2.0135285714285716,
-    "tp3": 1.9943714285714287,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:42:17 | 2026/10/23"
   }
 }
