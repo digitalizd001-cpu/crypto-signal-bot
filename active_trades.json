@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:27:33 | 2026/10/24"
+  },
+  "MEME/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.0004834,
+    "sl": 0.00047985142857142856,
+    "tp1": 0.0004904971428571429,
+    "tp2": 0.0004940457142857143,
+    "tp3": 0.0004975942857142856,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:32:07 | 2026/10/24"
   }
 }
