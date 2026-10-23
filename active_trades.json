@@ -23,18 +23,6 @@
     "risk_free": true,
     "opened_at": "00:29:05 | 2026/10/23"
   },
-  "BCH/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 273.4,
-    "sl": 273.67339999999996,
-    "tp1": 276.3828571428571,
-    "tp2": 277.8742857142857,
-    "tp3": 279.36571428571426,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:32:06 | 2026/10/23"
-  },
   "IMX/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.144,
