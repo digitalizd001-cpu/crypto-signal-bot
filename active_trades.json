@@ -11,18 +11,6 @@
     "risk_free": false,
     "opened_at": "00:01:59 | 2026/10/23"
   },
-  "STRK/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.05351,
-    "sl": 0.052469857142857144,
-    "tp1": 0.05559028571428572,
-    "tp2": 0.056630428571428575,
-    "tp3": 0.05767057142857143,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:16:42 | 2026/10/23"
-  },
   "MINA/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.06975,
