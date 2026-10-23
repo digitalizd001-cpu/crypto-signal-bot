@@ -1,6 +1,6 @@
 {
   "date": "2026-10-23",
-  "total_dispatched": 8,
+  "total_dispatched": 9,
   "shifts": {
     "1": {
       "count": 5,
@@ -13,11 +13,12 @@
       ]
     },
     "2": {
-      "count": 3,
+      "count": 4,
       "symbols": [
         "PAXG/USDT",
         "ARB/USDT",
-        "ETH/USDT"
+        "ETH/USDT",
+        "WLD/USDT"
       ]
     },
     "3": {
