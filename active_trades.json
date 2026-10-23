@@ -34,17 +34,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:20 | 2026/10/23"
-  },
-  "WLD/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.5472,
-    "sl": 0.53775,
-    "tp1": 0.5661000000000002,
-    "tp2": 0.5755500000000002,
-    "tp3": 0.5850000000000003,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:32:06 | 2026/10/23"
   }
 }
