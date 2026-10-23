@@ -70,5 +70,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:32:06 | 2026/10/23"
+  },
+  "PENDLE/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 2.071,
+    "sl": 2.090157142857143,
+    "tp1": 2.0326857142857144,
+    "tp2": 2.0135285714285716,
+    "tp3": 1.9943714285714287,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:42:17 | 2026/10/23"
   }
 }
