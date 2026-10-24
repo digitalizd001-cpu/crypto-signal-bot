@@ -23,18 +23,6 @@
     "risk_free": false,
     "opened_at": "00:16:39 | 2026/10/25"
   },
-  "STRK/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.04671,
-    "sl": 0.046231714285714286,
-    "tp1": 0.04766657142857143,
-    "tp2": 0.04814485714285715,
-    "tp3": 0.048623142857142865,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:31:58 | 2026/10/25"
-  },
   "BTC/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 80518.3,
