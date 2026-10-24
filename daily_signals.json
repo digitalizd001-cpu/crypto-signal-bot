@@ -1,12 +1,13 @@
 {
   "date": "2026-10-25",
-  "total_dispatched": 2,
+  "total_dispatched": 3,
   "shifts": {
     "1": {
-      "count": 2,
+      "count": 3,
       "symbols": [
         "DOT/USDT",
-        "GRT/USDT"
+        "GRT/USDT",
+        "STRK/USDT"
       ]
     },
     "2": {
