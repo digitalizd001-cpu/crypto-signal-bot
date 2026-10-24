@@ -26,13 +26,13 @@
   "ARB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.17088,
-    "sl": 0.17232,
+    "sl": 0.17070912,
     "tp1": 0.168,
     "tp2": 0.16656,
     "tp3": 0.16512000000000002,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:32:05 | 2026/10/24"
   },
   "XAUT/USDT": {
