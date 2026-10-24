@@ -1,6 +1,6 @@
 {
   "date": "2026-10-24",
-  "total_dispatched": 14,
+  "total_dispatched": 15,
   "shifts": {
     "1": {
       "count": 5,
@@ -23,12 +23,13 @@
       ]
     },
     "3": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "TRX/USDT",
         "PAXG/USDT",
         "ARB/USDT",
-        "XAUT/USDT"
+        "XAUT/USDT",
+        "OP/USDT"
       ]
     }
   }
