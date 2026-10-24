@@ -1,16 +1,4 @@
 {
-  "BONK/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 3.081e-06,
-    "sl": 3.0477e-06,
-    "tp1": 3.1475999999999993e-06,
-    "tp2": 3.180899999999999e-06,
-    "tp3": 3.214199999999999e-06,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:01:34 | 2026/10/24"
-  },
   "XAU/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 4007.73,
