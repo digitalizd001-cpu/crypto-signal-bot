@@ -1,16 +1,4 @@
 {
-  "DOT/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 1.0402,
-    "sl": 1.0498685714285716,
-    "tp1": 1.0208628571428568,
-    "tp2": 1.0111942857142853,
-    "tp3": 1.0015257142857137,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:01:46 | 2026/10/25"
-  },
   "GRT/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.02306,
@@ -22,17 +10,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:39 | 2026/10/25"
-  },
-  "BTC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 80518.3,
-    "sl": 80732.86,
-    "tp1": 80089.18000000001,
-    "tp2": 79874.62000000001,
-    "tp3": 79660.06000000001,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:36:06 | 2026/10/25"
   }
 }
