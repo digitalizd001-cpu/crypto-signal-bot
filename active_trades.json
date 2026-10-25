@@ -10,5 +10,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:01:40 | 2026/10/25"
+  },
+  "LDO/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.3714,
+    "sl": 0.36949714285714286,
+    "tp1": 0.3752057142857143,
+    "tp2": 0.37710857142857146,
+    "tp3": 0.3790114285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:16:33 | 2026/10/25"
   }
 }
