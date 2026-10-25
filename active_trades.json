@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:05 | 2026/10/25"
+  },
+  "LTC/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 56.34,
+    "sl": 56.611285714285714,
+    "tp1": 55.79742857142858,
+    "tp2": 55.52614285714287,
+    "tp3": 55.25485714285716,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:27 | 2026/10/25"
   }
 }
