@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:46:27 | 2026/10/25"
+  },
+  "THETA/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.183,
+    "sl": 0.18183,
+    "tp1": 0.18534,
+    "tp2": 0.18651,
+    "tp3": 0.18768,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "17:01:44 | 2026/10/25"
   }
 }
