@@ -10,29 +10,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:01:47 | 2026/10/25"
-  },
-  "ARB/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.16565,
-    "sl": 0.16716585714285712,
-    "tp1": 0.16261828571428574,
-    "tp2": 0.16110242857142862,
-    "tp3": 0.1595865714285715,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:16:40 | 2026/10/25"
-  },
-  "LTC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 56.34,
-    "sl": 56.611285714285714,
-    "tp1": 55.79742857142858,
-    "tp2": 55.52614285714287,
-    "tp3": 55.25485714285716,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:46:27 | 2026/10/25"
   }
 }
