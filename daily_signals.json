@@ -1,14 +1,15 @@
 {
   "date": "2026-10-27",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "DOT/USDT",
         "TAO/USDT",
         "DYDX/USDT",
-        "OP/USDT"
+        "OP/USDT",
+        "SEI/USDT"
       ]
     },
     "2": {
