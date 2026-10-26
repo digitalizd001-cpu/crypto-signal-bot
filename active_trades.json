@@ -22,5 +22,17 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "08:46:30 | 2026/10/26"
+  },
+  "DOGE/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.07745,
+    "sl": 0.07785242857142857,
+    "tp1": 0.07664514285714287,
+    "tp2": 0.0762427142857143,
+    "tp3": 0.07584028571428574,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:01:56 | 2026/10/26"
   }
 }
