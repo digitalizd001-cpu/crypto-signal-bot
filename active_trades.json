@@ -58,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:11 | 2026/10/26"
+  },
+  "FLOKI/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 2.288e-05,
+    "sl": 2.2786142857142858e-05,
+    "tp1": 2.3067714285714287e-05,
+    "tp2": 2.316157142857143e-05,
+    "tp3": 2.3255428571428573e-05,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:27 | 2026/10/26"
   }
 }

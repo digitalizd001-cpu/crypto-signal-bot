@@ -1,6 +1,6 @@
 {
   "date": "2026-10-26",
-  "total_dispatched": 13,
+  "total_dispatched": 14,
   "shifts": {
     "1": {
       "count": 5,
@@ -23,11 +23,12 @@
       ]
     },
     "3": {
-      "count": 3,
+      "count": 4,
       "symbols": [
         "DOGE/USDT",
         "PAXG/USDT",
-        "ARB/USDT"
+        "ARB/USDT",
+        "FLOKI/USDT"
       ]
     }
   }
