@@ -1,36 +1,20 @@
 {
-  "date": "2026-10-26",
-  "total_dispatched": 15,
+  "date": "2026-10-27",
+  "total_dispatched": 1,
   "shifts": {
     "1": {
-      "count": 5,
+      "count": 1,
       "symbols": [
-        "TRX/USDT",
-        "EGLD/USDT",
-        "DOT/USDT",
-        "IMX/USDT",
-        "XAU/USDT"
+        "DOT/USDT"
       ]
     },
     "2": {
-      "count": 5,
-      "symbols": [
-        "STRK/USDT",
-        "THETA/USDT",
-        "BONK/USDT",
-        "BCH/USDT",
-        "EGLD/USDT"
-      ]
+      "count": 0,
+      "symbols": []
     },
     "3": {
-      "count": 5,
-      "symbols": [
-        "DOGE/USDT",
-        "PAXG/USDT",
-        "ARB/USDT",
-        "FLOKI/USDT",
-        "UNI/USDT"
-      ]
+      "count": 0,
+      "symbols": []
     }
   }
 }
