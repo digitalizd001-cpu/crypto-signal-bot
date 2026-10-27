@@ -34,17 +34,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:34 | 2026/10/28"
-  },
-  "OP/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.11104,
-    "sl": 0.11035857142857143,
-    "tp1": 0.11240285714285714,
-    "tp2": 0.1130842857142857,
-    "tp3": 0.11376571428571428,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:46:29 | 2026/10/28"
   }
 }
