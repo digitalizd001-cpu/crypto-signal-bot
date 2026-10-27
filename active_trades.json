@@ -23,18 +23,6 @@
     "risk_free": false,
     "opened_at": "08:01:46 | 2026/10/27"
   },
-  "DOGE/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.07762,
-    "sl": 0.07805585714285714,
-    "tp1": 0.07674828571428571,
-    "tp2": 0.07631242857142857,
-    "tp3": 0.07587657142857143,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:01:45 | 2026/10/27"
-  },
   "INJ/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 8.038,
@@ -46,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:16:28 | 2026/10/27"
+  },
+  "LDO/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.3697,
+    "sl": 0.37364714285714284,
+    "tp1": 0.36180571428571423,
+    "tp2": 0.35785857142857136,
+    "tp3": 0.3539114285714285,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:32:06 | 2026/10/27"
   }
 }
