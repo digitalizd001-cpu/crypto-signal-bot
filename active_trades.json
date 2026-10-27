@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:01:45 | 2026/10/27"
+  },
+  "INJ/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 8.038,
+    "sl": 8.157828571428572,
+    "tp1": 7.798342857142856,
+    "tp2": 7.678514285714284,
+    "tp3": 7.558685714285712,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:16:28 | 2026/10/27"
   }
 }
