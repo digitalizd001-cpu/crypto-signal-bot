@@ -1,14 +1,15 @@
 {
   "date": "2026-10-28",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "TRX/USDT",
         "ARB/USDT",
         "IMX/USDT",
-        "OP/USDT"
+        "OP/USDT",
+        "BONK/USDT"
       ]
     },
     "2": {
