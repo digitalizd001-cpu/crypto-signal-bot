@@ -11,18 +11,6 @@
     "risk_free": true,
     "opened_at": "17:02:02 | 2026/10/26"
   },
-  "DOT/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 1.0059,
-    "sl": 0.9950614285714285,
-    "tp1": 1.027577142857143,
-    "tp2": 1.0384157142857144,
-    "tp3": 1.049254285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:02:00 | 2026/10/27"
-  },
   "TAO/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 249.9,
