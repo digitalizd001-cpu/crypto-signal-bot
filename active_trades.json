@@ -47,18 +47,6 @@
     "risk_free": false,
     "opened_at": "08:16:35 | 2026/10/27"
   },
-  "BCH/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 281.22,
-    "sl": 278.50328571428577,
-    "tp1": 286.65342857142855,
-    "tp2": 289.3701428571428,
-    "tp3": 292.08685714285707,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:32:10 | 2026/10/27"
-  },
   "GRT/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.02168,
@@ -70,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:46:33 | 2026/10/27"
+  },
+  "FIL/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.8936,
+    "sl": 0.8861685714285713,
+    "tp1": 0.9084628571428572,
+    "tp2": 0.9158942857142859,
+    "tp3": 0.9233257142857145,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "09:01:53 | 2026/10/27"
   }
 }
