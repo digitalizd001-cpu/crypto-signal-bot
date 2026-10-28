@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:17 | 2026/10/28"
+  },
+  "DOT/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 1.001,
+    "sl": 0.9910871428571427,
+    "tp1": 1.0208257142857142,
+    "tp2": 1.0307385714285715,
+    "tp3": 1.0406514285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:34 | 2026/10/28"
   }
 }
