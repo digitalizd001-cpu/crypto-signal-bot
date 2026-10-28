@@ -10,5 +10,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:01:48 | 2026/10/29"
+  },
+  "BNB/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 753.07,
+    "sl": 757.6162857142857,
+    "tp1": 743.9774285714287,
+    "tp2": 739.4311428571431,
+    "tp3": 734.8848571428574,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:16:41 | 2026/10/29"
   }
 }
