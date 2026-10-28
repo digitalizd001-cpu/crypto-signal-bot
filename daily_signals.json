@@ -1,13 +1,14 @@
 {
   "date": "2026-10-29",
-  "total_dispatched": 3,
+  "total_dispatched": 4,
   "shifts": {
     "1": {
-      "count": 3,
+      "count": 4,
       "symbols": [
         "METIS/USDT",
         "BNB/USDT",
-        "PAXG/USDT"
+        "PAXG/USDT",
+        "UNI/USDT"
       ]
     },
     "2": {
