@@ -26,13 +26,13 @@
   "METIS/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 3.418,
-    "sl": 3.4516857142857145,
+    "sl": 3.4145820000000002,
     "tp1": 3.3506285714285715,
     "tp2": 3.316942857142857,
     "tp3": 3.283257142857143,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:02:01 | 2026/10/28"
   },
   "TIA/USDT": {
