@@ -11,18 +11,6 @@
     "risk_free": true,
     "opened_at": "00:32:08 | 2026/10/27"
   },
-  "BONK/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.989e-06,
-    "sl": 2.991989e-06,
-    "tp1": 3.054314285714286e-06,
-    "tp2": 3.086971428571429e-06,
-    "tp3": 3.119628571428572e-06,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "16:46:33 | 2026/10/27"
-  },
   "ARB/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.1669,
