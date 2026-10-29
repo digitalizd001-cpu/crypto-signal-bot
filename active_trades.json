@@ -11,40 +11,16 @@
     "risk_free": false,
     "opened_at": "00:32:08 | 2026/10/29"
   },
-  "UNI/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 7.312,
-    "sl": 7.3046880000000005,
-    "tp1": 7.063857142857143,
-    "tp2": 6.939785714285714,
-    "tp3": 6.815714285714285,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:46:34 | 2026/10/29"
-  },
-  "BTC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 81195.2,
-    "sl": 81114.0048,
-    "tp1": 80088.71428571428,
-    "tp2": 79535.47142857141,
-    "tp3": 78982.22857142855,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "01:01:56 | 2026/10/29"
-  },
   "CRV/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.3239,
-    "sl": 0.31933571428571433,
+    "sl": 0.3242239,
     "tp1": 0.3330285714285714,
     "tp2": 0.3375928571428571,
     "tp3": 0.34215714285714277,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:16:22 | 2026/10/29"
   },
   "BNB/USDT": {
@@ -74,37 +50,13 @@
   "SHIB/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 4.919e-06,
-    "sl": 4.886214285714285e-06,
+    "sl": 4.923918999999999e-06,
     "tp1": 4.984571428571429e-06,
     "tp2": 5.017357142857144e-06,
     "tp3": 5.050142857142859e-06,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:32:08 | 2026/10/29"
-  },
-  "DOGE/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.07909,
-    "sl": 0.07955542857142857,
-    "tp1": 0.07815914285714284,
-    "tp2": 0.07769371428571427,
-    "tp3": 0.0772282857142857,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:46:23 | 2026/10/29"
-  },
-  "ALGO/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.10069,
-    "sl": 0.10145885714285714,
-    "tp1": 0.09915228571428572,
-    "tp2": 0.09838342857142858,
-    "tp3": 0.09761457142857144,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "17:02:02 | 2026/10/29"
   }
 }
