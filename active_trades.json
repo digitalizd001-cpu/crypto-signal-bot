@@ -106,5 +106,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:46:23 | 2026/10/29"
+  },
+  "ALGO/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.10069,
+    "sl": 0.10145885714285714,
+    "tp1": 0.09915228571428572,
+    "tp2": 0.09838342857142858,
+    "tp3": 0.09761457142857144,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "17:02:02 | 2026/10/29"
   }
 }
