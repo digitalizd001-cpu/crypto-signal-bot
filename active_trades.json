@@ -59,18 +59,6 @@
     "risk_free": true,
     "opened_at": "08:46:37 | 2026/10/29"
   },
-  "DOT/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.9872,
-    "sl": 1.00052,
-    "tp1": 0.9605599999999997,
-    "tp2": 0.9472399999999996,
-    "tp3": 0.9339199999999995,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "09:01:47 | 2026/10/29"
-  },
   "TRX/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.33161,
