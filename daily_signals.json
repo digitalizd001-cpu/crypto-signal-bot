@@ -1,11 +1,12 @@
 {
   "date": "2026-10-30",
-  "total_dispatched": 1,
+  "total_dispatched": 2,
   "shifts": {
     "1": {
-      "count": 1,
+      "count": 2,
       "symbols": [
-        "DYDX/USDT"
+        "DYDX/USDT",
+        "AVAX/USDT"
       ]
     },
     "2": {
