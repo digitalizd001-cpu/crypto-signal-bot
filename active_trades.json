@@ -11,18 +11,6 @@
     "risk_free": true,
     "opened_at": "00:32:08 | 2026/10/29"
   },
-  "CRV/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.3239,
-    "sl": 0.3242239,
-    "tp1": 0.3330285714285714,
-    "tp2": 0.3375928571428571,
-    "tp3": 0.34215714285714277,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:16:22 | 2026/10/29"
-  },
   "BNB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 758.99,
