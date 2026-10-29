@@ -47,18 +47,6 @@
     "risk_free": false,
     "opened_at": "08:16:22 | 2026/10/29"
   },
-  "SEI/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.05194,
-    "sl": 0.05116085714285714,
-    "tp1": 0.05349828571428572,
-    "tp2": 0.05427742857142858,
-    "tp3": 0.05505657142857144,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:32:07 | 2026/10/29"
-  },
   "BNB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 758.99,
