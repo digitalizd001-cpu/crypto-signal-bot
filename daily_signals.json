@@ -1,14 +1,15 @@
 {
   "date": "2026-10-30",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "DYDX/USDT",
         "AVAX/USDT",
         "ETH/USDT",
-        "BNB/USDT"
+        "BNB/USDT",
+        "XRP/USDT"
       ]
     },
     "2": {
