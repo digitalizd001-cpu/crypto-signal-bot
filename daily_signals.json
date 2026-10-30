@@ -1,13 +1,14 @@
 {
   "date": "2026-10-31",
-  "total_dispatched": 3,
+  "total_dispatched": 4,
   "shifts": {
     "1": {
-      "count": 3,
+      "count": 4,
       "symbols": [
         "PAXG/USDT",
         "XAU/USDT",
-        "BTC/USDT"
+        "BTC/USDT",
+        "WIF/USDT"
       ]
     },
     "2": {
