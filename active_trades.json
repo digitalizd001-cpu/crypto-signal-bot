@@ -46,17 +46,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:31:59 | 2026/10/30"
-  },
-  "LDO/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.3261,
-    "sl": 0.33096000000000003,
-    "tp1": 0.31637999999999994,
-    "tp2": 0.3115199999999999,
-    "tp3": 0.3066599999999999,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "09:01:49 | 2026/10/30"
   }
 }
