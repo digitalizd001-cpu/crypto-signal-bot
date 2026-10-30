@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:03 | 2026/10/30"
+  },
+  "PAXG/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 3898.34,
+    "sl": 3885.0290000000005,
+    "tp1": 3924.9619999999995,
+    "tp2": 3938.2729999999992,
+    "tp3": 3951.583999999999,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:02:29 | 2026/10/31"
   }
 }
