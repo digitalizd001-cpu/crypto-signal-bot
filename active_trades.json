@@ -35,18 +35,6 @@
     "risk_free": false,
     "opened_at": "08:31:59 | 2026/10/30"
   },
-  "THETA/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.1574,
-    "sl": 0.15608857142857144,
-    "tp1": 0.16002285714285716,
-    "tp2": 0.16133428571428574,
-    "tp3": 0.1626457142857143,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:16:28 | 2026/10/30"
-  },
   "HBAR/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.07211,
