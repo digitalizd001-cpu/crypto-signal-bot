@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:31 | 2026/10/30"
+  },
+  "CRV/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.2702,
+    "sl": 0.25902714285714284,
+    "tp1": 0.2925457142857143,
+    "tp2": 0.30371857142857145,
+    "tp3": 0.3148914285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:31:59 | 2026/10/30"
   }
 }
