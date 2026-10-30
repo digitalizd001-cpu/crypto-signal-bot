@@ -14,13 +14,13 @@
   "BTC/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 78327.9,
-    "sl": 78963.60857142856,
+    "sl": 78249.57209999999,
     "tp1": 77056.48285714287,
     "tp2": 76420.7742857143,
     "tp3": 75785.06571428574,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:16:31 | 2026/10/30"
   },
   "CRV/USDT": {
