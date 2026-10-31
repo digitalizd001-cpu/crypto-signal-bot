@@ -130,5 +130,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:32:03 | 2026/11/01"
+  },
+  "BCH/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 284.4,
+    "sl": 282.90471428571425,
+    "tp1": 287.39057142857143,
+    "tp2": 288.88585714285716,
+    "tp3": 290.3811428571429,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:46:36 | 2026/11/01"
   }
 }
