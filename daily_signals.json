@@ -1,6 +1,6 @@
 {
   "date": "2026-10-31",
-  "total_dispatched": 9,
+  "total_dispatched": 10,
   "shifts": {
     "1": {
       "count": 5,
@@ -13,12 +13,13 @@
       ]
     },
     "2": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "AVAX/USDT",
         "ADA/USDT",
         "ICP/USDT",
-        "THETA/USDT"
+        "THETA/USDT",
+        "FET/USDT"
       ]
     },
     "3": {
