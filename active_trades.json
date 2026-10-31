@@ -95,18 +95,6 @@
     "risk_free": false,
     "opened_at": "16:16:24 | 2026/10/31"
   },
-  "AVAX/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 8.49,
-    "sl": 8.524071428571428,
-    "tp1": 8.421857142857144,
-    "tp2": 8.387785714285716,
-    "tp3": 8.353714285714288,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:46:30 | 2026/10/31"
-  },
   "OP/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.11375,
