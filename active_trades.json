@@ -82,17 +82,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:46:16 | 2026/10/31"
-  },
-  "FET/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.1627,
-    "sl": 0.16169714285714287,
-    "tp1": 0.1647057142857143,
-    "tp2": 0.16570857142857143,
-    "tp3": 0.16671142857142857,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "09:01:34 | 2026/10/31"
   }
 }
