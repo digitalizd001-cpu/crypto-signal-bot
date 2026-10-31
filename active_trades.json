@@ -23,18 +23,6 @@
     "risk_free": false,
     "opened_at": "08:31:59 | 2026/10/30"
   },
-  "HBAR/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.07211,
-    "sl": 0.07285442857142857,
-    "tp1": 0.07062114285714284,
-    "tp2": 0.06987671428571426,
-    "tp3": 0.06913228571428569,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:03 | 2026/10/30"
-  },
   "PAXG/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 3898.34,
