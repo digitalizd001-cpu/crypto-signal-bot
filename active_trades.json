@@ -95,18 +95,6 @@
     "risk_free": true,
     "opened_at": "01:01:55 | 2026/11/01"
   },
-  "WIF/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.1785,
-    "sl": 0.17933571428571426,
-    "tp1": 0.17682857142857145,
-    "tp2": 0.17599285714285717,
-    "tp3": 0.1751571428571429,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:01:42 | 2026/11/01"
-  },
   "APT/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.6387,
