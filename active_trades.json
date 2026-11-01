@@ -35,42 +35,6 @@
     "risk_free": false,
     "opened_at": "00:16:35 | 2026/10/31"
   },
-  "SUI/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.8961,
-    "sl": 0.8895942857142858,
-    "tp1": 0.9091114285714285,
-    "tp2": 0.9156171428571427,
-    "tp3": 0.9221228571428569,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:16:36 | 2026/11/02"
-  },
-  "ETH/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2263.82,
-    "sl": 2256.6418571428576,
-    "tp1": 2278.1762857142853,
-    "tp2": 2285.354428571428,
-    "tp3": 2292.5325714285705,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:32:02 | 2026/11/02"
-  },
-  "BTC/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 77902.0,
-    "sl": 77717.11428571428,
-    "tp1": 78271.77142857143,
-    "tp2": 78456.65714285715,
-    "tp3": 78641.54285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:46:37 | 2026/11/02"
-  },
   "DOT/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.9475,
