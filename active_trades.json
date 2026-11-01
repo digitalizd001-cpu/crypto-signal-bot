@@ -71,18 +71,6 @@
     "risk_free": false,
     "opened_at": "16:01:45 | 2026/11/01"
   },
-  "AR/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 3.146,
-    "sl": 3.126714285714286,
-    "tp1": 3.184571428571428,
-    "tp2": 3.2038571428571423,
-    "tp3": 3.2231428571428564,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:16:28 | 2026/11/01"
-  },
   "ETH/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 2261.83,
