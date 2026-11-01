@@ -130,5 +130,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:46:25 | 2026/11/01"
+  },
+  "IMX/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.1226,
+    "sl": 0.12301142857142858,
+    "tp1": 0.12177714285714285,
+    "tp2": 0.12136571428571427,
+    "tp3": 0.1209542857142857,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "09:01:45 | 2026/11/01"
   }
 }
