@@ -35,18 +35,6 @@
     "risk_free": false,
     "opened_at": "00:16:35 | 2026/10/31"
   },
-  "ALGO/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.0937,
-    "sl": 0.09320500000000001,
-    "tp1": 0.09469,
-    "tp2": 0.09518499999999999,
-    "tp3": 0.09567999999999999,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:01:45 | 2026/11/02"
-  },
   "SUI/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.8961,
