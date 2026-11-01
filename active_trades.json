@@ -34,53 +34,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:35 | 2026/10/31"
-  },
-  "ADA/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.1929,
-    "sl": 0.1917942857142857,
-    "tp1": 0.19511142857142857,
-    "tp2": 0.19621714285714287,
-    "tp3": 0.19732285714285716,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:16:23 | 2026/10/31"
-  },
-  "ICP/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.488,
-    "sl": 2.4904879999999996,
-    "tp1": 2.5147428571428567,
-    "tp2": 2.528114285714285,
-    "tp3": 2.5414857142857135,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:32:03 | 2026/10/31"
-  },
-  "BTC/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 77848.7,
-    "sl": 77677.52,
-    "tp1": 78191.05999999998,
-    "tp2": 78362.23999999998,
-    "tp3": 78533.41999999997,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:01:45 | 2026/11/01"
-  },
-  "ETH/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2261.83,
-    "sl": 2255.3204285714287,
-    "tp1": 2274.8491428571424,
-    "tp2": 2281.3587142857136,
-    "tp3": 2287.868285714285,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:31:58 | 2026/11/01"
   }
 }
