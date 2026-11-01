@@ -86,13 +86,13 @@
   "AR/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 3.15,
-    "sl": 3.1323857142857143,
+    "sl": 3.1531499999999997,
     "tp1": 3.185228571428571,
     "tp2": 3.2028428571428567,
     "tp3": 3.2204571428571422,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "01:01:55 | 2026/11/01"
   },
   "WIF/USDT": {
@@ -118,17 +118,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:25 | 2026/11/01"
-  },
-  "UNI/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 7.156,
-    "sl": 7.233528571428571,
-    "tp1": 7.000942857142857,
-    "tp2": 6.923414285714286,
-    "tp3": 6.845885714285715,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:46:25 | 2026/11/01"
   }
 }
