@@ -1,13 +1,14 @@
 {
   "date": "2026-11-02",
-  "total_dispatched": 3,
+  "total_dispatched": 4,
   "shifts": {
     "1": {
-      "count": 3,
+      "count": 4,
       "symbols": [
         "ALGO/USDT",
         "SUI/USDT",
-        "ETH/USDT"
+        "ETH/USDT",
+        "BTC/USDT"
       ]
     },
     "2": {
