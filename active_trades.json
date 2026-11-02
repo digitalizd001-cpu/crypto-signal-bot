@@ -70,5 +70,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:29 | 2026/11/02"
+  },
+  "AAVE/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 133.83,
+    "sl": 132.51728571428572,
+    "tp1": 136.4554285714286,
+    "tp2": 137.7681428571429,
+    "tp3": 139.08085714285718,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:46:38 | 2026/11/02"
   }
 }
