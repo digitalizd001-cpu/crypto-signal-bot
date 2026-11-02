@@ -58,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:01:49 | 2026/11/02"
+  },
+  "ALGO/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.0942,
+    "sl": 0.09352628571428571,
+    "tp1": 0.09554742857142859,
+    "tp2": 0.09622114285714288,
+    "tp3": 0.09689485714285717,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:16:29 | 2026/11/02"
   }
 }
