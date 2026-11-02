@@ -58,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:01:53 | 2026/11/02"
+  },
+  "ATOM/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 1.452,
+    "sl": 1.4395285714285715,
+    "tp1": 1.476942857142857,
+    "tp2": 1.4894142857142854,
+    "tp3": 1.5018857142857138,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:16:32 | 2026/11/02"
   }
 }
