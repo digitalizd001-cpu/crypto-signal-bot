@@ -1,12 +1,13 @@
 {
   "date": "2026-11-03",
-  "total_dispatched": 2,
+  "total_dispatched": 3,
   "shifts": {
     "1": {
-      "count": 2,
+      "count": 3,
       "symbols": [
         "AAVE/USDT",
-        "SNX/USDT"
+        "SNX/USDT",
+        "LINK/USDT"
       ]
     },
     "2": {
