@@ -14,13 +14,13 @@
   "PAXG/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 3898.34,
-    "sl": 3885.0290000000005,
+    "sl": 3902.23834,
     "tp1": 3924.9619999999995,
     "tp2": 3938.2729999999992,
     "tp3": 3951.583999999999,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:02:29 | 2026/10/31"
   },
   "XAU/USDT": {
