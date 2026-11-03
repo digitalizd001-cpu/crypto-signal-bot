@@ -1,6 +1,6 @@
 {
   "date": "2026-11-03",
-  "total_dispatched": 14,
+  "total_dispatched": 15,
   "shifts": {
     "1": {
       "count": 5,
@@ -23,12 +23,13 @@
       ]
     },
     "3": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "BNB/USDT",
         "UNI/USDT",
         "FLOKI/USDT",
-        "ARB/USDT"
+        "ARB/USDT",
+        "ETH/USDT"
       ]
     }
   }
