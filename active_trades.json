@@ -26,13 +26,13 @@
   "LINK/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 11.028,
-    "sl": 10.902514285714286,
+    "sl": 11.039028,
     "tp1": 11.27897142857143,
     "tp2": 11.404457142857144,
     "tp3": 11.529942857142858,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:32:08 | 2026/11/03"
   },
   "LTC/USDT": {
@@ -59,30 +59,6 @@
     "risk_free": false,
     "opened_at": "16:02:00 | 2026/11/03"
   },
-  "UNI/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 7.285,
-    "sl": 7.3696,
-    "tp1": 7.1158,
-    "tp2": 7.0312,
-    "tp3": 6.9466,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:16:43 | 2026/11/03"
-  },
-  "FLOKI/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 2.27e-05,
-    "sl": 2.2820857142857144e-05,
-    "tp1": 2.245828571428571e-05,
-    "tp2": 2.2337428571428566e-05,
-    "tp3": 2.221657142857142e-05,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:06 | 2026/11/03"
-  },
   "ARB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.16181,
@@ -94,17 +70,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:46:40 | 2026/11/03"
-  },
-  "ETH/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 2292.52,
-    "sl": 2304.6352857142856,
-    "tp1": 2268.2894285714287,
-    "tp2": 2256.174142857143,
-    "tp3": 2244.0588571428575,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "17:01:44 | 2026/11/03"
   }
 }
