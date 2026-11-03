@@ -1,13 +1,14 @@
 {
   "date": "2026-11-04",
-  "total_dispatched": 3,
+  "total_dispatched": 4,
   "shifts": {
     "1": {
-      "count": 3,
+      "count": 4,
       "symbols": [
         "CRV/USDT",
         "XLM/USDT",
-        "FIL/USDT"
+        "FIL/USDT",
+        "FLOW/USDT"
       ]
     },
     "2": {
