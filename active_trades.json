@@ -58,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:47 | 2026/11/04"
+  },
+  "FIL/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.8669,
+    "sl": 0.8608571428571429,
+    "tp1": 0.8789857142857143,
+    "tp2": 0.8850285714285714,
+    "tp3": 0.8910714285714285,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:32:10 | 2026/11/04"
   }
 }
