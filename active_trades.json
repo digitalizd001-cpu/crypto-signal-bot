@@ -50,13 +50,13 @@
   "BNB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 701.56,
-    "sl": 704.5852857142856,
+    "sl": 700.85844,
     "tp1": 695.5094285714285,
     "tp2": 692.4841428571428,
     "tp3": 689.4588571428571,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:02:00 | 2026/11/03"
   },
   "ARB/USDT": {
