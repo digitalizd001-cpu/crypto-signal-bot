@@ -1,6 +1,6 @@
 {
   "date": "2026-11-03",
-  "total_dispatched": 8,
+  "total_dispatched": 9,
   "shifts": {
     "1": {
       "count": 5,
@@ -13,11 +13,12 @@
       ]
     },
     "2": {
-      "count": 3,
+      "count": 4,
       "symbols": [
         "BNB/USDT",
         "BONK/USDT",
-        "APT/USDT"
+        "APT/USDT",
+        "DYDX/USDT"
       ]
     },
     "3": {
