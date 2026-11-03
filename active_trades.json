@@ -38,13 +38,13 @@
   "LTC/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 53.78,
-    "sl": 53.33128571428572,
+    "sl": 53.83378,
     "tp1": 54.677428571428564,
     "tp2": 55.126142857142845,
     "tp3": 55.57485714285713,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "01:01:54 | 2026/11/03"
   },
   "BNB/USDT": {
@@ -58,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:02:00 | 2026/11/03"
+  },
+  "UNI/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 7.285,
+    "sl": 7.3696,
+    "tp1": 7.1158,
+    "tp2": 7.0312,
+    "tp3": 6.9466,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:16:43 | 2026/11/03"
   }
 }
