@@ -70,5 +70,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:16:43 | 2026/11/03"
+  },
+  "FLOKI/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 2.27e-05,
+    "sl": 2.2820857142857144e-05,
+    "tp1": 2.245828571428571e-05,
+    "tp2": 2.2337428571428566e-05,
+    "tp3": 2.221657142857142e-05,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:32:06 | 2026/11/03"
   }
 }
