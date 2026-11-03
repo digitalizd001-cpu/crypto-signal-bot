@@ -47,30 +47,6 @@
     "risk_free": false,
     "opened_at": "01:01:54 | 2026/11/03"
   },
-  "BNB/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 697.51,
-    "sl": 694.2635714285714,
-    "tp1": 704.0028571428572,
-    "tp2": 707.2492857142859,
-    "tp3": 710.4957142857145,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:01:50 | 2026/11/03"
-  },
-  "APT/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.6164,
-    "sl": 0.6114757142857142,
-    "tp1": 0.6262485714285714,
-    "tp2": 0.6311728571428571,
-    "tp3": 0.6360971428571428,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:32:03 | 2026/11/03"
-  },
   "DYDX/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.10067,
