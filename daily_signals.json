@@ -1,14 +1,15 @@
 {
   "date": "2026-11-05",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "ETH/USDT",
         "TIA/USDT",
         "EGLD/USDT",
-        "SEI/USDT"
+        "SEI/USDT",
+        "ENA/USDT"
       ]
     },
     "2": {
