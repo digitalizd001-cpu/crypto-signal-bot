@@ -1,6 +1,6 @@
 {
   "date": "2026-11-04",
-  "total_dispatched": 14,
+  "total_dispatched": 15,
   "shifts": {
     "1": {
       "count": 5,
@@ -23,12 +23,13 @@
       ]
     },
     "3": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "STRK/USDT",
         "XLM/USDT",
         "ICP/USDT",
-        "PENDLE/USDT"
+        "PENDLE/USDT",
+        "SUI/USDT"
       ]
     }
   }

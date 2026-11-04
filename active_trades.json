@@ -58,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:47:11 | 2026/11/04"
+  },
+  "SUI/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.9032,
+    "sl": 0.8936857142857143,
+    "tp1": 0.9222285714285714,
+    "tp2": 0.9317428571428571,
+    "tp3": 0.9412571428571428,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "17:02:07 | 2026/11/04"
   }
 }
