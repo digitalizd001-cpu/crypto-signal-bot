@@ -11,40 +11,16 @@
     "risk_free": true,
     "opened_at": "08:01:44 | 2026/11/04"
   },
-  "XLM/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.16295,
-    "sl": 0.1618854285714286,
-    "tp1": 0.16507914285714284,
-    "tp2": 0.16614371428571426,
-    "tp3": 0.16720828571428567,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:16:30 | 2026/11/04"
-  },
   "ICP/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 2.515,
-    "sl": 2.496614285714286,
+    "sl": 2.517515,
     "tp1": 2.551771428571428,
     "tp2": 2.570157142857142,
     "tp3": 2.588542857142856,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:32:18 | 2026/11/04"
-  },
-  "SUI/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.9032,
-    "sl": 0.8936857142857143,
-    "tp1": 0.9222285714285714,
-    "tp2": 0.9317428571428571,
-    "tp3": 0.9412571428571428,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "17:02:07 | 2026/11/04"
   }
 }
