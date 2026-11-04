@@ -10,5 +10,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:01:53 | 2026/11/05"
+  },
+  "TIA/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.4485,
+    "sl": 0.4403485714285714,
+    "tp1": 0.4648028571428572,
+    "tp2": 0.47295428571428577,
+    "tp3": 0.48110571428571436,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:16:34 | 2026/11/05"
   }
 }
