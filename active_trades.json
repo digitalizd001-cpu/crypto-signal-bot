@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:16:30 | 2026/11/04"
+  },
+  "ICP/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 2.515,
+    "sl": 2.496614285714286,
+    "tp1": 2.551771428571428,
+    "tp2": 2.570157142857142,
+    "tp3": 2.588542857142856,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:32:18 | 2026/11/04"
   }
 }
