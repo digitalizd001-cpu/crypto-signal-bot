@@ -1,6 +1,6 @@
 {
   "date": "2026-11-04",
-  "total_dispatched": 8,
+  "total_dispatched": 9,
   "shifts": {
     "1": {
       "count": 5,
@@ -13,11 +13,12 @@
       ]
     },
     "2": {
-      "count": 3,
+      "count": 4,
       "symbols": [
         "BNB/USDT",
         "XRP/USDT",
-        "ETH/USDT"
+        "ETH/USDT",
+        "ENA/USDT"
       ]
     },
     "3": {

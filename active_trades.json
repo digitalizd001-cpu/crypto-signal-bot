@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:32:04 | 2026/11/04"
+  },
+  "ENA/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.17449,
+    "sl": 0.17819414285714286,
+    "tp1": 0.1670817142857143,
+    "tp2": 0.16337757142857146,
+    "tp3": 0.1596734285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:46:35 | 2026/11/04"
   }
 }
