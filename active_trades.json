@@ -35,30 +35,6 @@
     "risk_free": false,
     "opened_at": "08:32:09 | 2026/11/05"
   },
-  "BTC/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 79705.7,
-    "sl": 79426.48142857142,
-    "tp1": 80264.13714285714,
-    "tp2": 80543.35571428572,
-    "tp3": 80822.57428571429,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:16:31 | 2026/11/05"
-  },
-  "ADA/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.1955,
-    "sl": 0.19402142857142857,
-    "tp1": 0.1984571428571429,
-    "tp2": 0.19993571428571433,
-    "tp3": 0.20141428571428577,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:13 | 2026/11/05"
-  },
   "ARB/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.16233,
