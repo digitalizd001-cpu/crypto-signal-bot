@@ -1,13 +1,14 @@
 {
   "date": "2026-11-06",
-  "total_dispatched": 3,
+  "total_dispatched": 4,
   "shifts": {
     "1": {
-      "count": 3,
+      "count": 4,
       "symbols": [
         "XAUT/USDT",
         "METIS/USDT",
-        "TAO/USDT"
+        "TAO/USDT",
+        "ATOM/USDT"
       ]
     },
     "2": {

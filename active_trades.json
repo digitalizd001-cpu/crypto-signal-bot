@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:32:04 | 2026/11/06"
+  },
+  "ATOM/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 1.415,
+    "sl": 1.433,
+    "tp1": 1.379,
+    "tp2": 1.361,
+    "tp3": 1.343,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:46:41 | 2026/11/06"
   }
 }
