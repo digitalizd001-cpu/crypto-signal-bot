@@ -22,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:38 | 2026/11/06"
+  },
+  "TAO/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 219.85,
+    "sl": 222.7287142857143,
+    "tp1": 214.0925714285714,
+    "tp2": 211.2138571428571,
+    "tp3": 208.3351428571428,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:32:04 | 2026/11/06"
   }
 }
