@@ -14,13 +14,13 @@
   "METIS/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 2.646,
-    "sl": 2.6704285714285714,
+    "sl": 2.643354,
     "tp1": 2.597142857142857,
     "tp2": 2.5727142857142855,
     "tp3": 2.548285714285714,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:16:38 | 2026/11/06"
   },
   "TAO/USDT": {
