@@ -22,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:17 | 2026/11/06"
+  },
+  "ARB/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.16629,
+    "sl": 0.169341,
+    "tp1": 0.160188,
+    "tp2": 0.157137,
+    "tp3": 0.154086,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:32:13 | 2026/11/06"
   }
 }
