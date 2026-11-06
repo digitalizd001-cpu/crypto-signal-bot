@@ -1,11 +1,12 @@
 {
   "date": "2026-11-07",
-  "total_dispatched": 1,
+  "total_dispatched": 2,
   "shifts": {
     "1": {
-      "count": 1,
+      "count": 2,
       "symbols": [
-        "ATOM/USDT"
+        "ATOM/USDT",
+        "ARB/USDT"
       ]
     },
     "2": {
