@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:02:01 | 2026/11/06"
+  },
+  "BONK/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 2.907e-06,
+    "sl": 2.874985714285714e-06,
+    "tp1": 2.9710285714285716e-06,
+    "tp2": 3.0030428571428574e-06,
+    "tp3": 3.0350571428571433e-06,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:16:35 | 2026/11/06"
   }
 }
