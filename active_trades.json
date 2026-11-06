@@ -10,5 +10,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:01:54 | 2026/11/06"
+  },
+  "BTC/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 75761.9,
+    "sl": 75357.38857142856,
+    "tp1": 76570.92285714287,
+    "tp2": 76975.4342857143,
+    "tp3": 77379.94571428574,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:16:17 | 2026/11/06"
   }
 }
