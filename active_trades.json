@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:36 | 2026/11/07"
+  },
+  "APT/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.6114,
+    "sl": 0.6061028571428572,
+    "tp1": 0.6219942857142858,
+    "tp2": 0.6272914285714287,
+    "tp3": 0.6325885714285716,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:32:09 | 2026/11/07"
   }
 }
