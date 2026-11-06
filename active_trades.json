@@ -58,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:16:35 | 2026/11/06"
+  },
+  "MINA/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.05619,
+    "sl": 0.056665714285714285,
+    "tp1": 0.05523857142857142,
+    "tp2": 0.054762857142857134,
+    "tp3": 0.054287142857142846,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:32:04 | 2026/11/06"
   }
 }
