@@ -10,29 +10,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "08:01:54 | 2026/11/06"
-  },
-  "LTC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 53.16,
-    "sl": 53.10684,
-    "tp1": 52.55314285714286,
-    "tp2": 52.24971428571429,
-    "tp3": 51.94628571428572,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "16:02:01 | 2026/11/06"
-  },
-  "MINA/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.05619,
-    "sl": 0.056665714285714285,
-    "tp1": 0.05523857142857142,
-    "tp2": 0.054762857142857134,
-    "tp3": 0.054287142857142846,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:04 | 2026/11/06"
   }
 }
