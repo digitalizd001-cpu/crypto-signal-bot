@@ -11,18 +11,6 @@
     "risk_free": true,
     "opened_at": "08:01:54 | 2026/11/06"
   },
-  "ETH/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2223.01,
-    "sl": 2225.23301,
-    "tp1": 2249.1639999999998,
-    "tp2": 2262.2409999999995,
-    "tp3": 2275.3179999999993,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:46:38 | 2026/11/06"
-  },
   "LTC/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 53.16,
@@ -46,17 +34,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:04 | 2026/11/06"
-  },
-  "BTC/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 75910.9,
-    "sl": 75595.21857142857,
-    "tp1": 76542.26285714284,
-    "tp2": 76857.94428571426,
-    "tp3": 77173.62571428568,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:46:41 | 2026/11/06"
   }
 }
