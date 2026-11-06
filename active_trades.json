@@ -35,30 +35,6 @@
     "risk_free": false,
     "opened_at": "00:16:36 | 2026/11/07"
   },
-  "APT/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.6114,
-    "sl": 0.6061028571428572,
-    "tp1": 0.6219942857142858,
-    "tp2": 0.6272914285714287,
-    "tp3": 0.6325885714285716,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:32:09 | 2026/11/07"
-  },
-  "GRT/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.01942,
-    "sl": 0.019269571428571428,
-    "tp1": 0.019720857142857144,
-    "tp2": 0.019871285714285716,
-    "tp3": 0.02002171428571429,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:47:12 | 2026/11/07"
-  },
   "HBAR/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.06778,
