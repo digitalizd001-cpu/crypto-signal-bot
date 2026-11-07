@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:32:05 | 2026/11/07"
+  },
+  "HBAR/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.06739,
+    "sl": 0.06702228571428571,
+    "tp1": 0.06812542857142859,
+    "tp2": 0.06849314285714288,
+    "tp3": 0.06886085714285717,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:46:28 | 2026/11/07"
   }
 }
