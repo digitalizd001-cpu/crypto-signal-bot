@@ -11,18 +11,6 @@
     "risk_free": false,
     "opened_at": "08:01:50 | 2026/11/07"
   },
-  "MEME/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.0004027,
-    "sl": 0.0004007585714285714,
-    "tp1": 0.0004065828571428571,
-    "tp2": 0.0004085242857142856,
-    "tp3": 0.0004104657142857142,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:16:31 | 2026/11/07"
-  },
   "XAUT/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 4070.4,
