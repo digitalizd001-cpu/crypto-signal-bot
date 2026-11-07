@@ -22,17 +22,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:01:54 | 2026/11/07"
-  },
-  "ARB/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.16557,
-    "sl": 0.16401428571428572,
-    "tp1": 0.16868142857142854,
-    "tp2": 0.1702371428571428,
-    "tp3": 0.17179285714285708,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:16:36 | 2026/11/07"
   }
 }
