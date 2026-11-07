@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:10 | 2026/11/07"
+  },
+  "STRK/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.04099,
+    "sl": 0.04060942857142857,
+    "tp1": 0.04175114285714286,
+    "tp2": 0.04213171428571429,
+    "tp3": 0.042512285714285725,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:28 | 2026/11/07"
   }
 }
