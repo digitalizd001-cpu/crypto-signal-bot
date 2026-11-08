@@ -1,14 +1,15 @@
 {
   "date": "2026-11-09",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "BTC/USDT",
         "BONK/USDT",
         "DOT/USDT",
-        "ETH/USDT"
+        "ETH/USDT",
+        "ETC/USDT"
       ]
     },
     "2": {

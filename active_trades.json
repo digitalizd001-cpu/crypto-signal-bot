@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:31:58 | 2026/11/09"
+  },
+  "ETC/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 6.792,
+    "sl": 6.761785714285714,
+    "tp1": 6.852428571428572,
+    "tp2": 6.882642857142858,
+    "tp3": 6.912857142857144,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "01:01:33 | 2026/11/09"
   }
 }
