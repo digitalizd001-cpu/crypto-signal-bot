@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:06 | 2026/11/08"
+  },
+  "SOL/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 89.8,
+    "sl": 90.14971428571428,
+    "tp1": 89.10057142857143,
+    "tp2": 88.75085714285714,
+    "tp3": 88.40114285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:36 | 2026/11/08"
   }
 }
