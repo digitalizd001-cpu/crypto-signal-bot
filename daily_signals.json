@@ -1,6 +1,6 @@
 {
   "date": "2026-11-08",
-  "total_dispatched": 14,
+  "total_dispatched": 15,
   "shifts": {
     "1": {
       "count": 5,
@@ -23,12 +23,13 @@
       ]
     },
     "3": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "ICP/USDT",
         "FLOW/USDT",
         "FIL/USDT",
-        "SOL/USDT"
+        "SOL/USDT",
+        "ETH/USDT"
       ]
     }
   }
