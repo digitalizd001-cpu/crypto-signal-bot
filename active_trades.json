@@ -1,16 +1,4 @@
 {
-  "XAUT/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 4118.0,
-    "sl": 4113.882,
-    "tp1": 4094.265714285715,
-    "tp2": 4082.3985714285727,
-    "tp3": 4070.5314285714303,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:16:18 | 2026/11/09"
-  },
   "AAVE/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 133.26,
@@ -46,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:21 | 2026/11/09"
+  },
+  "METIS/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 2.675,
+    "sl": 2.6958285714285712,
+    "tp1": 2.633342857142857,
+    "tp2": 2.6125142857142856,
+    "tp3": 2.591685714285714,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:29 | 2026/11/09"
   }
 }
