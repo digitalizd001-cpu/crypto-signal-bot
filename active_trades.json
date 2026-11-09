@@ -38,13 +38,13 @@
   "METIS/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 2.675,
-    "sl": 2.6958285714285712,
+    "sl": 2.672325,
     "tp1": 2.633342857142857,
     "tp2": 2.6125142857142856,
     "tp3": 2.591685714285714,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:46:29 | 2026/11/09"
   },
   "AVAX/USDT": {
