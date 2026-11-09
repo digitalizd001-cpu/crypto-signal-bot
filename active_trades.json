@@ -2,13 +2,13 @@
   "XAUT/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 4118.0,
-    "sl": 4129.867142857142,
+    "sl": 4113.882,
     "tp1": 4094.265714285715,
     "tp2": 4082.3985714285727,
     "tp3": 4070.5314285714303,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:16:18 | 2026/11/09"
   }
 }
