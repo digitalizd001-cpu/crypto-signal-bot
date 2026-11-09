@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:31:55 | 2026/11/09"
+  },
+  "XLM/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.147,
+    "sl": 0.1455972857142857,
+    "tp1": 0.14980542857142856,
+    "tp2": 0.15120814285714285,
+    "tp3": 0.15261085714285713,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:46:29 | 2026/11/09"
   }
 }
