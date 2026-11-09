@@ -23,18 +23,6 @@
     "risk_free": false,
     "opened_at": "08:16:18 | 2026/11/09"
   },
-  "TRX/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.3181,
-    "sl": 0.3176397142857143,
-    "tp1": 0.3190205714285714,
-    "tp2": 0.31948085714285707,
-    "tp3": 0.31994114285714276,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:31:55 | 2026/11/09"
-  },
   "XLM/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.147,
