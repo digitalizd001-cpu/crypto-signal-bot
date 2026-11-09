@@ -23,18 +23,6 @@
     "risk_free": false,
     "opened_at": "16:16:36 | 2026/11/09"
   },
-  "FLOW/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.02068,
-    "sl": 0.020840714285714285,
-    "tp1": 0.02035857142857143,
-    "tp2": 0.020197857142857146,
-    "tp3": 0.02003714285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:21 | 2026/11/09"
-  },
   "METIS/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 2.675,
