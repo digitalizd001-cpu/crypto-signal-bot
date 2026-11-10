@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:31:58 | 2026/11/10"
+  },
+  "XAU/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 4106.3,
+    "sl": 4099.871428571429,
+    "tp1": 4119.157142857143,
+    "tp2": 4125.585714285715,
+    "tp3": 4132.014285714286,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:46:20 | 2026/11/10"
   }
 }
