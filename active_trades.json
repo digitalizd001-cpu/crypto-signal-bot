@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:32:10 | 2026/11/11"
+  },
+  "SUI/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.821,
+    "sl": 0.8293957142857142,
+    "tp1": 0.8042085714285714,
+    "tp2": 0.7958128571428571,
+    "tp3": 0.7874171428571428,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:46:42 | 2026/11/11"
   }
 }
