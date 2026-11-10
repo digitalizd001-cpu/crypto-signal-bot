@@ -1,28 +1,4 @@
 {
-  "PAXG/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 4106.3,
-    "sl": 4098.714285714286,
-    "tp1": 4121.471428571428,
-    "tp2": 4129.057142857142,
-    "tp3": 4136.642857142856,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:31:58 | 2026/11/10"
-  },
-  "XAU/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 4106.3,
-    "sl": 4099.871428571429,
-    "tp1": 4119.157142857143,
-    "tp2": 4125.585714285715,
-    "tp3": 4132.014285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:46:20 | 2026/11/10"
-  },
   "BONK/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 2.824e-06,
