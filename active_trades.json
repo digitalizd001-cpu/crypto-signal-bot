@@ -1,16 +1,4 @@
 {
-  "AAVE/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 133.26,
-    "sl": 133.12673999999998,
-    "tp1": 129.47742857142856,
-    "tp2": 127.58614285714285,
-    "tp3": 125.69485714285713,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "16:01:50 | 2026/11/09"
-  },
   "ARB/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.17116,
