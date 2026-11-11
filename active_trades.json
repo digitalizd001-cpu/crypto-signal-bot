@@ -10,53 +10,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "08:16:33 | 2026/11/11"
-  },
-  "AVAX/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 8.523,
-    "sl": 8.531522999999998,
-    "tp1": 8.704285714285714,
-    "tp2": 8.79492857142857,
-    "tp3": 8.885571428571428,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "16:01:41 | 2026/11/11"
-  },
-  "RENDER/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 1.576,
-    "sl": 1.5605714285714287,
-    "tp1": 1.6068571428571428,
-    "tp2": 1.622285714285714,
-    "tp3": 1.6377142857142855,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:32:07 | 2026/11/12"
-  },
-  "BOME/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.0006118,
-    "sl": 0.0006069014285714286,
-    "tp1": 0.0006215971428571428,
-    "tp2": 0.0006264957142857142,
-    "tp3": 0.0006313942857142855,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:46:27 | 2026/11/12"
-  },
-  "SEI/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.0442,
-    "sl": 0.04385028571428572,
-    "tp1": 0.044899428571428576,
-    "tp2": 0.04524914285714286,
-    "tp3": 0.04559885714285715,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "01:16:28 | 2026/11/12"
   }
 }
