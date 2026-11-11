@@ -1,16 +1,4 @@
 {
-  "BTC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 73785.2,
-    "sl": 74223.34571428571,
-    "tp1": 72908.90857142858,
-    "tp2": 72470.76285714286,
-    "tp3": 72032.61714285715,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:32:10 | 2026/11/11"
-  },
   "INJ/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 8.312,
@@ -35,18 +23,6 @@
     "risk_free": false,
     "opened_at": "16:01:41 | 2026/11/11"
   },
-  "SUI/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.8313,
-    "sl": 0.8378571428571429,
-    "tp1": 0.8181857142857144,
-    "tp2": 0.8116285714285716,
-    "tp3": 0.8050714285714288,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:15 | 2026/11/11"
-  },
   "SHIB/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 4.462e-06,
@@ -58,17 +34,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:46:32 | 2026/11/11"
-  },
-  "ETC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 6.725,
-    "sl": 6.756628571428571,
-    "tp1": 6.6617428571428565,
-    "tp2": 6.630114285714285,
-    "tp3": 6.598485714285713,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "17:01:43 | 2026/11/11"
   }
 }
