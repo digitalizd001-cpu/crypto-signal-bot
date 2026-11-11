@@ -35,18 +35,6 @@
     "risk_free": false,
     "opened_at": "16:01:41 | 2026/11/11"
   },
-  "DOT/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.8527,
-    "sl": 0.8611214285714286,
-    "tp1": 0.8358571428571429,
-    "tp2": 0.8274357142857143,
-    "tp3": 0.8190142857142857,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:16:28 | 2026/11/11"
-  },
   "SUI/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.8313,
@@ -58,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:15 | 2026/11/11"
+  },
+  "SHIB/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 4.462e-06,
+    "sl": 4.4379571428571426e-06,
+    "tp1": 4.510085714285714e-06,
+    "tp2": 4.5341285714285715e-06,
+    "tp3": 4.558171428571429e-06,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:32 | 2026/11/11"
   }
 }
