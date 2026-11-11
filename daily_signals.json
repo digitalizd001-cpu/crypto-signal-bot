@@ -1,6 +1,6 @@
 {
   "date": "2026-11-11",
-  "total_dispatched": 9,
+  "total_dispatched": 10,
   "shifts": {
     "1": {
       "count": 5,
@@ -13,12 +13,13 @@
       ]
     },
     "2": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "PAXG/USDT",
         "INJ/USDT",
         "EGLD/USDT",
-        "SEI/USDT"
+        "SEI/USDT",
+        "PEPE/USDT"
       ]
     },
     "3": {
