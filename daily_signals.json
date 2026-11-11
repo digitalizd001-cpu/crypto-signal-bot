@@ -1,14 +1,15 @@
 {
   "date": "2026-11-12",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "RENDER/USDT",
         "BOME/USDT",
         "AR/USDT",
-        "LINK/USDT"
+        "LINK/USDT",
+        "SEI/USDT"
       ]
     },
     "2": {
