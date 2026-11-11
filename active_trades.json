@@ -22,29 +22,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:33 | 2026/11/11"
-  },
-  "SEI/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.04393,
-    "sl": 0.043489,
-    "tp1": 0.04481199999999999,
-    "tp2": 0.04525299999999999,
-    "tp3": 0.045693999999999985,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:46:39 | 2026/11/11"
-  },
-  "PEPE/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 5.3174e-06,
-    "sl": 5.213514285714286e-06,
-    "tp1": 5.525171428571428e-06,
-    "tp2": 5.629057142857142e-06,
-    "tp3": 5.732942857142856e-06,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "09:01:44 | 2026/11/11"
   }
 }
