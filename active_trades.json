@@ -1,16 +1,4 @@
 {
-  "ICP/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.565,
-    "sl": 2.5373571428571426,
-    "tp1": 2.6202857142857146,
-    "tp2": 2.647928571428572,
-    "tp3": 2.675571428571429,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:16:30 | 2026/11/12"
-  },
   "BNB/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 659.91,
@@ -34,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:16:23 | 2026/11/12"
+  },
+  "TRX/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.31619,
+    "sl": 0.315785,
+    "tp1": 0.3170000000000001,
+    "tp2": 0.31740500000000016,
+    "tp3": 0.3178100000000002,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:32:03 | 2026/11/12"
   }
 }
