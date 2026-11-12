@@ -22,17 +22,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:30 | 2026/11/12"
-  },
-  "ETH/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2044.69,
-    "sl": 2034.1947142857146,
-    "tp1": 2065.680571428571,
-    "tp2": 2076.1758571428563,
-    "tp3": 2086.671142857142,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:46:30 | 2026/11/12"
   }
 }
