@@ -23,18 +23,6 @@
     "risk_free": false,
     "opened_at": "08:16:30 | 2026/11/12"
   },
-  "BOME/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.0005981,
-    "sl": 0.0005938057142857143,
-    "tp1": 0.0006066885714285712,
-    "tp2": 0.0006109828571428568,
-    "tp3": 0.0006152771428571425,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:31:59 | 2026/11/12"
-  },
   "ETH/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 2044.69,
