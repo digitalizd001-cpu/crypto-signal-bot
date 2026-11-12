@@ -22,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:01:54 | 2026/11/12"
+  },
+  "AVAX/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 8.447,
+    "sl": 8.347871428571427,
+    "tp1": 8.645257142857144,
+    "tp2": 8.744385714285716,
+    "tp3": 8.843514285714289,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:16:23 | 2026/11/12"
   }
 }
