@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:32:06 | 2026/11/13"
+  },
+  "XLM/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.14856,
+    "sl": 0.15047057142857143,
+    "tp1": 0.14473885714285714,
+    "tp2": 0.1428282857142857,
+    "tp3": 0.14091771428571429,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:46:30 | 2026/11/13"
   }
 }
