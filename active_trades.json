@@ -10,5 +10,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:30 | 2026/11/12"
+  },
+  "BNB/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 659.91,
+    "sl": 655.9191428571428,
+    "tp1": 667.8917142857143,
+    "tp2": 671.8825714285715,
+    "tp3": 675.8734285714287,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:01:54 | 2026/11/12"
   }
 }
