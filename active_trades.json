@@ -1,16 +1,4 @@
 {
-  "ARB/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.14989,
-    "sl": 0.14974010999999998,
-    "tp1": 0.144796,
-    "tp2": 0.14224900000000001,
-    "tp3": 0.13970200000000002,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:32:06 | 2026/11/13"
-  },
   "PAXG/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 3904.7,
@@ -22,18 +10,6 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "08:01:57 | 2026/11/13"
-  },
-  "AVAX/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 8.042,
-    "sl": 8.050042,
-    "tp1": 8.335914285714283,
-    "tp2": 8.482871428571425,
-    "tp3": 8.629828571428567,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:16:34 | 2026/11/13"
   },
   "RENDER/USDT": {
     "action": "LONG \u2014 BUY",
@@ -58,53 +34,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "09:01:56 | 2026/11/13"
-  },
-  "ALGO/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.08808,
-    "sl": 0.08863157142857143,
-    "tp1": 0.08697685714285715,
-    "tp2": 0.08642528571428572,
-    "tp3": 0.08587371428571429,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:02:02 | 2026/11/13"
-  },
-  "SOL/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 80.81,
-    "sl": 81.31528571428572,
-    "tp1": 79.79942857142856,
-    "tp2": 79.29414285714284,
-    "tp3": 78.78885714285713,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:16:39 | 2026/11/13"
-  },
-  "XAUT/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 3876.0,
-    "sl": 3868.285714285714,
-    "tp1": 3891.4285714285716,
-    "tp2": 3899.1428571428573,
-    "tp3": 3906.857142857143,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:08 | 2026/11/13"
-  },
-  "ADA/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.1712,
-    "sl": 0.17220285714285713,
-    "tp1": 0.1691942857142857,
-    "tp2": 0.16819142857142858,
-    "tp3": 0.16718857142857144,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:46:41 | 2026/11/13"
   }
 }
