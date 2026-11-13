@@ -94,5 +94,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:32:08 | 2026/11/13"
+  },
+  "ADA/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 0.1712,
+    "sl": 0.17220285714285713,
+    "tp1": 0.1691942857142857,
+    "tp2": 0.16819142857142858,
+    "tp3": 0.16718857142857144,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:46:41 | 2026/11/13"
   }
 }
