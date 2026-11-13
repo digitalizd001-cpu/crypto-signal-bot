@@ -2,13 +2,13 @@
   "ARB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.14989,
-    "sl": 0.152437,
+    "sl": 0.14974010999999998,
     "tp1": 0.144796,
     "tp2": 0.14224900000000001,
     "tp3": 0.13970200000000002,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:32:06 | 2026/11/13"
   },
   "XLM/USDT": {
