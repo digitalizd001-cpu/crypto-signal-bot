@@ -1,16 +1,4 @@
 {
-  "APT/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.542,
-    "sl": 0.542542,
-    "tp1": 0.5549085714285715,
-    "tp2": 0.5613628571428573,
-    "tp3": 0.567817142857143,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "16:46:35 | 2026/11/12"
-  },
   "ARB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.14989,
@@ -26,13 +14,13 @@
   "XLM/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.14856,
-    "sl": 0.15047057142857143,
+    "sl": 0.14841144,
     "tp1": 0.14473885714285714,
     "tp2": 0.1428282857142857,
     "tp3": 0.14091771428571429,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:46:30 | 2026/11/13"
   }
 }
