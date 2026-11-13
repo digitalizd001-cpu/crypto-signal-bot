@@ -50,13 +50,13 @@
   "BTC/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 68916.4,
-    "sl": 69234.54999999999,
+    "sl": 68847.48359999999,
     "tp1": 68280.1,
     "tp2": 67961.95000000001,
     "tp3": 67643.80000000002,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:32:19 | 2026/11/14"
   },
   "XRP/USDT": {
@@ -70,17 +70,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:46:33 | 2026/11/14"
-  },
-  "EGLD/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.923,
-    "sl": 2.8956142857142857,
-    "tp1": 2.9777714285714287,
-    "tp2": 3.005157142857143,
-    "tp3": 3.0325428571428574,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "01:01:57 | 2026/11/14"
   }
 }
