@@ -34,53 +34,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:01:53 | 2026/11/14"
-  },
-  "SHIB/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 4.179e-06,
-    "sl": 4.123714285714286e-06,
-    "tp1": 4.2895714285714284e-06,
-    "tp2": 4.3448571428571426e-06,
-    "tp3": 4.400142857142857e-06,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:16:34 | 2026/11/14"
-  },
-  "XRP/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.9957,
-    "sl": 0.9823285714285714,
-    "tp1": 1.0224428571428572,
-    "tp2": 1.0358142857142858,
-    "tp3": 1.0491857142857144,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:32:04 | 2026/11/14"
-  },
-  "AR/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.869,
-    "sl": 2.805871428571429,
-    "tp1": 2.995257142857143,
-    "tp2": 3.0583857142857145,
-    "tp3": 3.121514285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:46:26 | 2026/11/14"
-  },
-  "APT/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.5239,
-    "sl": 0.5147585714285715,
-    "tp1": 0.5421828571428571,
-    "tp2": 0.5513242857142856,
-    "tp3": 0.5604657142857141,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "09:01:37 | 2026/11/14"
   }
 }
