@@ -46,5 +46,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:16:34 | 2026/11/14"
+  },
+  "XRP/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.9957,
+    "sl": 0.9823285714285714,
+    "tp1": 1.0224428571428572,
+    "tp2": 1.0358142857142858,
+    "tp3": 1.0491857142857144,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "08:32:04 | 2026/11/14"
   }
 }

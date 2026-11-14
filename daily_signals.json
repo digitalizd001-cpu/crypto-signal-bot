@@ -1,6 +1,6 @@
 {
   "date": "2026-11-14",
-  "total_dispatched": 7,
+  "total_dispatched": 8,
   "shifts": {
     "1": {
       "count": 5,
@@ -13,10 +13,11 @@
       ]
     },
     "2": {
-      "count": 2,
+      "count": 3,
       "symbols": [
         "BTC/USDT",
-        "SHIB/USDT"
+        "SHIB/USDT",
+        "XRP/USDT"
       ]
     },
     "3": {
