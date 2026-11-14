@@ -22,29 +22,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "08:01:53 | 2026/11/14"
-  },
-  "ICP/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.399,
-    "sl": 2.378428571428571,
-    "tp1": 2.440142857142858,
-    "tp2": 2.4607142857142867,
-    "tp3": 2.4812857142857156,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:46:27 | 2026/11/14"
-  },
-  "ETH/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 1889.12,
-    "sl": 1877.621857142857,
-    "tp1": 1912.1162857142858,
-    "tp2": 1923.6144285714288,
-    "tp3": 1935.1125714285718,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "17:01:48 | 2026/11/14"
   }
 }
