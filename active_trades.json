@@ -34,5 +34,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "09:01:37 | 2026/11/15"
+  },
+  "UNI/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 5.195,
+    "sl": 5.2814000000000005,
+    "tp1": 5.0222,
+    "tp2": 4.9357999999999995,
+    "tp3": 4.849399999999999,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:01:47 | 2026/11/15"
   }
 }
