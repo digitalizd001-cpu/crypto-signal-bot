@@ -1,14 +1,15 @@
 {
   "date": "2026-11-16",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "PAXG/USDT",
         "AVAX/USDT",
         "XAUT/USDT",
-        "METIS/USDT"
+        "METIS/USDT",
+        "OP/USDT"
       ]
     },
     "2": {
