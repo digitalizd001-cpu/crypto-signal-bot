@@ -35,18 +35,6 @@
     "risk_free": false,
     "opened_at": "16:32:01 | 2026/11/15"
   },
-  "BCH/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 210.72,
-    "sl": 210.50928,
-    "tp1": 206.95028571428574,
-    "tp2": 205.0654285714286,
-    "tp3": 203.18057142857148,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "17:01:43 | 2026/11/15"
-  },
   "AVAX/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 7.292,
@@ -58,17 +46,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:16:29 | 2026/11/16"
-  },
-  "XAUT/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 3845.6,
-    "sl": 3853.7257142857143,
-    "tp1": 3829.348571428571,
-    "tp2": 3821.222857142857,
-    "tp3": 3813.0971428571424,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:31:58 | 2026/11/16"
   }
 }
