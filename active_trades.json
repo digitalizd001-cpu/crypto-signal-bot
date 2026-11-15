@@ -1,16 +1,4 @@
 {
-  "PAXG/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 3831.6,
-    "sl": 3847.4014285714284,
-    "tp1": 3799.997142857143,
-    "tp2": 3784.1957142857145,
-    "tp3": 3768.394285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:01:53 | 2026/11/15"
-  },
   "OP/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.08155,
@@ -58,5 +46,17 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "17:01:43 | 2026/11/15"
+  },
+  "AVAX/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 7.292,
+    "sl": 7.377114285714286,
+    "tp1": 7.121771428571428,
+    "tp2": 7.036657142857142,
+    "tp3": 6.951542857142856,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "00:16:29 | 2026/11/16"
   }
 }
