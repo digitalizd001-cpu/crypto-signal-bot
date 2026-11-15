@@ -47,18 +47,6 @@
     "risk_free": false,
     "opened_at": "16:32:01 | 2026/11/15"
   },
-  "AAVE/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 107.79,
-    "sl": 108.85071428571429,
-    "tp1": 105.66857142857144,
-    "tp2": 104.60785714285716,
-    "tp3": 103.54714285714287,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:46:29 | 2026/11/15"
-  },
   "BCH/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 210.72,
