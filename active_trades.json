@@ -70,17 +70,5 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "00:31:58 | 2026/11/16"
-  },
-  "METIS/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 2.331,
-    "sl": 2.337042857142857,
-    "tp1": 2.318914285714286,
-    "tp2": 2.312871428571429,
-    "tp3": 2.306828571428572,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:46:25 | 2026/11/16"
   }
 }
