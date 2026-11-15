@@ -82,5 +82,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:46:29 | 2026/11/15"
+  },
+  "BCH/USDT": {
+    "action": "SHORT \u2014 SELL",
+    "entry": 210.72,
+    "sl": 212.60485714285713,
+    "tp1": 206.95028571428574,
+    "tp2": 205.0654285714286,
+    "tp3": 203.18057142857148,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "17:01:43 | 2026/11/15"
   }
 }
