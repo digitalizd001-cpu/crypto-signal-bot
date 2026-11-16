@@ -38,13 +38,13 @@
   "AVAX/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 7.292,
-    "sl": 7.377114285714286,
+    "sl": 7.284708,
     "tp1": 7.121771428571428,
     "tp2": 7.036657142857142,
     "tp3": 6.951542857142856,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:16:29 | 2026/11/16"
   },
   "ETC/USDT": {
