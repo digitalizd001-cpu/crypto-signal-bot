@@ -23,30 +23,6 @@
     "risk_free": false,
     "opened_at": "16:01:47 | 2026/11/15"
   },
-  "DOT/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.74,
-    "sl": 0.73926,
-    "tp1": 0.7245971428571429,
-    "tp2": 0.7168957142857144,
-    "tp3": 0.7091942857142859,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "16:32:01 | 2026/11/15"
-  },
-  "AVAX/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 7.292,
-    "sl": 7.284708,
-    "tp1": 7.121771428571428,
-    "tp2": 7.036657142857142,
-    "tp3": 6.951542857142856,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:16:29 | 2026/11/16"
-  },
   "ETC/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 5.996,
@@ -59,64 +35,28 @@
     "risk_free": true,
     "opened_at": "08:01:48 | 2026/11/16"
   },
-  "ADA/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.1536,
-    "sl": 0.1552842857142857,
-    "tp1": 0.15023142857142854,
-    "tp2": 0.14854714285714282,
-    "tp3": 0.1468628571428571,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:32:07 | 2026/11/16"
-  },
-  "XLM/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.13975,
-    "sl": 0.13961025000000002,
-    "tp1": 0.13681857142857143,
-    "tp2": 0.13535285714285714,
-    "tp3": 0.13388714285714284,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "09:01:46 | 2026/11/16"
-  },
-  "BTC/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 63924.0,
-    "sl": 63513.97285714286,
-    "tp1": 64744.05428571429,
-    "tp2": 65154.08142857143,
-    "tp3": 65564.10857142857,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:01:54 | 2026/11/16"
-  },
   "STRK/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.03357,
-    "sl": 0.03319842857142857,
+    "sl": 0.03360357,
     "tp1": 0.03431314285714286,
     "tp2": 0.03468471428571429,
     "tp3": 0.03505628571428572,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:16:38 | 2026/11/16"
   },
   "ENA/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.11559,
-    "sl": 0.11399957142857142,
+    "sl": 0.11570558999999998,
     "tp1": 0.11877085714285715,
     "tp2": 0.12036128571428573,
     "tp3": 0.1219517142857143,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:31:58 | 2026/11/16"
   },
   "APT/USDT": {
@@ -130,17 +70,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "16:46:37 | 2026/11/16"
-  },
-  "BOME/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.0004746,
-    "sl": 0.0004710385714285714,
-    "tp1": 0.00048172285714285715,
-    "tp2": 0.0004852842857142857,
-    "tp3": 0.0004888457142857142,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "17:01:56 | 2026/11/16"
   }
 }
