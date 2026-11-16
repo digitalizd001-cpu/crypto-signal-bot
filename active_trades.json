@@ -106,5 +106,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:16:38 | 2026/11/16"
+  },
+  "ENA/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.11559,
+    "sl": 0.11399957142857142,
+    "tp1": 0.11877085714285715,
+    "tp2": 0.12036128571428573,
+    "tp3": 0.1219517142857143,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:31:58 | 2026/11/16"
   }
 }
