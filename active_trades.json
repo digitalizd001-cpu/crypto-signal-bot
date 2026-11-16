@@ -74,13 +74,13 @@
   "XLM/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.13975,
-    "sl": 0.1412157142857143,
+    "sl": 0.13961025000000002,
     "tp1": 0.13681857142857143,
     "tp2": 0.13535285714285714,
     "tp3": 0.13388714285714284,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "09:01:46 | 2026/11/16"
   }
 }
