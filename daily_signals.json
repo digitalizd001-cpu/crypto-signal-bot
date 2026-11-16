@@ -1,11 +1,12 @@
 {
   "date": "2026-11-17",
-  "total_dispatched": 1,
+  "total_dispatched": 2,
   "shifts": {
     "1": {
-      "count": 1,
+      "count": 2,
       "symbols": [
-        "BTC/USDT"
+        "BTC/USDT",
+        "HBAR/USDT"
       ]
     },
     "2": {
