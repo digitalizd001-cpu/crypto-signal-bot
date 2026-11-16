@@ -50,13 +50,13 @@
   "ETC/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 5.996,
-    "sl": 6.0545,
+    "sl": 5.990004000000001,
     "tp1": 5.879000000000001,
     "tp2": 5.820500000000002,
     "tp3": 5.762000000000002,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "08:01:48 | 2026/11/16"
   },
   "ADA/USDT": {
