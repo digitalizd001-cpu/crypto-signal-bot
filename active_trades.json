@@ -130,5 +130,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:46:37 | 2026/11/16"
+  },
+  "BOME/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 0.0004746,
+    "sl": 0.0004710385714285714,
+    "tp1": 0.00048172285714285715,
+    "tp2": 0.0004852842857142857,
+    "tp3": 0.0004888457142857142,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "17:01:56 | 2026/11/16"
   }
 }
