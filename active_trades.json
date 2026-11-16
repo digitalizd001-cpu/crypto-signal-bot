@@ -59,30 +59,6 @@
     "risk_free": false,
     "opened_at": "00:16:30 | 2026/11/17"
   },
-  "ENA/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.11561,
-    "sl": 0.113891,
-    "tp1": 0.119048,
-    "tp2": 0.120767,
-    "tp3": 0.122486,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:32:08 | 2026/11/17"
-  },
-  "THETA/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.1318,
-    "sl": 0.13122142857142857,
-    "tp1": 0.13295714285714286,
-    "tp2": 0.13353571428571429,
-    "tp3": 0.1341142857142857,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "00:46:27 | 2026/11/17"
-  },
   "PEPE/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 3.9035e-06,
