@@ -1,6 +1,6 @@
 {
   "date": "2026-11-16",
-  "total_dispatched": 8,
+  "total_dispatched": 9,
   "shifts": {
     "1": {
       "count": 5,
@@ -13,11 +13,12 @@
       ]
     },
     "2": {
-      "count": 3,
+      "count": 4,
       "symbols": [
         "ETC/USDT",
         "SHIB/USDT",
-        "ADA/USDT"
+        "ADA/USDT",
+        "XAUT/USDT"
       ]
     },
     "3": {
