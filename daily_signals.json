@@ -1,14 +1,15 @@
 {
   "date": "2026-11-18",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
-      "count": 4,
+      "count": 5,
       "symbols": [
         "BNB/USDT",
         "INJ/USDT",
         "ETH/USDT",
-        "METIS/USDT"
+        "METIS/USDT",
+        "LTC/USDT"
       ]
     },
     "2": {
