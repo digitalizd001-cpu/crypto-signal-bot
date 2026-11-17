@@ -23,18 +23,6 @@
     "risk_free": true,
     "opened_at": "08:01:48 | 2026/11/16"
   },
-  "BTC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 65158.3,
-    "sl": 65093.1417,
-    "tp1": 64310.98857142856,
-    "tp2": 63887.33285714284,
-    "tp3": 63463.67714285712,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "00:01:41 | 2026/11/17"
-  },
   "ADA/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.1544,
@@ -70,5 +58,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:16:26 | 2026/11/17"
+  },
+  "ICP/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 2.392,
+    "sl": 2.368985714285714,
+    "tp1": 2.4380285714285717,
+    "tp2": 2.4610428571428575,
+    "tp3": 2.4840571428571434,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:32:16 | 2026/11/17"
   }
 }
