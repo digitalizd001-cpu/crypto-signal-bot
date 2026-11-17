@@ -35,18 +35,6 @@
     "risk_free": true,
     "opened_at": "00:01:41 | 2026/11/17"
   },
-  "PEPE/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 3.9035e-06,
-    "sl": 3.852405714285714e-06,
-    "tp1": 4.005688571428571e-06,
-    "tp2": 4.056782857142857e-06,
-    "tp3": 4.107877142857143e-06,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "01:01:56 | 2026/11/17"
-  },
   "BNB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 593.76,
