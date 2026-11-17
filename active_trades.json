@@ -35,18 +35,6 @@
     "risk_free": true,
     "opened_at": "00:01:41 | 2026/11/17"
   },
-  "BNB/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 593.76,
-    "sl": 593.16624,
-    "tp1": 587.4702857142856,
-    "tp2": 584.3254285714285,
-    "tp3": 581.1805714285713,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:01:42 | 2026/11/17"
-  },
   "INJ/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 7.419,
