@@ -38,13 +38,13 @@
   "ARB/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.13317,
-    "sl": 0.13464600000000002,
+    "sl": 0.13303683000000002,
     "tp1": 0.130218,
     "tp2": 0.128742,
     "tp3": 0.127266,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:16:26 | 2026/11/17"
   },
   "DOGE/USDT": {
