@@ -23,18 +23,6 @@
     "risk_free": true,
     "opened_at": "08:01:48 | 2026/11/16"
   },
-  "ADA/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.1544,
-    "sl": 0.15582714285714286,
-    "tp1": 0.1515457142857143,
-    "tp2": 0.15011857142857146,
-    "tp3": 0.1486914285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "09:01:43 | 2026/11/17"
-  },
   "SUI/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.7374,
