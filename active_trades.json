@@ -1,16 +1,4 @@
 {
-  "OP/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 0.08155,
-    "sl": 0.08146845,
-    "tp1": 0.07854657142857142,
-    "tp2": 0.07704485714285714,
-    "tp3": 0.07554314285714285,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "09:01:37 | 2026/11/15"
-  },
   "ETC/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 5.996,
@@ -26,13 +14,13 @@
   "SUI/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.7374,
-    "sl": 0.7445614285714286,
+    "sl": 0.7366626000000001,
     "tp1": 0.723077142857143,
     "tp2": 0.7159157142857144,
     "tp3": 0.7087542857142859,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "16:01:53 | 2026/11/17"
   },
   "ARB/USDT": {
@@ -50,13 +38,13 @@
   "DOGE/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 0.05951,
-    "sl": 0.06000885714285714,
+    "sl": 0.05945049,
     "tp1": 0.05851228571428572,
     "tp2": 0.05801342857142858,
     "tp3": 0.057514571428571436,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "17:01:54 | 2026/11/17"
   }
 }
