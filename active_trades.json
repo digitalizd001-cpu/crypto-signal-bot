@@ -1,38 +1,14 @@
 {
-  "ETC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 5.996,
-    "sl": 5.990004000000001,
-    "tp1": 5.879000000000001,
-    "tp2": 5.820500000000002,
-    "tp3": 5.762000000000002,
-    "leverage": 5,
-    "tp1_hit": true,
-    "risk_free": true,
-    "opened_at": "08:01:48 | 2026/11/16"
-  },
   "INJ/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 7.118,
-    "sl": 7.009742857142858,
+    "sl": 7.125118,
     "tp1": 7.334514285714285,
     "tp2": 7.442771428571427,
     "tp3": 7.551028571428569,
     "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
+    "tp1_hit": true,
+    "risk_free": true,
     "opened_at": "00:16:30 | 2026/11/18"
-  },
-  "LTC/USDT": {
-    "action": "SHORT \u2014 SELL",
-    "entry": 44.98,
-    "sl": 45.40942857142856,
-    "tp1": 44.121142857142864,
-    "tp2": 43.6917142857143,
-    "tp3": 43.26228571428573,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "01:01:49 | 2026/11/18"
   }
 }
