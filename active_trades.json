@@ -47,18 +47,6 @@
     "risk_free": false,
     "opened_at": "08:01:42 | 2026/11/17"
   },
-  "ICP/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 2.454,
-    "sl": 2.4219857142857144,
-    "tp1": 2.5180285714285717,
-    "tp2": 2.5500428571428575,
-    "tp3": 2.5820571428571433,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:16:31 | 2026/11/17"
-  },
   "INJ/USDT": {
     "action": "SHORT \u2014 SELL",
     "entry": 7.419,
