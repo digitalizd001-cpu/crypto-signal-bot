@@ -11,18 +11,6 @@
     "risk_free": true,
     "opened_at": "00:16:30 | 2026/11/18"
   },
-  "STRK/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.03277,
-    "sl": 0.032444714285714285,
-    "tp1": 0.03342057142857143,
-    "tp2": 0.03374585714285715,
-    "tp3": 0.03407114285714286,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:01:58 | 2026/11/18"
-  },
   "ETH/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 1793.19,
