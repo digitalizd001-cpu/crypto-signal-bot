@@ -13,39 +13,38 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 MAX_DAILY_SIGNALS = 15
 SIGNALS_PER_SHIFT = 5
-PORTFOLIO_RISK_PERCENT = 1.0
+
+# پارامترهای درصدی پامپ‌یاب (حداقل +8% سود در کوتاه‌مدت)
+STOP_LOSS_PCT = 0.035      # 3.5% حد ضرر درصدی
+TP1_PUMP_PCT = 0.080       # 8.0% تارگت اول (ریسک‌فری)
+TP2_PUMP_PCT = 0.120       # 12.0% تارگت دوم
+TP3_PUMP_PCT = 0.180       # 18.0% تارگت سوم
 
 DAILY_TRACKER_FILE = "daily_signals.json"
 TRADES_STATE_FILE = "active_trades.json"
-PERFORMANCE_FILE = "performance.json"
-HISTORY_FILE = "trade_history.json"
 OFFSET_FILE = "telegram_offset.json"
 
+# واچ‌لیست بهینه‌شده برای ارزهای مستعد پامپ (حذف نمادهای کم‌نوسان و GRAMUSDT)
 BASE_WATCHLIST = [
     # Gold & Commodities (VIP Pinned)
-    "PAXG/USDT", "XAU/USDT", "XAUT/USDT",
-    # Layer 1
-    "BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT", "XRP/USDT", "ADA/USDT",
-    "AVAX/USDT", "DOT/USDT", "TRX/USDT", "NEAR/USDT", "SUI/USDT", "APT/USDT",
-    "TON/USDT", "KAS/USDT", "SEI/USDT", "HBAR/USDT", "ATOM/USDT", "ALGO/USDT",
-    "FTM/USDT", "EGLD/USDT", "FLOW/USDT", "MINA/USDT", "ICP/USDT",
-    # Layer 2
-    "MATIC/USDT", "ARB/USDT", "OP/USDT", "STRK/USDT", "IMX/USDT", "MANTA/USDT", "METIS/USDT",
-    # DeFi
-    "LINK/USDT", "UNI/USDT", "AAVE/USDT", "MKR/USDT", "SNX/USDT", "LDO/USDT",
-    "CRV/USDT", "RUNE/USDT", "INJ/USDT", "PENDLE/USDT", "ENA/USDT", "DYDX/USDT", "CAKE/USDT",
-    # AI & Data
-    "FET/USDT", "RENDER/USDT", "TAO/USDT", "AGIX/USDT", "OCEAN/USDT", "GRT/USDT",
-    "WLD/USDT", "ARKM/USDT", "THETA/USDT",
-    # Memes
-    "DOGE/USDT", "SHIB/USDT", "PEPE/USDT", "WIF/USDT", "FLOKI/USDT", "BONK/USDT",
-    "BOME/USDT", "MEME/USDT",
-    # Legacy & Infra
-    "LTC/USDT", "BCH/USDT", "ETC/USDT", "XLM/USDT", "FIL/USDT", "AR/USDT", "TIA/USDT"
+    "PAXG/USDT", "XAU/USDT",
+    # High-Beta Layer 1 & Layer 2
+    "SOL/USDT", "SUI/USDT", "APT/USDT", "SEI/USDT", "INJ/USDT", "TIA/USDT",
+    "NEAR/USDT", "AVAX/USDT", "FTM/USDT", "KAS/USDT", "ARB/USDT", "OP/USDT",
+    "STRK/USDT", "IMX/USDT", "MANTA/USDT", "METIS/USDT",
+    # DeFi & High Volatility
+    "ENA/USDT", "PENDLE/USDT", "RUNE/USDT", "AAVE/USDT", "UNI/USDT",
+    "LINK/USDT", "LDO/USDT", "CRV/USDT", "DYDX/USDT", "SNX/USDT",
+    # AI & Narratives (مستعدترین بخش برای پامپ‌های سریع)
+    "FET/USDT", "RENDER/USDT", "TAO/USDT", "WLD/USDT", "ARKM/USDT", "GRT/USDT",
+    # Memes (پامپ‌های انفجاری کوتاه‌مدت)
+    "DOGE/USDT", "PEPE/USDT", "WIF/USDT", "FLOKI/USDT", "BONK/USDT",
+    "BOME/USDT", "MEME/USDT", "SHIB/USDT",
+    # Majors & Legacy
+    "BTC/USDT", "ETH/USDT", "BNB/USDT", "XRP/USDT", "DOGE/USDT", "LTC/USDT"
 ]
 
 def format_dynamic_price(val: float) -> str:
-    """قالب‌بندی هوشمند اعشار برای جلوگیری از نمایش 0.0000 در میم‌کوین‌ها"""
     if val is None or math.isnan(val):
         return "0.00"
     abs_v = abs(val)
@@ -106,7 +105,6 @@ class ShiftQuotaManager:
                 "3": {"count": 0, "symbols": []}
             }
         }
-
         if os.path.exists(DAILY_TRACKER_FILE):
             try:
                 with open(DAILY_TRACKER_FILE, "r") as f:
@@ -126,11 +124,11 @@ class ShiftQuotaManager:
         current_shift = str(get_current_shift_id(get_tehran_datetime().hour))
 
         if status["total_dispatched"] >= MAX_DAILY_SIGNALS:
-            return False, f"سقف روزانه ({MAX_DAILY_SIGNALS} سیگنال) تکمیل است."
+            return False, f"سقف روزانه ({MAX_DAILY_SIGNALS} پامپ) تکمیل است."
 
         shift_count = status["shifts"][current_shift]["count"]
         if shift_count >= SIGNALS_PER_SHIFT:
-            return False, f"سهمیه شیفت {current_shift} ({SIGNALS_PER_SHIFT} سیگنال) تکمیل است. در انتظار شیفت بعدی."
+            return False, f"سهمیه شیفت {current_shift} ({SIGNALS_PER_SHIFT} پامپ) تکمیل است."
 
         return True, "مجاز به ارسال"
 
@@ -138,11 +136,9 @@ class ShiftQuotaManager:
     def record_dispatch(symbol: str):
         status = ShiftQuotaManager.get_status()
         current_shift = str(get_current_shift_id(get_tehran_datetime().hour))
-
         status["total_dispatched"] += 1
         status["shifts"][current_shift]["count"] += 1
         status["shifts"][current_shift]["symbols"].append(symbol)
-
         try:
             with open(DAILY_TRACKER_FILE, "w") as f:
                 json.dump(status, f, indent=2)
@@ -150,7 +146,7 @@ class ShiftQuotaManager:
             print(f"[TRACKER ERROR]: {e}")
 
 # =====================================================================
-# ماژول دستورات تعاملی تلگرام (/gold, /trades, /status)
+# ماژول دستورات تلگرام (/gold, /trades, /status)
 # =====================================================================
 class TelegramCommandHandler:
     @staticmethod
@@ -170,7 +166,7 @@ class TelegramCommandHandler:
         except Exception: pass
 
     @classmethod
-    def process_pending_commands(cls, tech_agent, macro_agent):
+    def process_pending_commands(cls, tech_agent):
         if not TELEGRAM_BOT_TOKEN:
             return
         offset = cls.load_offset()
@@ -195,53 +191,53 @@ class TelegramCommandHandler:
                     s_count = quota["shifts"][shift_id]["count"]
                     t_count = quota["total_dispatched"]
                     send_telegram(
-                        f"📊 <b>وضعیت زنده اسکنر ۳ شیفته</b>\n"
+                        f"🚀 <b>وضعیت اسکنر پامپ‌یاب (PUMP HUNTER)</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"⏰ شیفت کنونی ایران: <b>شیفت {shift_id} (سهمیه: {s_count} از {SIGNALS_PER_SHIFT})</b>\n"
-                        f"🎯 کل سیگنال‌های امروز: <b>{t_count} از {MAX_DAILY_SIGNALS}</b>\n"
-                        f"🤖 هوش مصنوعی: <b>{'Gemini Flash' if GEMINI_API_KEY else 'Groq Llama-3'}</b>\n"
-                        f"⏱ زمان به وقت ایران: <code>{get_tehran_time_str()}</code>"
+                        f"⏰ شیفت کنونی: <b>شیفت {shift_id} ({s_count} از {SIGNALS_PER_SHIFT})</b>\n"
+                        f"🎯 کل شکارهای امروز: <b>{t_count} از {MAX_DAILY_SIGNALS}</b>\n"
+                        f"📈 حداقل تارگت سود: <b>+{TP1_PUMP_PCT*100:.0f}% اسپات</b>\n"
+                        f"⏱ زمان تهران: <code>{get_tehran_time_str()}</code>"
                     )
                 elif text == "/trades":
                     trades = TradeLifecycleAgent.load_trades()
                     if not trades:
-                        send_telegram("📭 در حال حاضر هیچ معامله فعالی در جریان نیست.")
+                        send_telegram("📭 در حال حاضر هیچ پامپ فعالی در جریان نیست.")
                     else:
-                        resp = "📋 <b>ACTIVE MANAGED TRADES</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        resp = "📋 <b>ACTIVE PUMP TRADES</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         for s, t in trades.items():
                             p_str = format_dynamic_price(t['entry'])
-                            resp += f"• <b>{s}</b> ({t['action']}) | ورود: <code>{p_str}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
+                            resp += f"• <b>{s}</b> | ورود: <code>{p_str}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
                         send_telegram(resp)
         except Exception as e:
             print(f"[COMMAND ERROR] {e}")
 
     @classmethod
     def _report_gold_status(cls, tech_agent):
-        send_telegram("🥇 <i>در حال واکشی اطلاعات لحظه‌ای طلا...</i>")
+        send_telegram("🥇 <i>در حال بررسی نوسان و حجم لحظه‌ای طلا...</i>")
         ohlcv, active_ex, source_name = tech_agent.fetch_candle_data("PAXG/USDT")
         if not ohlcv:
             ohlcv, active_ex, source_name = tech_agent.fetch_candle_data("XAU/USDT")
 
         if ohlcv:
-            price, rsi, atr, vol_ratio, ema20 = tech_agent.compute_indicators(ohlcv)
+            metrics = tech_agent.analyze_pump_metrics(ohlcv)
             imbalance = tech_agent.analyze_orderbook_imbalance(active_ex, "PAXG/USDT")
             whale = WhaleAgent.inspect("PAXG/USDT")
             msg = (
-                f"🥇 <b>گزارش اختصاصی طلا (PAXG/XAU)</b>\n"
+                f"🥇 <b>گزارش لحظه‌ای طلا (PAXG/XAU)</b>\n"
                 f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                f"🌐 استخر تأمین: <b>{source_name}</b>\n"
-                f"💵 قیمت هر انس: <code>${format_dynamic_price(price)}</code>\n"
-                f"📉 15m RSI: <code>{rsi:.1f}</code> | نسبت حجم: <code>{vol_ratio:.1f}x</code>\n"
-                f"📚 برتری اوردربوک: <code>{imbalance:+.2f}</code>\n"
-                f"🐋 جهت نهنگ‌ها: <b>{whale['top_ratio']}</b> ({whale['whale_bias']})\n\n"
-                f"⏱️ <i>زمان گزارش به وقت ایران: {get_tehran_time_str()}</i>"
+                f"🌐 استخر: <b>{source_name}</b>\n"
+                f"💵 قیمت انس: <code>${format_dynamic_price(metrics['price'])}</code>\n"
+                f"📊 جهش حجم: <code>{metrics['vol_ratio']:.1f}x</code> | RSI: <code>{metrics['rsi']:.1f}</code>\n"
+                f"📚 برتری خریداران: <code>{imbalance:+.2f}</code>\n"
+                f"🐋 نهنگ‌ها: <b>{whale['top_ratio']}</b> ({whale['whale_bias']})\n\n"
+                f"⏱️ <i>زمان تهران: {get_tehran_time_str()}</i>"
             )
             send_telegram(msg)
         else:
-            send_telegram("❌ خطا در اتصال به استخرهای طلای صرافی‌ها.")
+            send_telegram("❌ خطا در اتصال به منابع دیتای طلا.")
 
 # =====================================================================
-# ماژول رهگیری لحظه‌ای معاملات (TP / SL / Auto Risk-Free)
+# ماژول رهگیری پامپ‌های باز (TP1 +8% / TP2 +12% / TP3 +18%)
 # =====================================================================
 class TradeLifecycleAgent:
     @staticmethod
@@ -298,44 +294,39 @@ class TradeLifecycleAgent:
 
             last_candle = ohlcv[-2]
             high_p, low_p = last_candle[2], last_candle[3]
-            is_long = "LONG" in t['action']
             closed = False
 
-            if not t['tp1_hit']:
-                tp1_hit = (high_p >= t['tp1']) if is_long else (low_p <= t['tp1'])
-                if tp1_hit:
-                    t['tp1_hit'] = True
-                    t['risk_free'] = True
-                    t['sl'] = t['entry'] * (1.001 if is_long else 0.999)
-                    send_telegram(
-                        f"🎯 <b>تارگت اول (TP1) تاچ شد!</b>\n"
-                        f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🌐 #{symbol.replace('/', '_')}\n"
-                        f"✅ لمس قیمت: <code>{format_dynamic_price(t['tp1'])}</code>\n"
-                        f"🛡️ استاپ به نقطه ورود منتقل و معامله کاملاً ریسک‌فری شد.\n"
-                        f"⏱️ <i>زمان به وقت ایران: {now_tehran}</i>"
-                    )
-
-            tp3_hit = (high_p >= t['tp3']) if is_long else (low_p <= t['tp3'])
-            if tp3_hit:
+            if not t['tp1_hit'] and high_p >= t['tp1']:
+                t['tp1_hit'] = True
+                t['risk_free'] = True
+                t['sl'] = t['entry'] * 1.002  # انتقال استاپ به نقطه ورود + کارمزد
                 send_telegram(
-                    f"🏆 <b>تارگت نهایی (TP3) کامل شد!</b>\n"
+                    f"🚀 <b>تارگت اول پامپ (+8%) شکار شد!</b>\n"
                     f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                     f"🌐 #{symbol.replace('/', '_')}\n"
-                    f"💰 پوزیشن با حداکثر سود به پایان رسید.\n"
-                    f"⏱️ <i>زمان به وقت ایران: {now_tehran}</i>"
+                    f"✅ لمس قیمت: <code>{format_dynamic_price(t['tp1'])}</code>\n"
+                    f"🛡️ استاپ به نقطه ورود منتقل و معامله کاملاً ریسک‌فری شد.\n"
+                    f"⏱️ <i>زمان تهران: {now_tehran}</i>"
+                )
+
+            if high_p >= t['tp3']:
+                send_telegram(
+                    f"🏆 <b>انفجار نهایی (+18%) تکمیل شد!</b>\n"
+                    f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                    f"🌐 #{symbol.replace('/', '_')}\n"
+                    f"💰 پامپ با حداکثر سود بسته شد.\n"
+                    f"⏱️ <i>زمان تهران: {now_tehran}</i>"
                 )
                 closed = True
 
-            sl_hit = (low_p <= t['sl']) if is_long else (high_p >= t['sl'])
-            if sl_hit and not closed:
+            if low_p <= t['sl'] and not closed:
                 if t['risk_free']:
                     send_telegram(f"🛡️ <b>خروج ریسک‌فری:</b> #{symbol.replace('/', '_')} بدون ضرر در نقطه ورود بسته شد.")
                 else:
                     send_telegram(
-                        f"🛑 <b>حد ضرر (Stop Loss) فعال شد</b>\n"
+                        f"🛑 <b>حد ضرر پامپ فعال شد (-3.5%)</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🌐 #{symbol.replace('/', '_')} | خروج در قیمت: <code>{format_dynamic_price(t['sl'])}</code>"
+                        f"🌐 #{symbol.replace('/', '_')} | خروج: <code>{format_dynamic_price(t['sl'])}</code>"
                     )
                 closed = True
 
@@ -345,7 +336,7 @@ class TradeLifecycleAgent:
         cls.save_trades(remaining)
 
 # =====================================================================
-# ماژول تحلیل تکنیکال و صرافی‌های بین‌المللی
+# موتور تشخیص پامپ و شکست مقاومت (Pump & Breakout Engine)
 # =====================================================================
 class TechnicalAgent:
     def __init__(self):
@@ -370,10 +361,10 @@ class TechnicalAgent:
         except Exception: pass
         return pools
 
-    def fetch_candle_data(self, symbol: str, timeframe='15m', limit=60):
+    def fetch_candle_data(self, symbol: str, timeframe='15m', limit=50):
         search_symbols = [symbol]
         if symbol in ["XAU/USDT", "PAXG/USDT", "XAUT/USDT"]:
-            search_symbols = ["PAXG/USDT", "PAXGUSDT", "XAUT/USDT", "XAU/USDT:USDT"]
+            search_symbols = ["PAXG/USDT", "PAXGUSDT", "XAUT/USDT"]
 
         for s in search_symbols:
             for name, ex in self.exchanges:
@@ -381,7 +372,7 @@ class TechnicalAgent:
                     try:
                         ohlcv = ex.fetch_ohlcv(s, timeframe=timeframe, limit=limit)
                         if ohlcv and len(ohlcv) >= 30:
-                            return ohlcv, ex, f"{name} ({s})"
+                            return ohlcv, ex, f"{name}"
                     except Exception:
                         continue
         return None, None, ""
@@ -394,7 +385,7 @@ class TechnicalAgent:
                     if symbol.split("/")[0] in k:
                         target = k
                         break
-            ob = exchange.fetch_order_book(target, limit=20)
+            ob = exchange.fetch_order_book(target, limit=25)
             bids = sum(b[1] for b in ob['bids'])
             asks = sum(a[1] for a in ob['asks'])
             if (bids + asks) == 0: return 0.0
@@ -402,61 +393,72 @@ class TechnicalAgent:
         except Exception:
             return 0.0
 
-    def compute_indicators(self, ohlcv):
+    def analyze_pump_metrics(self, ohlcv) -> dict:
         df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-        df = df.iloc[:-1].copy()
+        df = df.iloc[:-1].copy()  # آخرین کندل بسته‌شده
 
+        # محاسبه RSI
         delta = df['close'].diff()
         gain = (delta.where(delta > 0, 0)).rolling(14).mean()
         loss = (-delta.where(delta < 0, 0)).rolling(14).mean()
         rs = gain / (loss + 1e-8)
         df['rsi'] = 100 - (100 / (1 + rs))
-        df['vol_ma20'] = df['volume'].rolling(20).mean()
-        df['ema20'] = df['close'].ewm(span=20, adjust=False).mean()
 
-        high_low = df['high'] - df['low']
-        high_close = (df['high'] - df['close'].shift()).abs()
-        low_close = (df['low'] - df['close'].shift()).abs()
-        ranges = pd.concat([high_low, high_close, low_close], axis=1)
-        df['atr'] = ranges.max(axis=1).rolling(14).mean()
+        # میانگین حجم و سقف ۲۰ کندل اخیر (شکست مقاومت کوتاه‌مدت)
+        df['vol_ma20'] = df['volume'].rolling(20).mean()
+        df['prev_20_high'] = df['high'].shift(1).rolling(20).max()
+        df['ema20'] = df['close'].ewm(span=20, adjust=False).mean()
 
         latest = df.iloc[-1]
         vol_ratio = latest['volume'] / latest['vol_ma20'] if latest['vol_ma20'] > 0 else 1.0
-        return latest['close'], latest['rsi'], latest['atr'], vol_ratio, latest['ema20']
+        
+        # درصد رشد کندل فعلی و قدرت بدنه کندل (جلوگیری از شدوی فیک)
+        candle_gain_pct = ((latest['close'] - latest['open']) / latest['open']) * 100
+        candle_range = latest['high'] - latest['low']
+        body_strength = (latest['close'] - latest['open']) / candle_range if candle_range > 0 else 0
+
+        is_breakout = latest['close'] > latest['prev_20_high']
+
+        return {
+            'price': latest['close'],
+            'rsi': latest['rsi'],
+            'vol_ratio': vol_ratio,
+            'ema20': latest['ema20'],
+            'candle_gain_pct': candle_gain_pct,
+            'body_strength': body_strength,
+            'is_breakout': is_breakout
+        }
 
 # =====================================================================
-# ماژول رصد موقعیت نهنگ‌ها
+# ماژول رصد ورود نقدینگی نهنگ‌ها
 # =====================================================================
 class WhaleAgent:
     @staticmethod
     def inspect(symbol: str) -> dict:
         clean = symbol.replace("/", "").replace(":USDT", "")
         if "XAU" in clean: clean = "PAXGUSDT"
-        metrics = {"funding": 0.01, "top_ratio": 1.0, "whale_bias": "NEUTRAL"}
-        try:
-            rf = requests.get(f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={clean}", timeout=3).json()
-            if isinstance(rf, dict) and "lastFundingRate" in rf:
-                metrics["funding"] = round(float(rf.get("lastFundingRate", 0)) * 100, 4)
-        except Exception: pass
+        metrics = {"top_ratio": 1.0, "whale_bias": "NEUTRAL"}
         try:
             rr = requests.get(f"https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol={clean}&period=15m&limit=1", timeout=3).json()
             if isinstance(rr, list) and len(rr) > 0:
                 ratio = float(rr[0].get("longShortRatio", 1.0))
                 metrics["top_ratio"] = round(ratio, 2)
-                metrics["whale_bias"] = "WHALES NET LONG 🐋🟢" if ratio > 1.10 else ("WHALES NET SHORT 🐋🔴" if ratio < 0.90 else "BALANCED")
+                metrics["whale_bias"] = "WHALES PUMPING 🐋🚀" if ratio > 1.12 else ("NEUTRAL" if ratio >= 0.95 else "SELL PRESSURE")
         except Exception: pass
         return metrics
 
 # =====================================================================
-# ماژول هوش مصنوعی تاییدکننده نهایی
+# ماژول هوش مصنوعی تاییدکننده مومنتوم پامپ
 # =====================================================================
 class MacroAIOfficerAgent:
-    def review_setup(self, payload: dict) -> dict:
+    def review_pump(self, payload: dict) -> dict:
         prompt = (
-            f"Review institutional setup:\nSymbol: {payload['symbol']} | Action: {payload['action']}\n"
-            f"RSI: {payload['rsi']:.1f} | Order-book Imbalance: {payload['imbalance']} | L/S Ratio: {payload['top_ratio']}\n\n"
-            f"Criteria: Select ONLY exceptionally high-probability setups. Strict binary verdict.\n"
-            f"Start strictly with 'VERDICT: CONFIRMED' or 'VERDICT: REJECTED'. Add 1 short sentence thesis."
+            f"Analyze explosive crypto pump breakout:\n"
+            f"Symbol: {payload['symbol']} | Volume Surge: {payload['vol_ratio']:.1f}x average | "
+            f"15m Candle Gain: +{payload['candle_gain_pct']:.2f}% | RSI: {payload['rsi']:.1f} | "
+            f"Orderbook Bid Imbalance: {payload['imbalance']} | Whale Ratio: {payload['top_ratio']}\n\n"
+            f"Task: Confirm if this is a genuine early-stage momentum breakout capable of +8% to +18% continuation, or an exhausted fakeout.\n"
+            f"Start strictly with 'VERDICT: CONFIRMED' or 'VERDICT: REJECTED'. Add 1 short analytical sentence."
         )
         analysis = ""
         engine = "Gemini Flash"
@@ -477,54 +479,32 @@ class MacroAIOfficerAgent:
             except Exception: pass
 
         if not analysis:
-            return {"approved": True, "engine": "Quant Strict Filter", "thesis": "Order flow, volume & momentum aligned."}
+            return {"approved": True, "engine": "Pump Quant Filter", "thesis": "Massive volume spike with clean resistance breakout."}
 
         approved = "CONFIRMED" in analysis.upper()
         thesis = analysis.replace("VERDICT: CONFIRMED", "").replace("VERDICT: REJECTED", "").strip()
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
 # =====================================================================
-# ماژول صدور کارت سیگنال ساختاریافته فیوچرز (با اعشار پویا)
+# ماژول صدور کارت سیگنال پامپ (تارگت‌های +8% تا +18%)
 # =====================================================================
 class DispatchAgent:
     @staticmethod
     def send(data: dict, shift_num: int, shift_count: int, total_count: int):
         symbol_tag = data['symbol'].replace('/', '_')
-        is_long = "LONG" in data['action']
-        action_title = "LONG — BUY" if is_long else "SHORT — SELL"
-        action_emoji = "🟢" if is_long else "🔴"
-        
         price = data['price']
-        sl = data['sl']
-        sl_pct = abs((price - sl) / price) * 100
-        risk_dist = abs(price - sl)
 
-        if is_long:
-            tp1 = price + (risk_dist * 2.0)
-            tp2 = price + (risk_dist * 3.0)
-            tp3 = price + (risk_dist * 4.0)
-        else:
-            tp1 = price - (risk_dist * 2.0)
-            tp2 = price - (risk_dist * 3.0)
-            tp3 = price - (risk_dist * 4.0)
-
-        tp1_pct = abs((tp1 - price) / price) * 100
-        tp2_pct = abs((tp2 - price) / price) * 100
-        tp3_pct = abs((tp3 - price) / price) * 100
+        # محاسبه کاملاً درصدی برای پامپ‌های کوتاه‌مدت
+        sl = price * (1.0 - STOP_LOSS_PCT)
+        tp1 = price * (1.0 + TP1_PUMP_PCT)
+        tp2 = price * (1.0 + TP2_PUMP_PCT)
+        tp3 = price * (1.0 + TP3_PUMP_PCT)
 
         leverage = data['leverage']
-        roi1 = tp1_pct * leverage
-        roi2 = tp2_pct * leverage
-        roi3 = tp3_pct * leverage
+        roi1 = (TP1_PUMP_PCT * 100) * leverage
+        roi2 = (TP2_PUMP_PCT * 100) * leverage
+        roi3 = (TP3_PUMP_PCT * 100) * leverage
 
-        if sl_pct <= 1.5:
-            risk_label = "🟢 LOW"
-        elif sl_pct <= 3.0:
-            risk_label = "🟡 MEDIUM"
-        else:
-            risk_label = "🔴 HIGH"
-
-        # قالب‌بندی ارقام اعشار به شکل کاملاً پویا و خوانا
         entry_str = format_dynamic_price(price)
         sl_str = format_dynamic_price(sl)
         tp1_str = format_dynamic_price(tp1)
@@ -532,34 +512,33 @@ class DispatchAgent:
         tp3_str = format_dynamic_price(tp3)
 
         msg = (
-            f"🚨 <b>FUTURES SIGNAL [شیفت {shift_num}: {shift_count}/{SIGNALS_PER_SHIFT} | کل: {total_count}/{MAX_DAILY_SIGNALS}]</b>\n"
+            f"🚀 <b>PUMP BREAKOUT SIGNAL [شیفت {shift_num}: {shift_count}/{SIGNALS_PER_SHIFT} | کل: {total_count}/{MAX_DAILY_SIGNALS}]</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n\n"
-            f"🪙 #{symbol_tag}\n"
-            f"{action_emoji} <b>{action_title}</b>\n\n"
+            f"🪙 #{symbol_tag}  |  📊 Vol Surge: <b>{data['vol_ratio']:.1f}x</b>\n"
+            f"🟢 <b>LONG — PUMP MOMENTUM</b>\n\n"
             f"🏆 Grade: <b>{data['grade']}</b>  |  Score: <b>{data['score']}/100</b>\n"
-            f"📈 Market regime: <b>{data['regime']}</b>\n\n"
+            f"📈 Market regime: <b>EXPLOSIVE BREAKOUT</b>\n\n"
             f"📍 <b>ENTRY</b>\n"
             f"<code>{entry_str}</code>\n\n"
-            f"🛑 <b>STOP LOSS</b>\n"
-            f"<code>{sl_str}</code>  ({sl_pct:.2f}%)\n\n"
-            f"⚠️ <b>RISK:</b> {risk_label}\n"
+            f"🛑 <b>STOP LOSS (-{STOP_LOSS_PCT*100:.1f}%)</b>\n"
+            f"<code>{sl_str}</code>\n\n"
+            f"⚠️ <b>RISK:</b> 🟡 VOLATILE PUMP\n"
             f"⚡️ Suggested leverage: <b>{leverage}x</b>\n\n"
-            f"🎯 <b>TAKE PROFIT</b>\n\n"
-            f"🥇 TP1 ➔ <code>{tp1_str}</code>  (+{tp1_pct:.2f}%)\n"
-            f"🥈 TP2 ➔ <code>{tp2_str}</code>  (+{tp2_pct:.2f}%)\n"
-            f"🥉 TP3 ➔ <code>{tp3_str}</code>  (+{tp3_pct:.2f}%)\n\n"
+            f"🎯 <b>TAKE PROFIT (SPOT GAINS)</b>\n\n"
+            f"🥇 TP1 ➔ <code>{tp1_str}</code>  (<b>+8.0%</b>) [ریسک‌فری]\n"
+            f"🥈 TP2 ➔ <code>{tp2_str}</code>  (<b>+12.0%</b>)\n"
+            f"🥉 TP3 ➔ <code>{tp3_str}</code>  (<b>+18.0%</b>)\n\n"
             f"📊 <b>APPROX. ROI @ {leverage}x</b>\n\n"
-            f"TP1 ➔ +{roi1:.2f}%\n"
-            f"TP2 ➔ +{roi2:.2f}%\n"
-            f"TP3 ➔ +{roi3:.2f}%\n\n"
+            f"TP1 ➔ <b>+{roi1:.1f}%</b>\n"
+            f"TP2 ➔ <b>+{roi2:.1f}%</b>\n"
+            f"TP3 ➔ <b>+{roi3:.1f}%</b>\n\n"
             f"⚖️ <b>RISK / REWARD</b>\n"
-            f"TP1 ➔ <b>1:2</b>\n"
-            f"TP2 ➔ <b>1:3</b>\n"
-            f"TP3 ➔ <b>1:4</b>\n\n"
-            f"🧠 <i>AI Confluence: {data['ai_thesis']}</i>\n"
+            f"TP1 ➔ <b>1:2.3</b>  |  TP2 ➔ <b>1:3.4</b>  |  TP3 ➔ <b>1:5.1</b>\n\n"
+            f"🧠 <i>AI Verification ({data['ai_engine']}): {data['ai_thesis']}</i>\n"
             f"⏱️ <b>زمان به وقت ایران:</b> <code>{get_tehran_time_str()}</code>"
         )
 
+        data['sl'] = sl
         data['tp1'] = tp1
         data['tp2'] = tp2
         data['tp3'] = tp3
@@ -567,15 +546,15 @@ class DispatchAgent:
         send_telegram(msg)
 
 # =====================================================================
-# هسته هماهنگ‌کننده کل اسکنر
+# هسته هماهنگ‌کننده اسکنر پامپ‌یاب
 # =====================================================================
 def run_system():
-    print(f"=== [SCAN CYCLE: {get_tehran_time_str()} (Tehran)] ===")
+    print(f"=== [PUMP HUNTER CYCLE: {get_tehran_time_str()} (Tehran)] ===")
 
     tech_agent = TechnicalAgent()
     macro_agent = MacroAIOfficerAgent()
 
-    TelegramCommandHandler.process_pending_commands(tech_agent, macro_agent)
+    TelegramCommandHandler.process_pending_commands(tech_agent)
     TradeLifecycleAgent.monitor_active_trades(tech_agent)
 
     can_proceed, reason = ShiftQuotaManager.can_dispatch()
@@ -587,7 +566,7 @@ def run_system():
     current_shift_id = str(get_current_shift_id(get_tehran_datetime().hour))
     dispatched_in_this_shift = quota["shifts"][current_shift_id]["symbols"]
 
-    candidate_setups = []
+    pump_candidates = []
 
     for symbol in BASE_WATCHLIST:
         if symbol in dispatched_in_this_shift:
@@ -598,74 +577,67 @@ def run_system():
             continue
 
         try:
-            price, rsi, atr, vol_ratio, ema20 = tech_agent.compute_indicators(ohlcv)
+            m = tech_agent.analyze_pump_metrics(ohlcv)
             imbalance = tech_agent.analyze_orderbook_imbalance(active_ex, symbol)
             whale = WhaleAgent.inspect(symbol)
 
-            setup = None
-            raw_score = 75
+            # شروط شکار پامپ واقعی (انفجار حجم + شکست سقف + بدنه قوی + خریدار سنگین)
+            has_volume_explosion = m['vol_ratio'] >= 2.3
+            has_strong_candle = m['candle_gain_pct'] >= 1.2 and m['body_strength'] >= 0.60
+            not_overheated = 52 <= m['rsi'] <= 78
+            buyer_dominance = imbalance >= 0.08
 
-            # فیلتر ستاپ لانگ باکیفیت
-            if (rsi < 42 and imbalance > 0.05) or (price > ema20 and rsi < 45 and imbalance > 0.08 and vol_ratio > 1.2):
-                raw_score += int(min(abs(imbalance) * 100, 20))
-                if vol_ratio > 1.5: raw_score += 10
-                if whale['top_ratio'] > 1.15: raw_score += 10
-                
-                grade = "A+" if raw_score >= 100 else ("A" if raw_score >= 88 else "B+")
-                regime = "BULL" if price > ema20 else "ACCUMULATION"
+            if has_volume_explosion and has_strong_candle and not_overheated and (m['is_breakout'] or buyer_dominance):
+                raw_score = 75
+                if m['vol_ratio'] >= 3.5: raw_score += 12
+                elif m['vol_ratio'] >= 2.8: raw_score += 7
+                if m['is_breakout']: raw_score += 8
+                if imbalance >= 0.15: raw_score += 8
+                if whale['top_ratio'] > 1.15: raw_score += 7
 
-                setup = {
-                    'source': source_name, 'symbol': symbol, 'action': 'LONG — BUY',
-                    'price': price, 'sl': price - (1.8 * atr),
-                    'leverage': 5, 'rsi': rsi, 'imbalance': imbalance,
-                    'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
-                    'score': raw_score, 'grade': grade, 'regime': regime
-                }
+                grade = "A+" if raw_score >= 98 else ("A" if raw_score >= 88 else "B+")
 
-            # فیلتر ستاپ شورت باکیفیت
-            elif (rsi > 58 and imbalance < -0.05) or (price < ema20 and rsi > 55 and imbalance < -0.08 and vol_ratio > 1.2):
-                raw_score += int(min(abs(imbalance) * 100, 20))
-                if vol_ratio > 1.5: raw_score += 10
-                if whale['top_ratio'] < 0.85: raw_score += 10
-                
-                grade = "A+" if raw_score >= 100 else ("A" if raw_score >= 88 else "B+")
-                regime = "BEAR" if price < ema20 else "DISTRIBUTION"
-
-                setup = {
-                    'source': source_name, 'symbol': symbol, 'action': 'SHORT — SELL',
-                    'price': price, 'sl': price + (1.8 * atr),
-                    'leverage': 5, 'rsi': rsi, 'imbalance': imbalance,
-                    'top_ratio': whale['top_ratio'], 'whale_bias': whale['whale_bias'],
-                    'score': raw_score, 'grade': grade, 'regime': regime
-                }
-
-            if setup:
-                candidate_setups.append(setup)
+                pump_candidates.append({
+                    'source': source_name,
+                    'symbol': symbol,
+                    'action': 'LONG — PUMP',
+                    'price': m['price'],
+                    'vol_ratio': m['vol_ratio'],
+                    'candle_gain_pct': m['candle_gain_pct'],
+                    'rsi': m['rsi'],
+                    'imbalance': imbalance,
+                    'top_ratio': whale['top_ratio'],
+                    'whale_bias': whale['whale_bias'],
+                    'leverage': 5,
+                    'score': min(raw_score, 100),
+                    'grade': grade
+                })
 
         except Exception:
             continue
 
-    if candidate_setups:
-        candidate_setups.sort(key=lambda s: s['score'], reverse=True)
-        best_setup = candidate_setups[0]
+    # انتخاب پرقدرت‌ترین پامپ در حال شکل‌گیری
+    if pump_candidates:
+        pump_candidates.sort(key=lambda s: (s['score'], s['vol_ratio']), reverse=True)
+        best_pump = pump_candidates[0]
 
-        review = macro_agent.review_setup(best_setup)
+        review = macro_agent.review_pump(best_pump)
         if review['approved']:
-            best_setup['ai_engine'] = review['engine']
-            best_setup['ai_thesis'] = review['thesis']
-            
+            best_pump['ai_engine'] = review['engine']
+            best_pump['ai_thesis'] = review['thesis']
+
             s_num = int(current_shift_id)
             s_count = quota["shifts"][current_shift_id]["count"] + 1
             t_count = quota["total_dispatched"] + 1
 
-            DispatchAgent.send(best_setup, s_num, s_count, t_count)
-            TradeLifecycleAgent.register_trade(best_setup)
-            ShiftQuotaManager.record_dispatch(best_setup['symbol'])
-            print(f"🎯 [DISPATCHED]: {best_setup['symbol']} | Price: {format_dynamic_price(best_setup['price'])}")
+            DispatchAgent.send(best_pump, s_num, s_count, t_count)
+            TradeLifecycleAgent.register_trade(best_pump)
+            ShiftQuotaManager.record_dispatch(best_pump['symbol'])
+            print(f"🚀 [PUMP DISPATCHED]: {best_pump['symbol']} | Vol: {best_pump['vol_ratio']:.1f}x | Price: {format_dynamic_price(best_pump['price'])}")
         else:
-            print(f"❌ [AI REJECTED]: {best_setup['symbol']}")
+            print(f"❌ [AI REJECTED FAKEOUT]: {best_pump['symbol']}")
     else:
-        print("🔍 [SCAN COMPLETED]: No symbol reached threshold in this cycle.")
+        print("🔍 [PUMP SCAN COMPLETED]: No explosive volume breakout detected.")
 
 if __name__ == "__main__":
     run_system()
