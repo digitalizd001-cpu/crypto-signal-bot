@@ -10,53 +10,5 @@
     "tp1_hit": true,
     "risk_free": true,
     "opened_at": "00:16:30 | 2026/11/18"
-  },
-  "ETH/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 1793.19,
-    "sl": 1782.0582857142858,
-    "tp1": 1815.4534285714285,
-    "tp2": 1826.5851428571427,
-    "tp3": 1837.716857142857,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:16:35 | 2026/11/18"
-  },
-  "APT/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 0.4362,
-    "sl": 0.43226571428571425,
-    "tp1": 0.4440685714285714,
-    "tp2": 0.44800285714285715,
-    "tp3": 0.45193714285714287,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:32:24 | 2026/11/18"
-  },
-  "TAO/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 195.57,
-    "sl": 193.93842857142857,
-    "tp1": 198.83314285714283,
-    "tp2": 200.46471428571425,
-    "tp3": 202.09628571428567,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "16:46:38 | 2026/11/18"
-  },
-  "BTC/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 64072.8,
-    "sl": 63751.281428571434,
-    "tp1": 64715.83714285714,
-    "tp2": 65037.35571428571,
-    "tp3": 65358.87428571428,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "17:01:57 | 2026/11/18"
   }
 }
