@@ -11,18 +11,6 @@
     "risk_free": true,
     "opened_at": "00:16:30 | 2026/11/18"
   },
-  "SHIB/USDT": {
-    "action": "LONG \u2014 BUY",
-    "entry": 3.836e-06,
-    "sl": 3.8127285714285715e-06,
-    "tp1": 3.882542857142858e-06,
-    "tp2": 3.905814285714287e-06,
-    "tp3": 3.929085714285715e-06,
-    "leverage": 5,
-    "tp1_hit": false,
-    "risk_free": false,
-    "opened_at": "08:16:29 | 2026/11/18"
-  },
   "STRK/USDT": {
     "action": "LONG \u2014 BUY",
     "entry": 0.03277,
@@ -34,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "16:01:58 | 2026/11/18"
+  },
+  "ETH/USDT": {
+    "action": "LONG \u2014 BUY",
+    "entry": 1793.19,
+    "sl": 1782.0582857142858,
+    "tp1": 1815.4534285714285,
+    "tp2": 1826.5851428571427,
+    "tp3": 1837.716857142857,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "16:16:35 | 2026/11/18"
   }
 }
