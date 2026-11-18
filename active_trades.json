@@ -10,5 +10,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "02:46:23 | 2026/11/19"
+  },
+  "NEAR/USDT": {
+    "action": "LONG \u2014 PUMP",
+    "entry": 3.336,
+    "sl": 3.2192399999999997,
+    "tp1": 3.60288,
+    "tp2": 3.73632,
+    "tp3": 3.9364799999999995,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "03:16:23 | 2026/11/19"
   }
 }
