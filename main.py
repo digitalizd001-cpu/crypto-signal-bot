@@ -14,12 +14,33 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 MAX_DAILY_SIGNALS = 15
 SIGNALS_PER_SHIFT = 5
 
-# پارامترهای پامپ سریع (TP1 بالای 5% در حداکثر 30 دقیقه)
-STOP_LOSS_PCT = 0.025      # 2.5% حد ضرر سریع
-TP1_PUMP_PCT = 0.055       # 5.5% تارگت اول (هدف 30 دقیقه‌ای + ریسک‌فری)
-TP2_PUMP_PCT = 0.085       # 8.5% تارگت دوم
-TP3_PUMP_PCT = 0.130       # 13.0% تارگت سوم
-MAX_TP1_MINUTES = 30       # سقف زمانی مورد انتظار برای تاچ TP1
+# تنظیمات دو مدل پامپ (هر دو بالای 5% سود)
+PUMP_PROFILES = {
+    "ULTRA_FAST": {
+        "fa_title": "⚡ سیگنال فوق سریع",
+        "en_tag": "ULTRA-FAST PUMP (≤ 30m)",
+        "timeframe": "5m",
+        "window_label": "حداکثر ۳۰ دقیقه (≤ 30 Min)",
+        "sl_pct": 0.025,       # 2.5% حد ضرر
+        "tp1_pct": 0.055,      # 5.5% تارگت اول
+        "tp2_pct": 0.085,      # 8.5% تارگت دوم
+        "tp3_pct": 0.130,      # 13.0% تارگت سوم
+        "max_tp1_mins": 30,
+        "risk_text": "🟡 ULTRA VELOCITY (نوسان لحظه‌ای)"
+    },
+    "FAST": {
+        "fa_title": "🚀 سیگنال سریع",
+        "en_tag": "FAST PUMP (1h - 3h)",
+        "timeframe": "15m",
+        "window_label": "۱ تا ۳ ساعت (1h - 3h)",
+        "sl_pct": 0.035,       # 3.5% حد ضرر
+        "tp1_pct": 0.075,      # 7.5% تارگت اول
+        "tp2_pct": 0.120,      # 12.0% تارگت دوم
+        "tp3_pct": 0.180,      # 18.0% تارگت سوم
+        "max_tp1_mins": 180,
+        "risk_text": "🟠 HIGH MOMENTUM (موج تثبیتی)"
+    }
+}
 
 DAILY_TRACKER_FILE = "daily_signals.json"
 TRADES_STATE_FILE = "active_trades.json"
@@ -37,7 +58,7 @@ BASE_WATCHLIST = [
     "LINK/USDT", "LDO/USDT", "CRV/USDT", "DYDX/USDT", "SNX/USDT",
     # AI & Narratives
     "FET/USDT", "RENDER/USDT", "TAO/USDT", "WLD/USDT", "ARKM/USDT", "GRT/USDT",
-    # Memes (سریع‌ترین واکنش برای پامپ زیر 30 دقیقه)
+    # Memes (پامپ‌های سریع و فوق سریع)
     "DOGE/USDT", "PEPE/USDT", "WIF/USDT", "FLOKI/USDT", "BONK/USDT",
     "BOME/USDT", "MEME/USDT", "SHIB/USDT",
     # Majors & Legacy
@@ -191,11 +212,12 @@ class TelegramCommandHandler:
                     s_count = quota["shifts"][shift_id]["count"]
                     t_count = quota["total_dispatched"]
                     send_telegram(
-                        f"⚡ <b>وضعیت اسکنر پامپ سریع (FLASH PUMP 30M)</b>\n"
+                        f"⚡🚀 <b>وضعیت اسکنر دوگانه پامپ (Dual-Speed)</b>\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"⏰ شیفت کنونی: <b>شیفت {shift_id} ({s_count} از {SIGNALS_PER_SHIFT})</b>\n"
-                        f"🎯 کل شکارهای امروز: <b>{t_count} از {MAX_DAILY_SIGNALS}</b>\n"
-                        f"🚀 تارگت اول (TP1): <b>+{TP1_PUMP_PCT*100:.1f}% زیر ۳۰ دقیقه</b>\n"
+                        f"🎯 کل سیگنال‌های امروز: <b>{t_count} از {MAX_DAILY_SIGNALS}</b>\n"
+                        f"⚡ مدل ۱: <b>فوق سریع (+5.5% زیر ۳۰ دقیقه)</b>\n"
+                        f"🚀 مدل ۲: <b>سریع (+7.5% تا +18%)</b>\n"
                         f"⏱ زمان تهران: <code>{get_tehran_time_str()}</code>"
                     )
                 elif text == "/trades":
@@ -203,23 +225,24 @@ class TelegramCommandHandler:
                     if not trades:
                         send_telegram("📭 در حال حاضر هیچ پامپ فعالی در جریان نیست.")
                     else:
-                        resp = "📋 <b>ACTIVE FLASH PUMPS</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        resp = "📋 <b>ACTIVE DUAL-SPEED PUMPS</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         for s, t in trades.items():
                             p_str = format_dynamic_price(t['entry'])
-                            resp += f"• <b>{s}</b> | ورود: <code>{p_str}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
+                            mode_label = t.get('fa_title', 'پامپ')
+                            resp += f"• <b>{s}</b> [{mode_label}] | ورود: <code>{p_str}</code> | ریسک‌فری: <b>{t['risk_free']}</b>\n"
                         send_telegram(resp)
         except Exception as e:
             print(f"[COMMAND ERROR] {e}")
 
     @classmethod
     def _report_gold_status(cls, tech_agent):
-        send_telegram("🥇 <i>در حال بررسی نوسان ۵ دقیقه‌ای طلا...</i>")
+        send_telegram("🥇 <i>در حال بررسی نوسان و حجم لحظه‌ای طلا...</i>")
         ohlcv, active_ex, source_name = tech_agent.fetch_candle_data("PAXG/USDT", timeframe='5m')
         if not ohlcv:
             ohlcv, active_ex, source_name = tech_agent.fetch_candle_data("XAU/USDT", timeframe='5m')
 
         if ohlcv:
-            metrics = tech_agent.analyze_flash_pump(ohlcv)
+            metrics = tech_agent.analyze_pump_metrics(ohlcv)
             imbalance = tech_agent.analyze_orderbook_imbalance(active_ex, "PAXG/USDT")
             whale = WhaleAgent.inspect("PAXG/USDT")
             msg = (
@@ -237,7 +260,7 @@ class TelegramCommandHandler:
             send_telegram("❌ خطا در اتصال به منابع دیتای طلا.")
 
 # =====================================================================
-# ماژول رهگیری پامپ‌های ۳۰ دقیقه‌ای (TP1 +5.5% / TP2 +8.5% / TP3 +13%)
+# ماژول رهگیری پامپ‌های باز (متناسب با سرعت فوق سریع یا سریع)
 # =====================================================================
 class TradeLifecycleAgent:
     @staticmethod
@@ -263,13 +286,19 @@ class TradeLifecycleAgent:
         if symbol in trades:
             return
 
+        prof = PUMP_PROFILES[setup['mode']]
         trades[symbol] = {
-            'action': setup['action'],
+            'mode': setup['mode'],
+            'fa_title': prof['fa_title'],
             'entry': setup['price'],
             'sl': setup['sl'],
             'tp1': setup['tp1'],
             'tp2': setup['tp2'],
             'tp3': setup['tp3'],
+            'tp1_pct': prof['tp1_pct'] * 100,
+            'tp3_pct': prof['tp3_pct'] * 100,
+            'sl_pct': prof['sl_pct'] * 100,
+            'max_tp1_mins': prof['max_tp1_mins'],
             'leverage': setup['leverage'],
             'tp1_hit': False,
             'risk_free': False,
@@ -296,20 +325,23 @@ class TradeLifecycleAgent:
                 remaining[symbol] = t
                 continue
 
-            # بررسی بیشترین سقف و کف از آخرین کندل‌ها
             recent_candles = ohlcv[-3:]
             high_p = max(c[2] for c in recent_candles)
             low_p = min(c[3] for c in recent_candles)
             closed = False
 
             elapsed_minutes = (now_ts - t.get('opened_ts', now_ts)) / 60.0
+            mode_badge = t.get('fa_title', '⚡ سیگنال پامپ')
+            tp1_pct_val = t.get('tp1_pct', 5.5)
+            tp3_pct_val = t.get('tp3_pct', 13.0)
+            sl_pct_val = t.get('sl_pct', 2.5)
 
             if not t['tp1_hit'] and high_p >= t['tp1']:
                 t['tp1_hit'] = True
                 t['risk_free'] = True
                 t['sl'] = t['entry'] * 1.002
                 send_telegram(
-                    f"⚡ <b>تارگت اول پامپ (+{TP1_PUMP_PCT*100:.1f}%) تاچ شد!</b>\n"
+                    f"🎯 <b>تارگت اول (+{tp1_pct_val:.1f}%) تاچ شد!</b> [{mode_badge}]\n"
                     f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                     f"🌐 #{symbol.replace('/', '_')}\n"
                     f"⏱️ زمان تحقق: <b>{int(elapsed_minutes)} دقیقه</b>\n"
@@ -319,7 +351,7 @@ class TradeLifecycleAgent:
 
             if high_p >= t['tp3']:
                 send_telegram(
-                    f"🏆 <b>انفجار نهایی (+{TP3_PUMP_PCT*100:.0f}%) تکمیل شد!</b>\n"
+                    f"🏆 <b>انفجار نهایی (+{tp3_pct_val:.1f}%) تکمیل شد!</b> [{mode_badge}]\n"
                     f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                     f"🌐 #{symbol.replace('/', '_')}\n"
                     f"💰 پامپ با حداکثر سود بسته شد.\n"
@@ -329,21 +361,21 @@ class TradeLifecycleAgent:
 
             if low_p <= t['sl'] and not closed:
                 if t['risk_free']:
-                    send_telegram(f"🛡️ <b>خروج ریسک‌فری:</b> #{symbol.replace('/', '_')} بدون ضرر در نقطه ورود بسته شد.")
+                    send_telegram(f"🛡️ <b>خروج ریسک‌فری:</b> #{symbol.replace('/', '_')} [{mode_badge}] بدون ضرر در نقطه ورود بسته شد.")
                 else:
                     send_telegram(
-                        f"🛑 <b>حد ضرر سریع فعال شد (-{STOP_LOSS_PCT*100:.1f}%)</b>\n"
+                        f"🛑 <b>حد ضرر فعال شد (-{sl_pct_val:.1f}%)</b> [{mode_badge}]\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                         f"🌐 #{symbol.replace('/', '_')} | خروج: <code>{format_dynamic_price(t['sl'])}</code>"
                     )
                 closed = True
 
-            # هشدار عبور از سقف ۳۰ دقیقه بدون رسیدن به TP1
-            if not closed and not t['tp1_hit'] and not t.get('timeout_warned', False) and elapsed_minutes >= MAX_TP1_MINUTES:
+            max_mins = t.get('max_tp1_mins', 30)
+            if not closed and not t['tp1_hit'] and not t.get('timeout_warned', False) and elapsed_minutes >= max_mins:
                 t['timeout_warned'] = True
                 send_telegram(
-                    f"⏳ <b>هشدار زمان (۳۰ دقیقه گذشت):</b> #{symbol.replace('/', '_')}\n"
-                    f"شتاب اولیه پامپ کند شده است؛ استاپ را نزدیک‌تر کنید یا با سود جزئی خارج شوید."
+                    f"⏳ <b>هشدار زمان ({max_mins} دقیقه گذشت):</b> #{symbol.replace('/', '_')} [{mode_badge}]\n"
+                    f"شتاب اولیه پامپ طبق زمان‌بندی انتظار تکمیل نشد؛ استاپ را نزدیک‌تر کنید یا با سود جزئی خارج شوید."
                 )
 
             if not closed:
@@ -352,7 +384,7 @@ class TradeLifecycleAgent:
         cls.save_trades(remaining)
 
 # =====================================================================
-# موتور شکار پامپ‌های سریع (تایم‌فریم 5m با انفجار حجم و سرعت)
+# موتور تحلیل تکنیکال دوگانه (5m فوق سریع + 15m سریع)
 # =====================================================================
 class TechnicalAgent:
     def __init__(self):
@@ -409,9 +441,8 @@ class TechnicalAgent:
         except Exception:
             return 0.0
 
-    def analyze_flash_pump(self, ohlcv) -> dict:
+    def analyze_pump_metrics(self, ohlcv) -> dict:
         df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-        # بررسی آخرین کندل بسته‌شده به همراه شتاب کندل در حال تشکیل
         closed_df = df.iloc[:-1].copy()
         live_candle = df.iloc[-1]
 
@@ -427,7 +458,6 @@ class TechnicalAgent:
         latest = closed_df.iloc[-1]
         vol_ratio = latest['volume'] / latest['vol_ma20'] if latest['vol_ma20'] > 0 else 1.0
         
-        # رشد ۵ دقیقه‌ای اخیر + تایید ادامه مومنتوم در کندل زنده
         candle_gain_pct = ((latest['close'] - latest['open']) / latest['open']) * 100
         live_continuation = live_candle['close'] >= latest['close'] * 0.998
 
@@ -450,12 +480,12 @@ class TechnicalAgent:
 # =====================================================================
 class WhaleAgent:
     @staticmethod
-    def inspect(symbol: str) -> dict:
+    def inspect(symbol: str, period: str = "5m") -> dict:
         clean = symbol.replace("/", "").replace(":USDT", "")
         if "XAU" in clean: clean = "PAXGUSDT"
         metrics = {"top_ratio": 1.0, "whale_bias": "NEUTRAL"}
         try:
-            rr = requests.get(f"https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol={clean}&period=5m&limit=1", timeout=3).json()
+            rr = requests.get(f"https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol={clean}&period={period}&limit=1", timeout=3).json()
             if isinstance(rr, list) and len(rr) > 0:
                 ratio = float(rr[0].get("longShortRatio", 1.0))
                 metrics["top_ratio"] = round(ratio, 2)
@@ -464,16 +494,18 @@ class WhaleAgent:
         return metrics
 
 # =====================================================================
-# ماژول هوش مصنوعی تاییدکننده پامپ زیر ۳۰ دقیقه
+# ماژول هوش مصنوعی ارزیاب سرعت و مومنتوم پامپ
 # =====================================================================
 class MacroAIOfficerAgent:
     def review_pump(self, payload: dict) -> dict:
+        prof = PUMP_PROFILES[payload['mode']]
         prompt = (
-            f"Analyze 5m Flash Pump Breakout (target: +5.5% within 30 minutes):\n"
-            f"Symbol: {payload['symbol']} | 5m Volume Surge: {payload['vol_ratio']:.1f}x | "
-            f"5m Surge: +{payload['candle_gain_pct']:.2f}% | RSI: {payload['rsi']:.1f} | "
+            f"Analyze {prof['en_tag']} breakout:\n"
+            f"Symbol: {payload['symbol']} | Timeframe: {prof['timeframe']} | Volume Surge: {payload['vol_ratio']:.1f}x | "
+            f"Candle Gain: +{payload['candle_gain_pct']:.2f}% | RSI: {payload['rsi']:.1f} | "
             f"Orderbook Bid Dominance: {payload['imbalance']} | Whale Ratio: {payload['top_ratio']}\n\n"
-            f"Criteria: Approve ONLY ultra-fast vertical momentum breakouts likely to hit +5.5% within 30 mins without immediate dump.\n"
+            f"Target: Hit +{prof['tp1_pct']*100:.1f}% within {prof['window_label']}.\n"
+            f"Confirm if momentum is fresh and explosive enough to hit TP1 cleanly, or if it's an exhausted fakeout.\n"
             f"Start strictly with 'VERDICT: CONFIRMED' or 'VERDICT: REJECTED'. Add 1 short analytical sentence."
         )
         analysis = ""
@@ -495,30 +527,35 @@ class MacroAIOfficerAgent:
             except Exception: pass
 
         if not analysis:
-            return {"approved": True, "engine": "Flash Quant Filter", "thesis": "High-velocity 5m volume spike breaking local resistance."}
+            return {"approved": True, "engine": "Dual-Speed Quant", "thesis": f"Strong {prof['timeframe']} volume surge with resistance breakout."}
 
         approved = "CONFIRMED" in analysis.upper()
         thesis = analysis.replace("VERDICT: CONFIRMED", "").replace("VERDICT: REJECTED", "").strip()
         return {"approved": approved, "engine": engine, "thesis": thesis}
 
 # =====================================================================
-# ماژول صدور کارت سیگنال پامپ سریع (TP1 +5.5% در 30 دقیقه)
+# ماژول صدور کارت سیگنال دوگانه (مشخص کردن دقیق فوق سریع یا سریع)
 # =====================================================================
 class DispatchAgent:
     @staticmethod
     def send(data: dict, shift_num: int, shift_count: int, total_count: int):
+        prof = PUMP_PROFILES[data['mode']]
         symbol_tag = data['symbol'].replace('/', '_')
         price = data['price']
 
-        sl = price * (1.0 - STOP_LOSS_PCT)
-        tp1 = price * (1.0 + TP1_PUMP_PCT)
-        tp2 = price * (1.0 + TP2_PUMP_PCT)
-        tp3 = price * (1.0 + TP3_PUMP_PCT)
+        sl = price * (1.0 - prof['sl_pct'])
+        tp1 = price * (1.0 + prof['tp1_pct'])
+        tp2 = price * (1.0 + prof['tp2_pct'])
+        tp3 = price * (1.0 + prof['tp3_pct'])
 
         leverage = data['leverage']
-        roi1 = (TP1_PUMP_PCT * 100) * leverage
-        roi2 = (TP2_PUMP_PCT * 100) * leverage
-        roi3 = (TP3_PUMP_PCT * 100) * leverage
+        roi1 = (prof['tp1_pct'] * 100) * leverage
+        roi2 = (prof['tp2_pct'] * 100) * leverage
+        roi3 = (prof['tp3_pct'] * 100) * leverage
+
+        rr1 = round(prof['tp1_pct'] / prof['sl_pct'], 1)
+        rr2 = round(prof['tp2_pct'] / prof['sl_pct'], 1)
+        rr3 = round(prof['tp3_pct'] / prof['sl_pct'], 1)
 
         entry_str = format_dynamic_price(price)
         sl_str = format_dynamic_price(sl)
@@ -527,28 +564,29 @@ class DispatchAgent:
         tp3_str = format_dynamic_price(tp3)
 
         msg = (
-            f"⚡ <b>FLASH PUMP SIGNAL (زیر ۳۰ دقیقه) [شیفت {shift_num}: {shift_count}/{SIGNALS_PER_SHIFT} | کل: {total_count}/{MAX_DAILY_SIGNALS}]</b>\n"
+            f"<b>{prof['fa_title']}</b> | <code>{prof['en_tag']}</code>\n"
+            f"📊 <i>[شیفت {shift_num}: {shift_count}/{SIGNALS_PER_SHIFT} | کل امروز: {total_count}/{MAX_DAILY_SIGNALS}]</i>\n"
             f"━━━━━━━━━━━━━━━━━━\n\n"
-            f"🪙 #{symbol_tag}  |  📊 5m Vol: <b>{data['vol_ratio']:.1f}x</b>\n"
-            f"🟢 <b>LONG — FAST PUMP</b>\n\n"
+            f"🪙 #{symbol_tag}  |  📊 {prof['timeframe']} Vol: <b>{data['vol_ratio']:.1f}x</b>\n"
+            f"🟢 <b>LONG — {prof['fa_title']}</b>\n\n"
             f"🏆 Grade: <b>{data['grade']}</b>  |  Score: <b>{data['score']}/100</b>\n"
-            f"⏱️ Est. TP1 Window: <b>≤ 30 Minutes</b>\n\n"
+            f"⏱️ زمان مورد انتظار تا TP1: <b>{prof['window_label']}</b>\n\n"
             f"📍 <b>ENTRY</b>\n"
             f"<code>{entry_str}</code>\n\n"
-            f"🛑 <b>STOP LOSS (-{STOP_LOSS_PCT*100:.1f}%)</b>\n"
+            f"🛑 <b>STOP LOSS (-{prof['sl_pct']*100:.1f}%)</b>\n"
             f"<code>{sl_str}</code>\n\n"
-            f"⚠️ <b>RISK:</b> 🟡 HIGH VELOCITY\n"
+            f"⚠️ <b>RISK:</b> {prof['risk_text']}\n"
             f"⚡️ Suggested leverage: <b>{leverage}x</b>\n\n"
             f"🎯 <b>TAKE PROFIT (SPOT GAINS)</b>\n\n"
-            f"🥇 TP1 ➔ <code>{tp1_str}</code>  (<b>+5.5%</b>) [هدف ۳۰ دقیقه‌ای / ریسک‌فری]\n"
-            f"🥈 TP2 ➔ <code>{tp2_str}</code>  (<b>+8.5%</b>)\n"
-            f"🥉 TP3 ➔ <code>{tp3_str}</code>  (<b>+13.0%</b>)\n\n"
+            f"🥇 TP1 ➔ <code>{tp1_str}</code>  (<b>+{prof['tp1_pct']*100:.1f}%</b>) [ریسک‌فری]\n"
+            f"🥈 TP2 ➔ <code>{tp2_str}</code>  (<b>+{prof['tp2_pct']*100:.1f}%</b>)\n"
+            f"🥉 TP3 ➔ <code>{tp3_str}</code>  (<b>+{prof['tp3_pct']*100:.1f}%</b>)\n\n"
             f"📊 <b>APPROX. ROI @ {leverage}x</b>\n\n"
             f"TP1 ➔ <b>+{roi1:.1f}%</b>\n"
             f"TP2 ➔ <b>+{roi2:.1f}%</b>\n"
             f"TP3 ➔ <b>+{roi3:.1f}%</b>\n\n"
             f"⚖️ <b>RISK / REWARD</b>\n"
-            f"TP1 ➔ <b>1:2.2</b>  |  TP2 ➔ <b>1:3.4</b>  |  TP3 ➔ <b>1:5.2</b>\n\n"
+            f"TP1 ➔ <b>1:{rr1}</b>  |  TP2 ➔ <b>1:{rr2}</b>  |  TP3 ➔ <b>1:{rr3}</b>\n\n"
             f"🧠 <i>AI Verification ({data['ai_engine']}): {data['ai_thesis']}</i>\n"
             f"⏱️ <b>زمان به وقت ایران:</b> <code>{get_tehran_time_str()}</code>"
         )
@@ -561,10 +599,10 @@ class DispatchAgent:
         send_telegram(msg)
 
 # =====================================================================
-# هسته هماهنگ‌کننده اسکنر پامپ سریع
+# هسته هماهنگ‌کننده اسکنر دوگانه (فوق سریع + سریع)
 # =====================================================================
 def run_system():
-    print(f"=== [FLASH PUMP 30M CYCLE: {get_tehran_time_str()} (Tehran)] ===")
+    print(f"=== [DUAL-SPEED PUMP SCANNER: {get_tehran_time_str()} (Tehran)] ===")
 
     tech_agent = TechnicalAgent()
     macro_agent = MacroAIOfficerAgent()
@@ -587,52 +625,88 @@ def run_system():
         if symbol in dispatched_in_this_shift:
             continue
 
-        ohlcv, active_ex, source_name = tech_agent.fetch_candle_data(symbol, timeframe='5m')
-        if not ohlcv:
-            continue
+        # ۱. بررسی لایه اول: مدل فوق سریع (تایم‌فریم 5m - هدف تاچ زیر 30 دقیقه)
+        ohlcv_5m, active_ex, source_name = tech_agent.fetch_candle_data(symbol, timeframe='5m')
+        if ohlcv_5m:
+            try:
+                m5 = tech_agent.analyze_pump_metrics(ohlcv_5m)
+                imbalance = tech_agent.analyze_orderbook_imbalance(active_ex, symbol)
+                whale = WhaleAgent.inspect(symbol, period="5m")
 
-        try:
-            m = tech_agent.analyze_flash_pump(ohlcv)
-            imbalance = tech_agent.analyze_orderbook_imbalance(active_ex, symbol)
-            whale = WhaleAgent.inspect(symbol)
+                # شروط پامپ فوق سریع: حجم 3.2x ناگهانی + رشد اولیه 1.2% تا 4.2% در 5 دقیقه
+                if (
+                    m5['vol_ratio'] >= 3.2
+                    and 1.2 <= m5['candle_gain_pct'] <= 4.2
+                    and m5['body_strength'] >= 0.65
+                    and 55 <= m5['rsi'] <= 76
+                    and m5['live_continuation']
+                    and (m5['is_breakout'] or imbalance >= 0.12)
+                ):
+                    raw_score = 80
+                    if m5['vol_ratio'] >= 4.5: raw_score += 10
+                    if m5['is_breakout']: raw_score += 6
+                    if imbalance >= 0.18: raw_score += 6
+                    if whale['top_ratio'] > 1.15: raw_score += 5
 
-            # شروط پامپ سریع در تایم‌فریم 5 دقیقه:
-            # 1. جهش حجم حداقل 3 برابر میانگین 20 کندل 5 دقیقه‌ای
-            # 2. رشد کندل 5 دقیقه‌ای بین 1.0% تا 4.5% (اول حرکت باشد نه انتهای پامپ!)
-            # 3. بدنه قوی کندل + تایید ادامه رشد در کندل زنده
-            has_volume_explosion = m['vol_ratio'] >= 3.0
-            early_velocity = 1.0 <= m['candle_gain_pct'] <= 4.5 and m['body_strength'] >= 0.65
-            not_exhausted = 55 <= m['rsi'] <= 76 and m['live_continuation']
-            buyer_dominance = imbalance >= 0.10
+                    grade = "A+" if raw_score >= 98 else ("A" if raw_score >= 88 else "B+")
+                    pump_candidates.append({
+                        'mode': 'ULTRA_FAST',
+                        'source': source_name,
+                        'symbol': symbol,
+                        'price': m5['price'],
+                        'vol_ratio': m5['vol_ratio'],
+                        'candle_gain_pct': m5['candle_gain_pct'],
+                        'rsi': m5['rsi'],
+                        'imbalance': imbalance,
+                        'top_ratio': whale['top_ratio'],
+                        'leverage': 5,
+                        'score': min(raw_score, 100),
+                        'grade': grade
+                    })
+                    continue  # اگر فوق سریع پیدا شد، نیازی به بررسی حالت کندتر روی همین ارز نیست
+            except Exception:
+                pass
 
-            if has_volume_explosion and early_velocity and not_exhausted and (m['is_breakout'] or buyer_dominance):
-                raw_score = 78
-                if m['vol_ratio'] >= 4.5: raw_score += 12
-                elif m['vol_ratio'] >= 3.5: raw_score += 7
-                if m['is_breakout']: raw_score += 7
-                if imbalance >= 0.18: raw_score += 7
-                if whale['top_ratio'] > 1.15: raw_score += 6
+        # ۲. بررسی لایه دوم: مدل سریع (تایم‌فریم 15m - موج شکست 1 تا 3 ساعته)
+        ohlcv_15m, active_ex15, source_name15 = tech_agent.fetch_candle_data(symbol, timeframe='15m')
+        if ohlcv_15m:
+            try:
+                m15 = tech_agent.analyze_pump_metrics(ohlcv_15m)
+                imbalance15 = tech_agent.analyze_orderbook_imbalance(active_ex15, symbol)
+                whale15 = WhaleAgent.inspect(symbol, period="15m")
 
-                grade = "A+" if raw_score >= 98 else ("A" if raw_score >= 88 else "B+")
+                # شروط پامپ سریع 15m: حجم 2.4x + رشد تثبیتی 1.5% تا 5.0% در 15 دقیقه
+                if (
+                    m15['vol_ratio'] >= 2.4
+                    and 1.5 <= m15['candle_gain_pct'] <= 5.0
+                    and m15['body_strength'] >= 0.60
+                    and 52 <= m15['rsi'] <= 75
+                    and m15['live_continuation']
+                    and (m15['is_breakout'] or imbalance15 >= 0.10)
+                ):
+                    raw_score = 76
+                    if m15['vol_ratio'] >= 3.5: raw_score += 10
+                    if m15['is_breakout']: raw_score += 7
+                    if imbalance15 >= 0.15: raw_score += 6
+                    if whale15['top_ratio'] > 1.15: raw_score += 6
 
-                pump_candidates.append({
-                    'source': source_name,
-                    'symbol': symbol,
-                    'action': 'LONG — FAST PUMP',
-                    'price': m['price'],
-                    'vol_ratio': m['vol_ratio'],
-                    'candle_gain_pct': m['candle_gain_pct'],
-                    'rsi': m['rsi'],
-                    'imbalance': imbalance,
-                    'top_ratio': whale['top_ratio'],
-                    'whale_bias': whale['whale_bias'],
-                    'leverage': 5,
-                    'score': min(raw_score, 100),
-                    'grade': grade
-                })
-
-        except Exception:
-            continue
+                    grade = "A+" if raw_score >= 98 else ("A" if raw_score >= 88 else "B+")
+                    pump_candidates.append({
+                        'mode': 'FAST',
+                        'source': source_name15,
+                        'symbol': symbol,
+                        'price': m15['price'],
+                        'vol_ratio': m15['vol_ratio'],
+                        'candle_gain_pct': m15['candle_gain_pct'],
+                        'rsi': m15['rsi'],
+                        'imbalance': imbalance15,
+                        'top_ratio': whale15['top_ratio'],
+                        'leverage': 5,
+                        'score': min(raw_score, 100),
+                        'grade': grade
+                    })
+            except Exception:
+                continue
 
     if pump_candidates:
         pump_candidates.sort(key=lambda s: (s['score'], s['vol_ratio']), reverse=True)
@@ -650,11 +724,11 @@ def run_system():
             DispatchAgent.send(best_pump, s_num, s_count, t_count)
             TradeLifecycleAgent.register_trade(best_pump)
             ShiftQuotaManager.record_dispatch(best_pump['symbol'])
-            print(f"⚡ [FLASH PUMP SENT]: {best_pump['symbol']} | 5m Vol: {best_pump['vol_ratio']:.1f}x")
+            print(f"🎯 [{best_pump['mode']} SENT]: {best_pump['symbol']} | Vol: {best_pump['vol_ratio']:.1f}x")
         else:
             print(f"❌ [AI REJECTED]: {best_pump['symbol']}")
     else:
-        print("🔍 [5M SCAN COMPLETED]: No flash pump setup detected.")
+        print("🔍 [DUAL SCAN COMPLETED]: No ultra-fast or fast pump detected.")
 
 if __name__ == "__main__":
     run_system()
