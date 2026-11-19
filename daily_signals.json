@@ -1,6 +1,6 @@
 {
   "date": "2026-11-19",
-  "total_dispatched": 2,
+  "total_dispatched": 3,
   "shifts": {
     "1": {
       "count": 2,
@@ -14,8 +14,10 @@
       "symbols": []
     },
     "3": {
-      "count": 0,
-      "symbols": []
+      "count": 1,
+      "symbols": [
+        "GRT/USDT"
+      ]
     }
   }
 }
