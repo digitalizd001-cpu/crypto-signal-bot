@@ -22,5 +22,17 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "03:16:23 | 2026/11/19"
+  },
+  "SNX/USDT": {
+    "action": "LONG \u2014 PUMP",
+    "entry": 0.1691,
+    "sl": 0.1631815,
+    "tp1": 0.182628,
+    "tp2": 0.189392,
+    "tp3": 0.199538,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "opened_at": "18:16:28 | 2026/11/19"
   }
 }
