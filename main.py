@@ -176,7 +176,8 @@ class TelegramCommandHandler:
             try:
                 with open(OFFSET_FILE, "r") as f:
                     return json.load(f).get("offset", 0)
-            except Exception: pass
+            except Exception:
+                pass
         return 0
 
     @staticmethod
@@ -184,7 +185,8 @@ class TelegramCommandHandler:
         try:
             with open(OFFSET_FILE, "w") as f:
                 json.dump({"offset": offset}, f)
-        except Exception: pass
+        except Exception:
+            pass
 
     @classmethod
     def process_pending_commands(cls, tech_agent):
@@ -267,7 +269,8 @@ class TradeLifecycleAgent:
             try:
                 with open(TRADES_STATE_FILE, "r") as f:
                     return json.load(f)
-            except Exception: pass
+            except Exception:
+                pass
         return {}
 
     @staticmethod
@@ -275,7 +278,8 @@ class TradeLifecycleAgent:
         try:
             with open(TRADES_STATE_FILE, "w") as f:
                 json.dump(trades, f, indent=2)
-        except Exception: pass
+        except Exception:
+            pass
 
     @classmethod
     def register_trade(cls, setup: dict):
@@ -287,7 +291,7 @@ class TradeLifecycleAgent:
         prof = MOVE_PROFILES[setup['mode']]
         trades[symbol] = {
             'mode': setup['mode'],
-            'direction': setup['direction'],  # "LONG" یا "SHORT"
+            'direction': setup['direction'],
             'fa_speed': prof['fa_speed'],
             'entry': setup['price'],
             'sl': setup['sl'],
@@ -319,69 +323,73 @@ class TradeLifecycleAgent:
         now_ts = now_dt.timestamp()
 
         for symbol, t in list(trades.items()):
-            ohlcv, _, _ = tech_agent.fetch_candle_data(symbol, timeframe='5m', limit=15)
-            if not ohlcv or len(ohlcv) < 2:
-                remaining[symbol] = t
-                continue
+            try:
+                ohlcv, _, _ = tech_agent.fetch_candle_data(symbol, timeframe='5m', limit=15)
+                if not ohlcv or len(ohlcv) < 2:
+                    remaining[symbol] = t
+                    continue
 
-            recent_candles = ohlcv[-3:]
-            high_p = max(c[2] for c in recent_candles)
-            low_p = min(c[3] for c in recent_candles)
-            closed = False
+                recent_candles = ohlcv[-3:]
+                high_p = max(c[2] for c in recent_candles)
+                low_p = min(c[3] for c in recent_candles)
+                closed = False
 
-            is_long = t.get('direction', 'LONG') == 'LONG'
-            elapsed_minutes = (now_ts - t.get('opened_ts', now_ts)) / 60.0
-            tag = f"[{t.get('fa_speed', 'سیگنال')} | {'پامپ LONG' if is_long else 'دامپ SHORT'}]"
-            tp1_pct_val = t.get('tp1_pct', 5.5)
-            tp3_pct_val = t.get('tp3_pct', 13.0)
-            sl_pct_val = t.get('sl_pct', 2.5)
+                is_long = t.get('direction', 'LONG') == 'LONG'
+                elapsed_minutes = (now_ts - t.get('opened_ts', now_ts)) / 60.0
+                tag = f"[{t.get('fa_speed', 'سیگنال')} | {'پامپ LONG' if is_long else 'دامپ SHORT'}]"
+                tp1_pct_val = t.get('tp1_pct', 5.5)
+                tp3_pct_val = t.get('tp3_pct', 13.0)
+                sl_pct_val = t.get('sl_pct', 2.5)
 
-            tp1_reached = (high_p >= t['tp1']) if is_long else (low_p <= t['tp1'])
-            if not t['tp1_hit'] and tp1_reached:
-                t['tp1_hit'] = True
-                t['risk_free'] = True
-                t['sl'] = t['entry'] * (1.002 if is_long else 0.998)
-                send_telegram(
-                    f"🎯 <b>تارگت اول (+{tp1_pct_val:.1f}%) تاچ شد!</b> {tag}\n"
-                    f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                    f"🌐 #{symbol.replace('/', '_')}\n"
-                    f"⏱️ زمان تحقق: <b>{int(elapsed_minutes)} دقیقه</b>\n"
-                    f"✅ لمس قیمت: <code>{format_dynamic_price(t['tp1'])}</code>\n"
-                    f"🛡️ استاپ به نقطه ورود منتقل و معامله ریسک‌فری شد."
-                )
-
-            tp3_reached = (high_p >= t['tp3']) if is_long else (low_p <= t['tp3'])
-            if tp3_reached:
-                send_telegram(
-                    f"🏆 <b>تارگت نهایی (+{tp3_pct_val:.1f}%) تکمیل شد!</b> {tag}\n"
-                    f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                    f"🌐 #{symbol.replace('/', '_')}\n"
-                    f"💰 معامله با حداکثر سود بسته شد.\n"
-                    f"⏱️ <i>زمان تهران: {now_tehran}</i>"
-                )
-                closed = True
-
-            sl_reached = (low_p <= t['sl']) if is_long else (high_p >= t['sl'])
-            if sl_reached and not closed:
-                if t['risk_free']:
-                    send_telegram(f"🛡️ <b>خروج ریسک‌فری:</b> #{symbol.replace('/', '_')} {tag} بدون ضرر در نقطه ورود بسته شد.")
-                else:
+                tp1_reached = (high_p >= t['tp1']) if is_long else (low_p <= t['tp1'])
+                if not t['tp1_hit'] and tp1_reached:
+                    t['tp1_hit'] = True
+                    t['risk_free'] = True
+                    t['sl'] = t['entry'] * (1.002 if is_long else 0.998)
                     send_telegram(
-                        f"🛑 <b>حد ضرر فعال شد (-{sl_pct_val:.1f}%)</b> {tag}\n"
+                        f"🎯 <b>تارگت اول (+{tp1_pct_val:.1f}%) تاچ شد!</b> {tag}\n"
                         f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🌐 #{symbol.replace('/', '_')} | خروج: <code>{format_dynamic_price(t['sl'])}</code>"
+                        f"🌐 #{symbol.replace('/', '_')}\n"
+                        f"⏱️ زمان تحقق: <b>{int(elapsed_minutes)} دقیقه</b>\n"
+                        f"✅ لمس قیمت: <code>{format_dynamic_price(t['tp1'])}</code>\n"
+                        f"🛡️ استاپ به نقطه ورود منتقل و معامله ریسک‌فری شد."
                     )
-                closed = True
 
-            max_mins = t.get('max_tp1_mins', 30)
-            if not closed and not t['tp1_hit'] and not t.get('timeout_warned', False) and elapsed_minutes >= max_mins:
-                t['timeout_warned'] = True
-                send_telegram(
-                    f"⏳ <b>هشدار زمان ({max_mins} دقیقه گذشت):</b> #{symbol.replace('/', '_')} {tag}\n"
-                    f"حرکت طبق زمان‌بندی انتظار به TP1 نرسید؛ استاپ را مدیریت کنید."
-                )
+                tp3_reached = (high_p >= t['tp3']) if is_long else (low_p <= t['tp3'])
+                if tp3_reached:
+                    send_telegram(
+                        f"🏆 <b>تارگت نهایی (+{tp3_pct_val:.1f}%) تکمیل شد!</b> {tag}\n"
+                        f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                        f"🌐 #{symbol.replace('/', '_')}\n"
+                        f"💰 معامله با حداکثر سود بسته شد.\n"
+                        f"⏱️ <i>زمان تهران: {now_tehran}</i>"
+                    )
+                    closed = True
 
-            if not closed:
+                sl_reached = (low_p <= t['sl']) if is_long else (high_p >= t['sl'])
+                if sl_reached and not closed:
+                    if t['risk_free']:
+                        send_telegram(f"🛡️ <b>خروج ریسک‌فری:</b> #{symbol.replace('/', '_')} {tag} بدون ضرر در نقطه ورود بسته شد.")
+                    else:
+                        send_telegram(
+                            f"🛑 <b>حد ضرر فعال شد (-{sl_pct_val:.1f}%)</b> {tag}\n"
+                            f"━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                            f"🌐 #{symbol.replace('/', '_')} | خروج: <code>{format_dynamic_price(t['sl'])}</code>"
+                        )
+                    closed = True
+
+                max_mins = t.get('max_tp1_mins', 30)
+                if not closed and not t['tp1_hit'] and not t.get('timeout_warned', False) and elapsed_minutes >= max_mins:
+                    t['timeout_warned'] = True
+                    send_telegram(
+                        f"⏳ <b>هشدار زمان ({max_mins} دقیقه گذشت):</b> #{symbol.replace('/', '_')} {tag}\n"
+                        f"حرکت طبق زمان‌بندی انتظار به TP1 نرسید؛ استاپ را مدیریت کنید."
+                    )
+
+                if not closed:
+                    remaining[symbol] = t
+            except Exception as e:
+                print(f"[TRADE MONITOR ERROR {symbol}]: {e}")
                 remaining[symbol] = t
 
         cls.save_trades(remaining)
@@ -399,17 +407,20 @@ class TechnicalAgent:
             b = ccxt.binance({'enableRateLimit': True, 'urls': {'api': {'public': 'https://data-api.binance.vision/api/v3'}}})
             b.load_markets()
             pools.append(("Binance", b))
-        except Exception: pass
+        except Exception:
+            pass
         try:
             by = ccxt.bybit({'enableRateLimit': True, 'urls': {'api': {'public': 'https://api.bytick.com'}}})
             by.load_markets()
             pools.append(("Bybit", by))
-        except Exception: pass
+        except Exception:
+            pass
         try:
             ok = ccxt.okx({'enableRateLimit': True})
             ok.load_markets()
             pools.append(("OKX", ok))
-        except Exception: pass
+        except Exception:
+            pass
         return pools
 
     def fetch_candle_data(self, symbol: str, timeframe='5m', limit=50):
@@ -430,6 +441,8 @@ class TechnicalAgent:
 
     def analyze_orderbook_imbalance(self, exchange, symbol: str) -> float:
         try:
+            if not exchange:
+                return 0.0
             target = symbol
             if target not in exchange.markets:
                 for k in exchange.markets.keys():
@@ -437,9 +450,10 @@ class TechnicalAgent:
                         target = k
                         break
             ob = exchange.fetch_order_book(target, limit=25)
-            bids = sum(b[1] for b in ob['bids'])
-            asks = sum(a[1] for a in ob['asks'])
-            if (bids + asks) == 0: return 0.0
+            bids = sum(b[1] for b in ob.get('bids', []))
+            asks = sum(a[1] for a in ob.get('asks', []))
+            if (bids + asks) == 0:
+                return 0.0
             return round((bids - asks) / (bids + asks), 2)
         except Exception:
             return 0.0
@@ -460,33 +474,34 @@ class TechnicalAgent:
         closed_df['prev_15_low'] = closed_df['low'].shift(1).rolling(15).min()
 
         latest = closed_df.iloc[-1]
-        vol_ratio = latest['volume'] / latest['vol_ma20'] if latest['vol_ma20'] > 0 else 1.0
+        vol_ma = latest['vol_ma20'] if pd.notna(latest['vol_ma20']) and latest['vol_ma20'] > 0 else 0
+        vol_ratio = (latest['volume'] / vol_ma) if vol_ma > 0 else 1.0
         candle_range = latest['high'] - latest['low']
 
-        # متریک‌های پامپ (صعودی / LONG)
-        up_pct = ((latest['close'] - latest['open']) / latest['open']) * 100
-        up_body = (latest['close'] - latest['open']) / candle_range if candle_range > 0 else 0
-        up_breakout = latest['close'] > latest['prev_15_high']
+        up_pct = ((latest['close'] - latest['open']) / latest['open']) * 100 if latest['open'] > 0 else 0.0
+        up_body = (latest['close'] - latest['open']) / candle_range if candle_range > 0 else 0.0
+        up_breakout = bool(pd.notna(latest['prev_15_high']) and latest['close'] > latest['prev_15_high'])
         up_cont = live_candle['close'] >= latest['close'] * 0.998
 
-        # متریک‌های دامپ (نزولی / SHORT)
-        down_pct = ((latest['open'] - latest['close']) / latest['open']) * 100
-        down_body = (latest['open'] - latest['close']) / candle_range if candle_range > 0 else 0
-        down_breakdown = latest['close'] < latest['prev_15_low']
+        down_pct = ((latest['open'] - latest['close']) / latest['open']) * 100 if latest['open'] > 0 else 0.0
+        down_body = (latest['open'] - latest['close']) / candle_range if candle_range > 0 else 0.0
+        down_breakdown = bool(pd.notna(latest['prev_15_low']) and latest['close'] < latest['prev_15_low'])
         down_cont = live_candle['close'] <= latest['close'] * 1.002
 
+        rsi_val = float(latest['rsi']) if pd.notna(latest['rsi']) else 50.0
+
         return {
-            'price': live_candle['close'],
-            'rsi': latest['rsi'],
-            'vol_ratio': vol_ratio,
-            'up_pct': up_pct,
-            'up_body': up_body,
+            'price': float(live_candle['close']),
+            'rsi': rsi_val,
+            'vol_ratio': float(vol_ratio),
+            'up_pct': float(up_pct),
+            'up_body': float(up_body),
             'up_breakout': up_breakout,
-            'up_cont': up_cont,
-            'down_pct': down_pct,
-            'down_body': down_body,
+            'up_cont': bool(up_cont),
+            'down_pct': float(down_pct),
+            'down_body': float(down_body),
             'down_breakdown': down_breakdown,
-            'down_cont': down_cont
+            'down_cont': bool(down_cont)
         }
 
 # =====================================================================
@@ -496,7 +511,8 @@ class WhaleAgent:
     @staticmethod
     def inspect(symbol: str, period: str = "5m") -> dict:
         clean = symbol.replace("/", "").replace(":USDT", "")
-        if "XAU" in clean: clean = "PAXGUSDT"
+        if "XAU" in clean:
+            clean = "PAXGUSDT"
         metrics = {"top_ratio": 1.0, "whale_bias": "NEUTRAL"}
         try:
             rr = requests.get(f"https://fapi.binance.com/futures/data/topLongShortAccountRatio?symbol={clean}&period={period}&limit=1", timeout=3).json()
@@ -504,7 +520,8 @@ class WhaleAgent:
                 ratio = float(rr[0].get("longShortRatio", 1.0))
                 metrics["top_ratio"] = round(ratio, 2)
                 metrics["whale_bias"] = "WHALES LONG 🐋🟢" if ratio > 1.12 else ("WHALES SHORT 🐋🔴" if ratio < 0.88 else "BALANCED")
-        except Exception: pass
+        except Exception:
+            pass
         return metrics
 
 # =====================================================================
@@ -530,7 +547,8 @@ class MacroAIOfficerAgent:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
                 res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=6).json()
                 analysis = res['candidates'][0]['content']['parts'][0]['text'].strip()
-            except Exception: pass
+            except Exception:
+                pass
 
         if not analysis and GROQ_API_KEY:
             engine = "Groq Llama-3"
@@ -539,7 +557,8 @@ class MacroAIOfficerAgent:
                 headers = {"Authorization": f"Bearer {GROQ_API_KEY}"}
                 res = requests.post(url, headers=headers, json={"model": "llama-3.1-8b-instant", "messages": [{"role": "user", "content": prompt}], "max_tokens": 80}, timeout=6).json()
                 analysis = res['choices'][0]['message']['content'].strip()
-            except Exception: pass
+            except Exception:
+                pass
 
         if not analysis:
             return {"approved": True, "engine": "Dual-Mode Quant", "thesis": f"High-volume {prof['timeframe']} {move_type} breakout confirmed."}
@@ -651,14 +670,13 @@ def run_system():
             continue
 
         # ۱. بررسی مدل فوق سریع (5m - هدف تاچ زیر 30 دقیقه) برای پامپ و دامپ
-        ohlcv_5m, active_ex, source_name = tech_agent.fetch_candle_data(symbol, timeframe='5m')
-        if ohlcv_5m:
-            try:
+        try:
+            ohlcv_5m, active_ex, source_name = tech_agent.fetch_candle_data(symbol, timeframe='5m')
+            if ohlcv_5m:
                 m5 = tech_agent.analyze_move_metrics(ohlcv_5m)
                 imbalance = tech_agent.analyze_orderbook_imbalance(active_ex, symbol)
                 whale = WhaleAgent.inspect(symbol, period="5m")
 
-                # پامپ فوق سریع (LONG)
                 if (
                     m5['vol_ratio'] >= 3.2
                     and 1.2 <= m5['up_pct'] <= 4.2
@@ -667,7 +685,12 @@ def run_system():
                     and m5['up_cont']
                     and (m5['up_breakout'] or imbalance >= 0.12)
                 ):
-                    score = 80 + (10 if m5['vol_ratio'] >= 4.5 else (6 if m5['vol_ratio'] >= 3.5 else 0)) + (6 if m5['up_breakout'] else 0) + (6 if imbalance >= 0.18 else 0)
+                    score = (
+                        80
+                        + (10 if m5['vol_ratio'] >= 4.5 else (6 if m5['vol_ratio'] >= 3.5 else 0))
+                        + (6 if m5['up_breakout'] else 0)
+                        + (6 if imbalance >= 0.18 else 0)
+                    )
                     candidates.append({
                         'mode': 'ULTRA_FAST', 'direction': 'LONG', 'source': source_name,
                         'symbol': symbol, 'price': m5['price'], 'vol_ratio': m5['vol_ratio'],
@@ -677,7 +700,6 @@ def run_system():
                     })
                     continue
 
-                # دامپ فوق سریع (SHORT)
                 if (
                     m5['vol_ratio'] >= 3.2
                     and 1.2 <= m5['down_pct'] <= 4.2
@@ -686,4 +708,100 @@ def run_system():
                     and m5['down_cont']
                     and (m5['down_breakdown'] or imbalance <= -0.12)
                 ):
-                    score = 80 + (10 if m5['vol_ratio'] >= 4.5 else (6 if m5['vol_ratio'] >= 3.5 else 0))
+                    score = (
+                        80
+                        + (10 if m5['vol_ratio'] >= 4.5 else (6 if m5['vol_ratio'] >= 3.5 else 0))
+                        + (6 if m5['down_breakdown'] else 0)
+                        + (6 if imbalance <= -0.18 else 0)
+                    )
+                    candidates.append({
+                        'mode': 'ULTRA_FAST', 'direction': 'SHORT', 'source': source_name,
+                        'symbol': symbol, 'price': m5['price'], 'vol_ratio': m5['vol_ratio'],
+                        'move_pct': m5['down_pct'], 'rsi': m5['rsi'], 'imbalance': imbalance,
+                        'top_ratio': whale['top_ratio'], 'leverage': 5,
+                        'score': min(score, 100), 'grade': "A+" if score >= 95 else "A"
+                    })
+                    continue
+        except Exception as e:
+            print(f"[5M SCAN ERROR {symbol}]: {e}")
+
+        # ۲. بررسی مدل سریع (15m - موج 1 تا 3 ساعته) برای پامپ و دامپ
+        try:
+            ohlcv_15m, active_ex15, source_name15 = tech_agent.fetch_candle_data(symbol, timeframe='15m')
+            if ohlcv_15m:
+                m15 = tech_agent.analyze_move_metrics(ohlcv_15m)
+                imbalance15 = tech_agent.analyze_orderbook_imbalance(active_ex15, symbol)
+                whale15 = WhaleAgent.inspect(symbol, period="15m")
+
+                if (
+                    m15['vol_ratio'] >= 2.4
+                    and 1.5 <= m15['up_pct'] <= 5.0
+                    and m15['up_body'] >= 0.60
+                    and 52 <= m15['rsi'] <= 75
+                    and m15['up_cont']
+                    and (m15['up_breakout'] or imbalance15 >= 0.10)
+                ):
+                    score = (
+                        76
+                        + (10 if m15['vol_ratio'] >= 3.5 else 0)
+                        + (7 if m15['up_breakout'] else 0)
+                        + (6 if imbalance15 >= 0.15 else 0)
+                    )
+                    candidates.append({
+                        'mode': 'FAST', 'direction': 'LONG', 'source': source_name15,
+                        'symbol': symbol, 'price': m15['price'], 'vol_ratio': m15['vol_ratio'],
+                        'move_pct': m15['up_pct'], 'rsi': m15['rsi'], 'imbalance': imbalance15,
+                        'top_ratio': whale15['top_ratio'], 'leverage': 5,
+                        'score': min(score, 100), 'grade': "A+" if score >= 95 else "A"
+                    })
+                    continue
+
+                if (
+                    m15['vol_ratio'] >= 2.4
+                    and 1.5 <= m15['down_pct'] <= 5.0
+                    and m15['down_body'] >= 0.60
+                    and 25 <= m15['rsi'] <= 48
+                    and m15['down_cont']
+                    and (m15['down_breakdown'] or imbalance15 <= -0.10)
+                ):
+                    score = (
+                        76
+                        + (10 if m15['vol_ratio'] >= 3.5 else 0)
+                        + (7 if m15['down_breakdown'] else 0)
+                        + (6 if imbalance15 <= -0.15 else 0)
+                    )
+                    candidates.append({
+                        'mode': 'FAST', 'direction': 'SHORT', 'source': source_name15,
+                        'symbol': symbol, 'price': m15['price'], 'vol_ratio': m15['vol_ratio'],
+                        'move_pct': m15['down_pct'], 'rsi': m15['rsi'], 'imbalance': imbalance15,
+                        'top_ratio': whale15['top_ratio'], 'leverage': 5,
+                        'score': min(score, 100), 'grade': "A+" if score >= 95 else "A"
+                    })
+        except Exception as e:
+            print(f"[15M SCAN ERROR {symbol}]: {e}")
+            continue
+
+    if candidates:
+        candidates.sort(key=lambda s: (s['score'], s['vol_ratio']), reverse=True)
+        best = candidates[0]
+
+        review = macro_agent.review_setup(best)
+        if review['approved']:
+            best['ai_engine'] = review['engine']
+            best['ai_thesis'] = review['thesis']
+
+            s_num = int(current_shift_id)
+            s_count = quota["shifts"][current_shift_id]["count"] + 1
+            t_count = quota["total_dispatched"] + 1
+
+            DispatchAgent.send(best, s_num, s_count, t_count)
+            TradeLifecycleAgent.register_trade(best)
+            ShiftQuotaManager.record_dispatch(best['symbol'])
+            print(f"🎯 [{best['mode']} | {best['direction']} SENT]: {best['symbol']} | Vol: {best['vol_ratio']:.1f}x")
+        else:
+            print(f"❌ [AI REJECTED]: {best['symbol']}")
+    else:
+        print("🔍 [DUAL SCAN COMPLETED]: No fast/ultra-fast pump or dump detected.")
+
+if __name__ == "__main__":
+    run_system()
