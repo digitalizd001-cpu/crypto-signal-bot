@@ -54,5 +54,25 @@
     "timeout_warned": false,
     "opened_ts": 1795187810.525055,
     "opened_at": "18:46:50 | 2026/11/20"
+  },
+  "ETH/USDT": {
+    "mode": "FAST",
+    "direction": "SHORT",
+    "fa_speed": "\u0633\u06cc\u06af\u0646\u0627\u0644 \u0633\u0631\u06cc\u0639",
+    "entry": 1679.24,
+    "sl": 1738.0133999999998,
+    "tp1": 1553.297,
+    "tp2": 1477.7312,
+    "tp3": 1376.9768000000001,
+    "tp1_pct": 7.5,
+    "tp3_pct": 18.0,
+    "sl_pct": 3.5000000000000004,
+    "max_tp1_mins": 180,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "timeout_warned": false,
+    "opened_ts": 1795188740.693412,
+    "opened_at": "19:02:20 | 2026/11/20"
   }
 }
