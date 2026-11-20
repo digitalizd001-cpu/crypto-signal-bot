@@ -1,22 +1,20 @@
 {
-  "date": "2026-11-20",
-  "total_dispatched": 3,
+  "date": "2026-11-21",
+  "total_dispatched": 1,
   "shifts": {
     "1": {
-      "count": 0,
-      "symbols": []
+      "count": 1,
+      "symbols": [
+        "GRT/USDT"
+      ]
     },
     "2": {
       "count": 0,
       "symbols": []
     },
     "3": {
-      "count": 3,
-      "symbols": [
-        "STRK/USDT",
-        "ETH/USDT",
-        "TAO/USDT"
-      ]
+      "count": 0,
+      "symbols": []
     }
   }
 }
