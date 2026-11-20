@@ -34,5 +34,25 @@
     "tp1_hit": false,
     "risk_free": false,
     "opened_at": "18:16:28 | 2026/11/19"
+  },
+  "STRK/USDT": {
+    "mode": "ULTRA_FAST",
+    "direction": "SHORT",
+    "fa_speed": "\u0633\u06cc\u06af\u0646\u0627\u0644 \u0641\u0648\u0642 \u0633\u0631\u06cc\u0639",
+    "entry": 0.0304,
+    "sl": 0.031159999999999997,
+    "tp1": 0.028728,
+    "tp2": 0.027816,
+    "tp3": 0.026448,
+    "tp1_pct": 5.5,
+    "tp3_pct": 13.0,
+    "sl_pct": 2.5,
+    "max_tp1_mins": 30,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "timeout_warned": false,
+    "opened_ts": 1795187810.525055,
+    "opened_at": "18:46:50 | 2026/11/20"
   }
 }
