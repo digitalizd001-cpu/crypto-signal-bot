@@ -1,6 +1,6 @@
 {
   "date": "2026-11-21",
-  "total_dispatched": 4,
+  "total_dispatched": 5,
   "shifts": {
     "1": {
       "count": 3,
@@ -11,9 +11,10 @@
       ]
     },
     "2": {
-      "count": 1,
+      "count": 2,
       "symbols": [
-        "ENA/USDT"
+        "ENA/USDT",
+        "APT/USDT"
       ]
     },
     "3": {
