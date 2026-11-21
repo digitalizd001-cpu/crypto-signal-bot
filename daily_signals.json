@@ -1,12 +1,13 @@
 {
   "date": "2026-11-21",
-  "total_dispatched": 2,
+  "total_dispatched": 3,
   "shifts": {
     "1": {
-      "count": 2,
+      "count": 3,
       "symbols": [
         "GRT/USDT",
-        "INJ/USDT"
+        "INJ/USDT",
+        "SNX/USDT"
       ]
     },
     "2": {
