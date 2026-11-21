@@ -114,5 +114,25 @@
     "timeout_warned": false,
     "opened_ts": 1795213004.99958,
     "opened_at": "01:46:44 | 2026/11/21"
+  },
+  "ENA/USDT": {
+    "mode": "ULTRA_FAST",
+    "direction": "LONG",
+    "fa_speed": "\u0633\u06cc\u06af\u0646\u0627\u0644 \u0641\u0648\u0642 \u0633\u0631\u06cc\u0639",
+    "entry": 0.09412,
+    "sl": 0.09176699999999999,
+    "tp1": 0.09929659999999998,
+    "tp2": 0.1021202,
+    "tp3": 0.10635559999999998,
+    "tp1_pct": 5.5,
+    "tp3_pct": 13.0,
+    "sl_pct": 2.5,
+    "max_tp1_mins": 30,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "timeout_warned": false,
+    "opened_ts": 1795243595.261738,
+    "opened_at": "10:16:35 | 2026/11/21"
   }
 }
