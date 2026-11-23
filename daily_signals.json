@@ -1,27 +1,19 @@
 {
-  "date": "2026-11-21",
-  "total_dispatched": 7,
+  "date": "2026-11-23",
+  "total_dispatched": 1,
   "shifts": {
     "1": {
-      "count": 3,
-      "symbols": [
-        "GRT/USDT",
-        "INJ/USDT",
-        "SNX/USDT"
-      ]
+      "count": 0,
+      "symbols": []
     },
     "2": {
-      "count": 2,
-      "symbols": [
-        "ENA/USDT",
-        "APT/USDT"
-      ]
+      "count": 0,
+      "symbols": []
     },
     "3": {
-      "count": 2,
+      "count": 1,
       "symbols": [
-        "CRV/USDT",
-        "UNI/USDT"
+        "INJ/USDT"
       ]
     }
   }
