@@ -1,6 +1,6 @@
 {
   "date": "2026-11-24",
-  "total_dispatched": 3,
+  "total_dispatched": 4,
   "shifts": {
     "1": {
       "count": 1,
@@ -15,9 +15,10 @@
       ]
     },
     "3": {
-      "count": 1,
+      "count": 2,
       "symbols": [
-        "AVAX/USDT"
+        "AVAX/USDT",
+        "NEAR/USDT"
       ]
     }
   }
