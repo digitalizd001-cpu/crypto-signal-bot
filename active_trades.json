@@ -194,5 +194,25 @@
     "timeout_warned": false,
     "opened_ts": 1795267910.315255,
     "opened_at": "17:01:50 | 2026/11/21"
+  },
+  "RENDER/USDT": {
+    "mode": "FAST",
+    "direction": "LONG",
+    "fa_speed": "\u0633\u06cc\u06af\u0646\u0627\u0644 \u0633\u0631\u06cc\u0639",
+    "entry": 1.305,
+    "sl": 1.2593249999999998,
+    "tp1": 1.4028749999999999,
+    "tp2": 1.4616,
+    "tp3": 1.5398999999999998,
+    "tp1_pct": 7.5,
+    "tp3_pct": 18.0,
+    "sl_pct": 3.5000000000000004,
+    "max_tp1_mins": 180,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "timeout_warned": false,
+    "opened_ts": 1795506406.628814,
+    "opened_at": "11:16:46 | 2026/11/24"
   }
 }
