@@ -214,5 +214,25 @@
     "timeout_warned": false,
     "opened_ts": 1795506406.628814,
     "opened_at": "11:16:46 | 2026/11/24"
+  },
+  "AVAX/USDT": {
+    "mode": "FAST",
+    "direction": "SHORT",
+    "fa_speed": "\u0633\u06cc\u06af\u0646\u0627\u0644 \u0633\u0631\u06cc\u0639",
+    "entry": 6.575,
+    "sl": 6.805124999999999,
+    "tp1": 6.081875,
+    "tp2": 5.7860000000000005,
+    "tp3": 5.391500000000001,
+    "tp1_pct": 7.5,
+    "tp3_pct": 18.0,
+    "sl_pct": 3.5000000000000004,
+    "max_tp1_mins": 180,
+    "leverage": 5,
+    "tp1_hit": false,
+    "risk_free": false,
+    "timeout_warned": false,
+    "opened_ts": 1795526204.586793,
+    "opened_at": "16:46:44 | 2026/11/24"
   }
 }
