@@ -1,24 +1,19 @@
 {
-  "date": "2026-11-24",
-  "total_dispatched": 4,
+  "date": "2026-11-25",
+  "total_dispatched": 1,
   "shifts": {
     "1": {
+      "count": 0,
+      "symbols": []
+    },
+    "2": {
+      "count": 0,
+      "symbols": []
+    },
+    "3": {
       "count": 1,
       "symbols": [
         "INJ/USDT"
-      ]
-    },
-    "2": {
-      "count": 1,
-      "symbols": [
-        "RENDER/USDT"
-      ]
-    },
-    "3": {
-      "count": 2,
-      "symbols": [
-        "AVAX/USDT",
-        "NEAR/USDT"
       ]
     }
   }
