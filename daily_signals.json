@@ -1,21 +1,20 @@
 {
-  "date": "2026-11-25",
-  "total_dispatched": 2,
+  "date": "2026-11-27",
+  "total_dispatched": 1,
   "shifts": {
     "1": {
-      "count": 0,
-      "symbols": []
+      "count": 1,
+      "symbols": [
+        "UNI/USDT"
+      ]
     },
     "2": {
       "count": 0,
       "symbols": []
     },
     "3": {
-      "count": 2,
-      "symbols": [
-        "INJ/USDT",
-        "STRK/USDT"
-      ]
+      "count": 0,
+      "symbols": []
     }
   }
 }
